@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import Image from "next/image"
-import { motion, useInView, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { SectionDivider } from "@/components/ui/section-divider"
-import { Button } from "@/components/ui/button"
-import { TestimonialCard } from "@/components/ui/testimonial-card"
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { Button } from "@/components/ui/button";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { TestimonialCard } from "@/components/ui/testimonial-card";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 // Sample testimonials data
 const testimonials = [
@@ -71,19 +71,23 @@ const testimonials = [
     avatarSrc: "/placeholder.svg?height=80&width=80",
     featured: true,
   },
-]
+];
 
 export default function TestimonialsPage() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const featuredTestimonials = testimonials.filter((t) => t.featured)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const featuredTestimonials = testimonials.filter((t) => t.featured);
 
   const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? featuredTestimonials.length - 1 : prevIndex - 1))
-  }
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? featuredTestimonials.length - 1 : prevIndex - 1
+    );
+  };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % featuredTestimonials.length)
-  }
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + 1) % featuredTestimonials.length
+    );
+  };
 
   return (
     <div className="container-wide mx-auto py-16">
@@ -124,22 +128,33 @@ export default function TestimonialsPage() {
                       </div>
 
                       <div>
-                        <p className="text-lg md:text-xl italic mb-6">{testimonial.testimonial}</p>
+                        <p className="text-lg md:text-xl italic mb-6">
+                          {testimonial.testimonial}
+                        </p>
 
                         <div>
-                          <h3 className="text-lg font-medium">{testimonial.name}</h3>
-                          <p className="text-muted-foreground">{testimonial.title}</p>
+                          <h3 className="text-lg font-medium">
+                            {testimonial.name}
+                          </h3>
+                          <p className="text-muted-foreground">
+                            {testimonial.title}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </motion.div>
-                ),
+                )
             )}
           </AnimatePresence>
         </div>
 
         <div className="flex justify-center mt-8 gap-2">
-          <Button variant="outline" size="icon" onClick={handlePrevious} aria-label="Previous testimonial">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handlePrevious}
+            aria-label="Previous testimonial"
+          >
             <ChevronLeft className="h-5 w-5" />
           </Button>
 
@@ -156,7 +171,12 @@ export default function TestimonialsPage() {
             ))}
           </div>
 
-          <Button variant="outline" size="icon" onClick={handleNext} aria-label="Next testimonial">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleNext}
+            aria-label="Next testimonial"
+          >
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
@@ -166,11 +186,19 @@ export default function TestimonialsPage() {
 
       {/* All Testimonials Grid */}
       <div className="mt-16">
-        <AnimatedHeading title="More Success Stories" align="center" size="md" />
+        <AnimatedHeading
+          title="More Success Stories"
+          align="center"
+          size="md"
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {testimonials.map((testimonial, index) => (
-            <TestimonialItem key={testimonial.id} testimonial={testimonial} index={index} />
+            <TestimonialItem
+              key={testimonial.id}
+              testimonial={testimonial}
+              index={index}
+            />
           ))}
         </div>
       </div>
@@ -196,24 +224,28 @@ export default function TestimonialsPage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
 
 interface TestimonialItemProps {
-  testimonial: (typeof testimonials)[0]
-  index: number
+  testimonial: (typeof testimonials)[0];
+  index: number;
 }
 
 function TestimonialItem({ testimonial, index }: TestimonialItemProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="bg-white p-8 shadow-sm"
     >
       <TestimonialCard
         name={testimonial.name}
@@ -223,6 +255,5 @@ function TestimonialItem({ testimonial, index }: TestimonialItemProps) {
         avatarSrc={testimonial.avatarSrc}
       />
     </motion.div>
-  )
+  );
 }
-

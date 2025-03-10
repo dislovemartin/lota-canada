@@ -1,24 +1,17 @@
-import Image from "next/image"
-import { HeroModern } from "@/components/hero-modern"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { SectionDivider } from "@/components/ui/section-divider"
-import { ModernCard } from "@/components/ui/modern-card"
-import { AnimatedButton } from "@/components/ui/animated-button"
-import { AnimatedStats } from "@/components/ui/animated-stats"
-import { TestimonialCard } from "@/components/ui/testimonial-card"
+import { HeroSection } from "@/components/hero-section";
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { AnimatedStats } from "@/components/ui/animated-stats";
+import { ModernCard } from "@/components/ui/modern-card";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { TestimonialCard } from "@/components/ui/testimonial-card";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <HeroModern
-        title="THE LEADERS OF TOMORROW ASSOCIATION FOSTERS PROFESSIONAL GROWTH"
-        subtitle="Empowering the next generation of business leaders and professionals in Toronto and beyond."
-        imageSrc="/modern-building.jpg"
-        imageAlt="Modern architecture"
-        ctaText="Discover Our Mission"
-        ctaHref="/about"
-      />
+      <HeroSection />
 
       {/* Stats Section */}
       <section className="py-24 bg-gray-50">
@@ -74,7 +67,9 @@ export default function Home() {
         <div className="container-wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block text-sm uppercase tracking-wider text-white/60 mb-2">Featured Event</span>
+              <span className="inline-block text-sm uppercase tracking-wider text-white/60 mb-2">
+                Featured Event
+              </span>
               <AnimatedHeading
                 title="Annual Leadership Summit 2025"
                 className="text-white"
@@ -93,12 +88,17 @@ export default function Home() {
                   <div>Toronto, Canada</div>
                 </div>
                 <div className="flex">
-                  <div className="w-32 font-medium text-white/80">Registration</div>
+                  <div className="w-32 font-medium text-white/80">
+                    Registration
+                  </div>
                   <div>Updates Coming Soon</div>
                 </div>
               </div>
 
-              <AnimatedButton href="/events/leadership-summit-2025" variant="secondary">
+              <AnimatedButton
+                href="/events/leadership-summit-2025"
+                variant="secondary"
+              >
                 Stay Tuned
               </AnimatedButton>
             </div>
@@ -112,8 +112,12 @@ export default function Home() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
                 <div className="text-white">
-                  <div className="text-sm uppercase tracking-wider mb-2">June 2025</div>
-                  <div className="text-2xl font-bold">ONE NIGHT, UNLIMITED OPPORTUNITIES</div>
+                  <div className="text-sm uppercase tracking-wider mb-2">
+                    June 2025
+                  </div>
+                  <div className="text-2xl font-bold">
+                    ONE NIGHT, UNLIMITED OPPORTUNITIES
+                  </div>
                 </div>
               </div>
             </div>
@@ -158,7 +162,11 @@ export default function Home() {
       {/* Testimonial Section */}
       <section className="py-24 bg-gray-50">
         <div className="container-wide">
-          <AnimatedHeading title="What Our Members Say" align="center" underline />
+          <AnimatedHeading
+            title="What Our Members Say"
+            align="center"
+            underline
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             <TestimonialCard
@@ -214,7 +222,7 @@ export default function Home() {
         </div>
       </section>
     </>
-  )
+  );
 }
 
 const programs = [
@@ -239,7 +247,7 @@ const programs = [
     image: "/placeholder.svg?height=600&width=800",
     href: "/programs/community",
   },
-]
+];
 
 const articles = [
   {
@@ -266,5 +274,4 @@ const articles = [
     image: "/placeholder.svg?height=500&width=500",
     href: "/knowledge/power-of-mentorship",
   },
-]
-
+];

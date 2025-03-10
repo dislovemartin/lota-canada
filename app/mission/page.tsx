@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useRef } from "react"
-import Image from "next/image"
-import { motion, useInView } from "framer-motion"
-import { ArrowRight, Target, Users, Globe, Award } from "lucide-react"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { SectionDivider } from "@/components/ui/section-divider"
-import { AnimatedButton } from "@/components/ui/animated-button"
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, Award, Globe, Target, Users } from "lucide-react";
+import Image from "next/image";
+import { useRef } from "react";
 
 export default function MissionPage() {
   return (
@@ -33,9 +33,12 @@ export default function MissionPage() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">OUR MISSION</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              OUR MISSION
+            </h1>
             <p className="text-xl md:text-2xl text-white/90">
-              Empowering the next generation of leaders through connection, education, and opportunity.
+              Empowering the next generation of leaders through connection,
+              education, and opportunity.
             </p>
           </motion.div>
         </div>
@@ -52,14 +55,17 @@ export default function MissionPage() {
 
           <AnimatedText>
             <p className="mb-6 text-lg">
-              We believe that leadership is not just about position or title, but about influence, impact, and the
-              ability to inspire positive change. Our mission is to cultivate these qualities in the next generation of
-              professionals.
+              We believe that leadership is not just about position or title,
+              but about influence, impact, and the ability to inspire positive
+              change. Our mission is to cultivate these qualities in the next
+              generation of professionals.
             </p>
 
             <p className="mb-6 text-lg">
-              Through mentorship, educational programs, networking events, and community engagement, we create pathways
-              for growth and development that prepare our members to lead with purpose, integrity, and vision.
+              Through mentorship, educational programs, networking events, and
+              community engagement, we create pathways for growth and
+              development that prepare our members to lead with purpose,
+              integrity, and vision.
             </p>
           </AnimatedText>
         </div>
@@ -68,7 +74,11 @@ export default function MissionPage() {
 
         {/* Mission Pillars */}
         <div>
-          <AnimatedHeading title="Our Mission Pillars" align="center" underline />
+          <AnimatedHeading
+            title="Our Mission Pillars"
+            align="center"
+            underline
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
             <MissionPillar
@@ -114,14 +124,17 @@ export default function MissionPage() {
 
             <AnimatedText>
               <p className="mb-6 text-lg">
-                We envision a professional landscape where barriers to advancement are removed, where talent and
-                potential are recognized regardless of background, and where leadership reflects the rich diversity of
-                our communities.
+                We envision a professional landscape where barriers to
+                advancement are removed, where talent and potential are
+                recognized regardless of background, and where leadership
+                reflects the rich diversity of our communities.
               </p>
 
               <p className="mb-6 text-lg">
-                By investing in the development of tomorrow's leaders today, we are working toward a future where
-                organizations and communities thrive under the guidance of skilled, ethical, and visionary leadership.
+                By investing in the development of tomorrow's leaders today, we
+                are working toward a future where organizations and communities
+                thrive under the guidance of skilled, ethical, and visionary
+                leadership.
               </p>
             </AnimatedText>
 
@@ -164,7 +177,11 @@ export default function MissionPage() {
                 Get Involved
               </AnimatedButton>
 
-              <AnimatedButton href="/events" variant="outline" className="border-white text-white hover:bg-white/10">
+              <AnimatedButton
+                href="/events"
+                variant="outline"
+                className="border-white text-white hover:bg-white/10"
+              >
                 Upcoming Events
               </AnimatedButton>
             </motion.div>
@@ -172,17 +189,20 @@ export default function MissionPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 interface AnimatedTextProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
 }
 
 function AnimatedText({ children, className }: AnimatedTextProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
@@ -194,19 +214,27 @@ function AnimatedText({ children, className }: AnimatedTextProps) {
     >
       {children}
     </motion.div>
-  )
+  );
 }
 
 interface MissionPillarProps {
-  icon: React.ReactNode
-  title: string
-  description: string
-  index: number
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  index: number;
 }
 
-function MissionPillar({ icon, title, description, index }: MissionPillarProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+function MissionPillar({
+  icon,
+  title,
+  description,
+  index,
+}: MissionPillarProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
@@ -224,38 +252,51 @@ function MissionPillar({ icon, title, description, index }: MissionPillarProps) 
       <p className="text-muted-foreground">{description}</p>
 
       <div className="mt-6">
-        <a href="#" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+        <a
+          href="#"
+          className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+        >
           Learn more <ArrowRight size={16} className="ml-1" />
         </a>
       </div>
     </motion.div>
-  )
+  );
 }
 
 function VisionImage() {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      animate={
+        isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }
+      }
       transition={{ duration: 0.8 }}
     >
       <div className="relative">
         <div className="aspect-[4/3] relative rounded-lg overflow-hidden">
-          <Image src="/placeholder.svg?height=800&width=1000" alt="Our vision" fill className="object-cover" />
+          <Image
+            src="/placeholder.svg?height=800&width=1000"
+            alt="Our vision"
+            fill
+            className="object-cover"
+          />
         </div>
 
         <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-lg shadow-lg max-w-xs">
           <p className="text-lg font-medium mb-2">
-            "Leadership is not about being in charge. It's about taking care of those in your charge."
+            "Leadership is not about being in charge. It's about taking care of
+            those in your charge."
           </p>
           <p className="text-sm text-muted-foreground">— Simon Sinek</p>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
-

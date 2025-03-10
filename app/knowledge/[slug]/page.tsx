@@ -1,33 +1,59 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-interface ArticleDetailProps {
-  params: {
-    slug: string
-  }
+type ArticleParams = {
+  slug: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<ArticleParams>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  // Find the article by slug
+  const article = articles.find((a) => a.slug === slug) || articles[0];
+
+  return {
+    title: `${article.title} | LOTA Canada`,
+    description: article.excerpt,
+  };
 }
 
-export default function ArticleDetail({ params }: ArticleDetailProps) {
+export default async function ArticleDetail({
+  params,
+}: {
+  params: Promise<ArticleParams>;
+}) {
+  const { slug } = await params;
   // In a real application, you would fetch this data from an API or CMS
-  const article = articles.find((a) => a.slug === params.slug) || articles[0]
+  const article = articles.find((a) => a.slug === slug) || articles[0];
 
   return (
     <>
       {/* Hero Section */}
       <section className="pt-24 pb-12">
         <div className="container-wide">
-          <Link href="/knowledge" className="inline-flex items-center text-sm hover:underline mb-8">
+          <Link
+            href="/knowledge"
+            className="inline-flex items-center text-sm hover:underline mb-8"
+          >
             <ArrowLeft size={16} className="mr-2" />
             Back to Knowledge
           </Link>
 
           <div className="max-w-3xl mx-auto">
             <div className="mb-6">
-              <span className="inline-block text-sm text-muted-foreground">{article.category}</span>
+              <span className="inline-block text-sm text-muted-foreground">
+                {article.category}
+              </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-normal mb-6">{article.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-normal mb-6">
+              {article.title}
+            </h1>
 
             <div className="flex flex-wrap items-center gap-6 mb-8 text-sm text-muted-foreground">
               <div className="flex items-center">
@@ -55,11 +81,17 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
               {article.content.map((section, index) => (
                 <div key={index}>
                   {section.type === "paragraph" && <p>{section.content}</p>}
-                  {section.type === "heading" && <h2 className="text-2xl font-normal mt-12 mb-6">{section.content}</h2>}
-                  {section.type === "subheading" && (
-                    <h3 className="text-xl font-normal mt-8 mb-4">{section.content}</h3>
+                  {section.type === "heading" && (
+                    <h2 className="text-2xl font-normal mt-12 mb-6">
+                      {section.content}
+                    </h2>
                   )}
-                  {section.type === "list" && (
+                  {section.type === "subheading" && (
+                    <h3 className="text-xl font-normal mt-8 mb-4">
+                      {section.content}
+                    </h3>
+                  )}
+                  {section.type === "list" && section.items && (
                     <ul className="space-y-2 my-6">
                       {section.items.map((item, i) => (
                         <li key={i} className="flex items-start">
@@ -73,15 +105,24 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
                     <blockquote className="border-l-4 border-primary pl-6 italic my-8">
                       {section.content}
                       {section.attribution && (
-                        <footer className="text-sm text-muted-foreground mt-2">— {section.attribution}</footer>
+                        <footer className="text-sm text-muted-foreground mt-2">
+                          — {section.attribution}
+                        </footer>
                       )}
                     </blockquote>
                   )}
                   {section.type === "image" && (
                     <div className="my-12 aspect-video relative">
-                      <Image src={section.src || "/placeholder.svg"} alt={section.alt} fill className="object-cover" />
+                      <Image
+                        src={section.src || "/placeholder.svg"}
+                        alt={section.alt}
+                        fill
+                        className="object-cover"
+                      />
                       {section.caption && (
-                        <div className="text-sm text-muted-foreground mt-2 text-center">{section.caption}</div>
+                        <div className="text-sm text-muted-foreground mt-2 text-center">
+                          {section.caption}
+                        </div>
                       )}
                     </div>
                   )}
@@ -91,17 +132,23 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
 
             <div className="flex justify-between items-center border-t border-b py-6 mt-12">
               <div>
-                <div className="text-sm text-muted-foreground mb-1">Share this article</div>
+                <div className="text-sm text-muted-foreground mb-1">
+                  Share this article
+                </div>
                 <button className="inline-flex items-center text-sm hover:underline">
                   <Share2 size={16} className="mr-2" />
                   Share
                 </button>
               </div>
               <div>
-                <div className="text-sm text-muted-foreground mb-1">Categories</div>
+                <div className="text-sm text-muted-foreground mb-1">
+                  Categories
+                </div>
                 <div className="flex gap-2">
                   <Link
-                    href={`/knowledge/category/${article.category.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/knowledge/category/${article.category
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
                     className="text-sm hover:underline"
                   >
                     {article.category}
@@ -116,11 +163,13 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
       {/* Related Articles */}
       <section className="py-24 bg-secondary">
         <div className="container-wide">
-          <h2 className="text-3xl font-normal mb-12 text-center">Related Articles</h2>
+          <h2 className="text-3xl font-normal mb-12 text-center">
+            Related Articles
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles
-              .filter((a) => a.slug !== params.slug)
+              .filter((a) => a.slug !== slug)
               .slice(0, 3)
               .map((relatedArticle) => (
                 <Link
@@ -137,9 +186,15 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
                     />
                   </div>
                   <div className="p-6">
-                    <div className="mb-2 text-sm text-muted-foreground">{relatedArticle.category}</div>
-                    <h3 className="text-xl font-normal mb-2 group-hover:underline">{relatedArticle.title}</h3>
-                    <p className="text-muted-foreground line-clamp-2">{relatedArticle.excerpt}</p>
+                    <div className="mb-2 text-sm text-muted-foreground">
+                      {relatedArticle.category}
+                    </div>
+                    <h3 className="text-xl font-normal mb-2 group-hover:underline">
+                      {relatedArticle.title}
+                    </h3>
+                    <p className="text-muted-foreground line-clamp-2">
+                      {relatedArticle.excerpt}
+                    </p>
                   </div>
                 </Link>
               ))}
@@ -147,7 +202,7 @@ export default function ArticleDetail({ params }: ArticleDetailProps) {
         </div>
       </section>
     </>
-  )
+  );
 }
 
 const articles = [
@@ -525,7 +580,8 @@ const articles = [
         type: "image",
         src: "/placeholder.svg?height=600&width=1000",
         alt: "Mentorship benefits",
-        caption: "The multifaceted benefits of mentorship for professional development and career advancement.",
+        caption:
+          "The multifaceted benefits of mentorship for professional development and career advancement.",
       },
       {
         type: "heading",
@@ -636,5 +692,4 @@ const articles = [
       },
     ],
   },
-]
-
+];

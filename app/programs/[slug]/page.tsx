@@ -1,16 +1,43 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, Calendar, Clock, MapPin, Users, Download, Share2 } from "lucide-react"
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Download,
+  MapPin,
+  Share2,
+  Users,
+} from "lucide-react";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-interface ProgramDetailProps {
-  params: {
-    slug: string
-  }
+type ProgramParams = {
+  slug: string;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<ProgramParams>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  // Find the program by slug
+  const program = programs.find((p) => p.slug === slug) || programs[0];
+
+  return {
+    title: `${program.title} | LOTA Canada`,
+    description: program.description,
+  };
 }
 
-export default function ProgramDetail({ params }: ProgramDetailProps) {
+export default async function ProgramDetail({
+  params,
+}: {
+  params: Promise<ProgramParams>;
+}) {
+  const { slug } = await params;
   // In a real application, you would fetch this data from an API or CMS
-  const program = programs.find((p) => p.slug === params.slug) || programs[0]
+  const program = programs.find((p) => p.slug === slug) || programs[0];
 
   return (
     <>
@@ -29,15 +56,22 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
 
         <div className="container-wide relative z-10 text-white">
           <div className="max-w-2xl">
-            <Link href="/programs" className="inline-flex items-center text-sm hover:underline mb-6">
+            <Link
+              href="/programs"
+              className="inline-flex items-center text-sm hover:underline mb-6"
+            >
               <ArrowLeft size={16} className="mr-2" />
               Back to Programs
             </Link>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal mb-6">{program.title}</h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8">{program.description}</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal mb-6">
+              {program.title}
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 mb-8">
+              {program.description}
+            </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href={`/programs/${params.slug}/apply`}
+                href={`/programs/${slug}/apply`}
                 className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-white/90 transition-colors"
               >
                 Apply Now
@@ -99,7 +133,9 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
               <div className="prose prose-lg max-w-none">
                 <p>{program.overview}</p>
 
-                <h3 className="mt-12 mb-6 text-2xl font-normal">Program Structure</h3>
+                <h3 className="mt-12 mb-6 text-2xl font-normal">
+                  Program Structure
+                </h3>
                 <p>{program.structure}</p>
 
                 <div className="my-12 aspect-video relative">
@@ -111,7 +147,9 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
                   />
                 </div>
 
-                <h3 className="mt-12 mb-6 text-2xl font-normal">Learning Outcomes</h3>
+                <h3 className="mt-12 mb-6 text-2xl font-normal">
+                  Learning Outcomes
+                </h3>
                 <ul>
                   {program.outcomes.map((outcome, index) => (
                     <li key={index} className="mb-3">
@@ -123,13 +161,19 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
 
               {/* Testimonials */}
               <div className="mt-16">
-                <h3 className="text-2xl font-normal mb-8">Participant Testimonials</h3>
+                <h3 className="text-2xl font-normal mb-8">
+                  Participant Testimonials
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {program.testimonials.map((testimonial, index) => (
                     <div key={index} className="bg-secondary p-8">
-                      <blockquote className="text-lg mb-6 font-serif">"{testimonial.quote}"</blockquote>
+                      <blockquote className="text-lg mb-6 font-serif">
+                        "{testimonial.quote}"
+                      </blockquote>
                       <div className="font-medium">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.title}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {testimonial.title}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -138,48 +182,64 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
 
             <div>
               <div className="bg-secondary p-8 sticky top-24">
-                <h3 className="text-xl font-normal mb-6">Program Specifications</h3>
+                <h3 className="text-xl font-normal mb-6">
+                  Program Specifications
+                </h3>
 
                 <div className="space-y-6">
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Duration</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Duration
+                    </div>
                     <div>{program.specs.duration}</div>
                   </div>
 
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Format</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Format
+                    </div>
                     <div>{program.specs.format}</div>
                   </div>
 
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Eligibility</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Eligibility
+                    </div>
                     <div>{program.specs.eligibility}</div>
                   </div>
 
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Commitment</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Commitment
+                    </div>
                     <div>{program.specs.commitment}</div>
                   </div>
 
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Upcoming Dates</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Upcoming Dates
+                    </div>
                     <div>{program.specs.dates}</div>
                   </div>
 
                   <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">Location</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Location
+                    </div>
                     <div>{program.specs.location}</div>
                   </div>
 
                   <div>
-                    <div className="text-sm text-muted-foreground mb-1">Fee</div>
+                    <div className="text-sm text-muted-foreground mb-1">
+                      Fee
+                    </div>
                     <div>{program.specs.fee}</div>
                   </div>
                 </div>
 
                 <div className="mt-8">
                   <Link
-                    href={`/programs/${params.slug}/apply`}
+                    href={`/programs/${slug}/apply`}
                     className="w-full inline-flex justify-center items-center px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                   >
                     Apply Now
@@ -201,12 +261,16 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
       {/* Application Process */}
       <section className="py-24 bg-secondary">
         <div className="container-wide">
-          <h2 className="text-3xl font-normal mb-12 text-center">Application Process</h2>
+          <h2 className="text-3xl font-normal mb-12 text-center">
+            Application Process
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {program.applicationSteps.map((step, index) => (
               <div key={index} className="bg-background p-8">
-                <div className="text-4xl font-light text-primary mb-4">{index + 1}</div>
+                <div className="text-4xl font-light text-primary mb-4">
+                  {index + 1}
+                </div>
                 <h3 className="text-xl font-normal mb-3">{step.title}</h3>
                 <p className="text-muted-foreground">{step.description}</p>
               </div>
@@ -215,7 +279,7 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
 
           <div className="mt-16 text-center">
             <Link
-              href={`/programs/${params.slug}/apply`}
+              href={`/programs/${slug}/apply`}
               className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Begin Your Application
@@ -228,14 +292,18 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
       <section className="py-24">
         <div className="container-wide">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-normal mb-12 text-center">Program Curriculum</h2>
+            <h2 className="text-3xl font-normal mb-12 text-center">
+              Program Curriculum
+            </h2>
 
             <div className="space-y-12">
               {program.curriculum.map((module, index) => (
                 <div key={index} className="border-b pb-12">
                   <div className="flex flex-col md:flex-row gap-8">
                     <div className="md:w-1/3">
-                      <div className="text-sm text-muted-foreground mb-1">Module {index + 1}</div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        Module {index + 1}
+                      </div>
                       <h3 className="text-xl font-normal">{module.title}</h3>
                     </div>
                     <div className="md:w-2/3">
@@ -265,8 +333,12 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
               <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-6">
                 Sustainability
               </div>
-              <h2 className="text-3xl font-normal mb-6">Our Commitment to Sustainability</h2>
-              <p className="text-lg mb-8">{program.sustainability.description}</p>
+              <h2 className="text-3xl font-normal mb-6">
+                Our Commitment to Sustainability
+              </h2>
+              <p className="text-lg mb-8">
+                {program.sustainability.description}
+              </p>
 
               <div className="space-y-6">
                 {program.sustainability.initiatives.map((initiative, index) => (
@@ -275,7 +347,9 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
                       <span className="font-medium">{index + 1}</span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-medium mb-2">{initiative.title}</h3>
+                      <h3 className="text-lg font-medium mb-2">
+                        {initiative.title}
+                      </h3>
                       <p>{initiative.description}</p>
                     </div>
                   </div>
@@ -298,31 +372,44 @@ export default function ProgramDetail({ params }: ProgramDetailProps) {
       {/* Related Programs */}
       <section className="py-24">
         <div className="container-wide">
-          <h2 className="text-3xl font-normal mb-12 text-center">Related Programs</h2>
+          <h2 className="text-3xl font-normal mb-12 text-center">
+            Related Programs
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {programs
-              .filter((p) => p.slug !== params.slug)
+              .filter((p) => p.slug !== slug)
               .slice(0, 3)
               .map((relatedProgram) => (
-                <Link key={relatedProgram.slug} href={`/programs/${relatedProgram.slug}`} className="group">
+                <Link
+                  key={relatedProgram.slug}
+                  href={`/programs/${relatedProgram.slug}`}
+                  className="group"
+                >
                   <div className="aspect-[4/3] relative mb-6 overflow-hidden">
                     <Image
-                      src={relatedProgram.image || "/placeholder.svg?height=600&width=800"}
+                      src={
+                        relatedProgram.image ||
+                        "/placeholder.svg?height=600&width=800"
+                      }
                       alt={relatedProgram.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <h3 className="text-xl font-normal mb-2 group-hover:underline">{relatedProgram.title}</h3>
-                  <p className="text-muted-foreground line-clamp-2">{relatedProgram.description}</p>
+                  <h3 className="text-xl font-normal mb-2 group-hover:underline">
+                    {relatedProgram.title}
+                  </h3>
+                  <p className="text-muted-foreground line-clamp-2">
+                    {relatedProgram.description}
+                  </p>
                 </Link>
               ))}
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }
 
 const programs = [
@@ -347,9 +434,11 @@ const programs = [
     specs: {
       duration: "6 months",
       format: "Hybrid (in-person and virtual sessions)",
-      eligibility: "Early to mid-career professionals with 3+ years of experience",
+      eligibility:
+        "Early to mid-career professionals with 3+ years of experience",
       commitment: "5-7 hours per month",
-      dates: "Applications open January 15, 2025 | Program begins March 1, 2025",
+      dates:
+        "Applications open January 15, 2025 | Program begins March 1, 2025",
       location: "Toronto, with virtual options available",
       fee: "$1,500 (scholarships available)",
     },
@@ -492,7 +581,8 @@ const programs = [
       },
       {
         title: "Register Online",
-        description: "Complete the registration form and payment process for your selected workshops.",
+        description:
+          "Complete the registration form and payment process for your selected workshops.",
       },
       {
         title: "Confirmation",
@@ -501,13 +591,15 @@ const programs = [
       },
       {
         title: "Preparation",
-        description: "Complete any pre-work assignments to maximize your learning experience during the workshop.",
+        description:
+          "Complete any pre-work assignments to maximize your learning experience during the workshop.",
       },
     ],
     curriculum: [
       {
         title: "Adaptive Leadership",
-        description: "Learn to navigate complex challenges and lead effectively through uncertainty and change.",
+        description:
+          "Learn to navigate complex challenges and lead effectively through uncertainty and change.",
         topics: [
           "Distinguishing technical and adaptive challenges",
           "Managing resistance to change",
@@ -517,7 +609,8 @@ const programs = [
       },
       {
         title: "Emotional Intelligence",
-        description: "Develop your ability to recognize, understand, and manage emotions in yourself and others.",
+        description:
+          "Develop your ability to recognize, understand, and manage emotions in yourself and others.",
         topics: [
           "Self-awareness and emotional regulation",
           "Empathy and social awareness",
@@ -527,7 +620,8 @@ const programs = [
       },
       {
         title: "Strategic Communication",
-        description: "Master communication techniques that inspire, influence, and drive action.",
+        description:
+          "Master communication techniques that inspire, influence, and drive action.",
         topics: [
           "Crafting compelling narratives",
           "Tailoring messages for different stakeholders",
@@ -646,7 +740,8 @@ const programs = [
       },
       {
         title: "Project Planning & Management",
-        description: "Develop skills to plan, implement, and evaluate community service projects effectively.",
+        description:
+          "Develop skills to plan, implement, and evaluate community service projects effectively.",
         topics: [
           "Setting SMART objectives",
           "Resource allocation and budgeting",
@@ -656,7 +751,8 @@ const programs = [
       },
       {
         title: "Collaborative Leadership",
-        description: "Learn to lead effectively in collaborative, multi-stakeholder environments.",
+        description:
+          "Learn to lead effectively in collaborative, multi-stakeholder environments.",
         topics: [
           "Building consensus and managing diverse perspectives",
           "Facilitating effective meetings and decision-making",
@@ -712,5 +808,4 @@ const programs = [
       ],
     },
   },
-]
-
+];

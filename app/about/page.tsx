@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useRef } from "react"
-import Image from "next/image"
-import { motion, useInView } from "framer-motion"
-import { Check } from "lucide-react"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { SectionDivider } from "@/components/ui/section-divider"
-import { AnimatedStats } from "@/components/ui/animated-stats"
-import { AnimatedButton } from "@/components/ui/animated-button"
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { AnimatedStats } from "@/components/ui/animated-stats";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import { useRef } from "react";
 
 export default function AboutPage() {
   return (
@@ -34,9 +33,12 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
             className="max-w-2xl"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">ABOUT LOTA</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              ABOUT LOTA
+            </h1>
             <p className="text-lg md:text-xl text-white/90">
-              Fostering the next generation of business leaders and professionals in Toronto and beyond.
+              Fostering the next generation of business leaders and
+              professionals in Toronto and beyond.
             </p>
           </motion.div>
         </div>
@@ -53,15 +55,18 @@ export default function AboutPage() {
 
           <AnimatedText>
             <p className="mb-6">
-              We connect emerging leaders with established professionals, creating opportunities for mentorship,
-              networking, and skill development. Our community spans diverse industries and backgrounds, united by a
-              commitment to excellence and growth.
+              We connect emerging leaders with established professionals,
+              creating opportunities for mentorship, networking, and skill
+              development. Our community spans diverse industries and
+              backgrounds, united by a commitment to excellence and growth.
             </p>
 
             <p className="mb-6">
-              Founded with the vision of bridging gaps and creating opportunities, LOTA has grown into a vibrant
-              community of professionals at various stages of their careers. We believe in the power of connection,
-              education, and mentorship to transform careers and lives.
+              Founded with the vision of bridging gaps and creating
+              opportunities, LOTA has grown into a vibrant community of
+              professionals at various stages of their careers. We believe in
+              the power of connection, education, and mentorship to transform
+              careers and lives.
             </p>
           </AnimatedText>
         </div>
@@ -74,38 +79,49 @@ export default function AboutPage() {
 
             <AnimatedText>
               <p className="mb-6">
-                To empower the next generation of leaders by providing resources, connections, and experiences that
-                accelerate professional growth and foster leadership excellence.
+                To empower the next generation of leaders by providing
+                resources, connections, and experiences that accelerate
+                professional growth and foster leadership excellence.
               </p>
 
               <p className="mb-6">
-                We are committed to creating an inclusive environment where diverse perspectives are valued and where
-                every member has the opportunity to develop their leadership potential.
+                We are committed to creating an inclusive environment where
+                diverse perspectives are valued and where every member has the
+                opportunity to develop their leadership potential.
               </p>
             </AnimatedText>
           </div>
 
-          <AnimatedImage src="/placeholder.svg?height=800&width=800" alt="LOTA mission" />
+          <AnimatedImage
+            src="/placeholder.svg?height=800&width=800"
+            alt="LOTA mission"
+          />
         </div>
 
         <SectionDivider className="my-16" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <AnimatedImage src="/placeholder.svg?height=800&width=800" alt="LOTA vision" className="order-1 md:order-2" />
+          <AnimatedImage
+            src="/placeholder.svg?height=800&width=800"
+            alt="LOTA vision"
+            className="order-1 md:order-2"
+          />
 
           <div className="order-2 md:order-1">
             <AnimatedHeading title="Our Vision" underline />
 
             <AnimatedText>
               <p className="mb-6">
-                A thriving professional community where emerging leaders have access to the resources, mentorship, and
-                opportunities they need to reach their full potential and make meaningful contributions to their
-                industries and communities.
+                A thriving professional community where emerging leaders have
+                access to the resources, mentorship, and opportunities they need
+                to reach their full potential and make meaningful contributions
+                to their industries and communities.
               </p>
 
               <p className="mb-6">
-                We envision a future where leadership excellence is accessible to all, and where diverse perspectives
-                drive innovation and positive change.
+                We envision a future where leadership excellence is accessible
+                to all, and where diverse perspectives drive innovation and
+                positive change.
               </p>
             </AnimatedText>
           </div>
@@ -184,17 +200,20 @@ export default function AboutPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 interface AnimatedTextProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
 }
 
 function AnimatedText({ children, className }: AnimatedTextProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
@@ -206,60 +225,58 @@ function AnimatedText({ children, className }: AnimatedTextProps) {
     >
       {children}
     </motion.div>
-  )
+  );
 }
 
 interface AnimatedImageProps {
-  src: string
-  alt: string
-  className?: string
+  src: string;
+  alt: string;
+  className?: string;
 }
 
 function AnimatedImage({ src, alt, className }: AnimatedImageProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6 }}
-      className={className}
+      className={`relative ${className}`}
     >
-      <div className="aspect-square relative overflow-hidden rounded-lg">
-        <Image src={src || "/placeholder.svg"} alt={alt} fill className="object-cover" />
-      </div>
+      <Image src={src} alt={alt} fill className="object-cover" />
     </motion.div>
-  )
+  );
 }
 
 interface ValueCardProps {
-  title: string
-  description: string
-  index: number
+  title: string;
+  description: string;
+  index: number;
 }
 
 function ValueCard({ title, description, index }: ValueCardProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="bg-white p-8 shadow-sm"
     >
-      <div className="flex items-center mb-4">
-        <div className="bg-primary/10 p-2 rounded-full mr-3">
-          <Check className="h-5 w-5 text-primary" />
-        </div>
-        <h3 className="text-xl font-medium">{title}</h3>
-      </div>
+      <h3 className="text-xl font-medium mb-4">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
     </motion.div>
-  )
+  );
 }
-

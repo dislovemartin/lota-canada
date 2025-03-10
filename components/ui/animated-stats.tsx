@@ -1,45 +1,53 @@
-"use client"
+"use client";
 
-import { useRef, useState, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface Stat {
-  value: number
-  label: string
-  prefix?: string
-  suffix?: string
+  value: number;
+  label: string;
+  prefix?: string;
+  suffix?: string;
 }
 
 interface AnimatedStatsProps {
-  stats: Stat[]
-  className?: string
-  columns?: 2 | 3 | 4
-  variant?: "default" | "card" | "minimal"
+  stats: Stat[];
+  className?: string;
+  columns?: 2 | 3 | 4;
+  variant?: "default" | "card" | "minimal";
 }
 
-export function AnimatedStats({ stats, className, columns = 4, variant = "default" }: AnimatedStatsProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
-  const [hasAnimated, setHasAnimated] = useState(false)
+export function AnimatedStats({
+  stats,
+  className,
+  columns = 4,
+  variant = "default",
+}: AnimatedStatsProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
     if (isInView) {
-      setHasAnimated(true)
+      setHasAnimated(true);
     }
-  }, [isInView])
+  }, [isInView]);
 
   const columnClasses = {
     2: "grid-cols-1 sm:grid-cols-2",
     3: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
     4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-4",
-  }
+  };
 
   const variantClasses = {
     default: "",
     card: "bg-white shadow-md rounded-lg p-8",
     minimal: "border-t border-b py-12",
-  }
+  };
 
   return (
     <div ref={ref} className={cn("w-full", variantClasses[variant], className)}>
@@ -67,43 +75,50 @@ export function AnimatedStats({ stats, className, columns = 4, variant = "defaul
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 interface CountUpProps {
-  from: number
-  to: number
-  duration: number
-  isInView: boolean
-  prefix?: string
-  suffix?: string
+  from: number;
+  to: number;
+  duration: number;
+  isInView: boolean;
+  prefix?: string;
+  suffix?: string;
 }
 
-function CountUp({ from, to, duration, isInView, prefix = "", suffix = "" }: CountUpProps) {
-  const [count, setCount] = useState(from)
+function CountUp({
+  from,
+  to,
+  duration,
+  isInView,
+  prefix = "",
+  suffix = "",
+}: CountUpProps) {
+  const [count, setCount] = useState(from);
 
   useEffect(() => {
-    if (!isInView) return
+    if (!isInView) return;
 
-    let startTime: number
-    let animationFrame: number
+    let startTime: number;
+    let animationFrame: number;
 
     const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1)
-      setCount(Math.floor(progress * (to - from) + from))
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      setCount(Math.floor(progress * (to - from) + from));
 
       if (progress < 1) {
-        animationFrame = requestAnimationFrame(step)
+        animationFrame = requestAnimationFrame(step);
       }
-    }
+    };
 
-    animationFrame = requestAnimationFrame(step)
+    animationFrame = requestAnimationFrame(step);
 
     return () => {
-      cancelAnimationFrame(animationFrame)
-    }
-  }, [from, to, duration, isInView])
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [from, to, duration, isInView]);
 
   return (
     <span>
@@ -111,6 +126,5 @@ function CountUp({ from, to, duration, isInView, prefix = "", suffix = "" }: Cou
       {count}
       {suffix}
     </span>
-  )
+  );
 }
-

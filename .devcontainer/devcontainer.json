@@ -1,0 +1,74 @@
+{
+  "name": "Next.js React 19 TypeScript Development",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "20-bullseye"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "streetsidesoftware.code-spell-checker",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        "christian-kohler.path-intellisense",
+        "dsznajder.es7-react-js-snippets",
+        "ms-azuretools.vscode-docker",
+        "mikestead.dotenv",
+        "eamodio.gitlens",
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode.js-debug",
+        "ms-vscode.js-debug-companion",
+        "ms-vscode.vscode-js-profile-flame",
+        "ms-vscode.vscode-js-profile-table",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "csstools.postcss",
+        "ms-playwright.playwright",
+        "cypress-io.cypress"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "javascript.updateImportsOnFileMove.enabled": "always",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "editor.tabSize": 2,
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 8080, 9000],
+  "postCreateCommand": "cd ${containerWorkspaceFolder} && npm install && npm install cypress --save-dev",
+  "postStartCommand": "cd ${containerWorkspaceFolder} && npm run dev",
+  "remoteUser": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": "os-provided",
+    "ghcr.io/devcontainers/features/github-cli:1": "latest",
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    }
+  }
+}

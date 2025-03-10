@@ -21,24 +21,17 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./node_modules/@types", "./"]
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "*.d.ts"
+    "*.d.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": [
-    "node_modules",
-    "__tests__/**/*",
-    "app/**/*",
-    "components/**/*",
-    "docs/**/*",
-    "hooks/**/*",
-    "lib/**/*",
-    "public/**/*",
-    "styles/**/*"
+    "node_modules"
   ]
 }

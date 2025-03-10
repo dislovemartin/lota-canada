@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import { AnimatePresence, motion } from "framer-motion"
-import { ChevronDown, Menu, X } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, Menu, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 // Define types for navigation items
 interface SubmenuItem {
-  name: string
-  href: string
+  name: string;
+  href: string;
 }
 
 interface NavigationItem {
-  name: string
-  href: string
-  submenu?: SubmenuItem[]
+  name: string;
+  href: string;
+  submenu?: SubmenuItem[];
 }
 
 const navigation: NavigationItem[] = [
@@ -45,126 +46,184 @@ const navigation: NavigationItem[] = [
     ],
   },
   { name: "Sponsors", href: "/sponsors" },
-]
+  { name: "Workflows", href: "/workflows" },
+];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled)
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [scrolled])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleSubmenu = (name: string) => {
-    setActiveSubmenu(activeSubmenu === name ? null : name)
-  }
+    setOpenSubmenu(openSubmenu === name ? null : name);
+  };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, name: string) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    name: string
+  ) => {
     if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault()
-      toggleSubmenu(name)
-    } else if (e.key === "Escape") {
-      e.preventDefault()
-      setActiveSubmenu(null)
+      e.preventDefault();
+      toggleSubmenu(name);
     }
-  }
+  };
+
+  // Check if the current path matches a navigation item or its submenu
+  const isActive = (item: NavigationItem) => {
+    if (pathname === item.href) return true;
+    if (item.submenu?.some((subItem) => pathname === subItem.href)) return true;
+    return false;
+  };
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
-    <header
-      className={cn(
-        "fixed left-0 right-0 z-[9999] transition-all duration-300 top-[40px]",
-        scrolled ? "bg-white/95 backdrop-blur-sm shadow-sm dark:bg-gray-900/95" : "bg-transparent",
+    <>
+      {/* Announcement Banner */}
+      {showAnnouncement && (
+        <div className="bg-primary text-white py-2 fixed top-0 left-0 right-0 z-50">
+          <div className="container-wide">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center text-sm">
+                <span className="hidden sm:inline font-medium mr-2">
+                  🎉 Announcement:
+                </span>
+                <span>Join our upcoming networking event on June 15th!</span>
+              </div>
+              <button
+                onClick={() => setShowAnnouncement(false)}
+                className="text-white/80 hover:text-white p-1 rounded-full transition-colors"
+                aria-label="Dismiss announcement"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
       )}
-      role="banner"
-    >
-      {/* Skip to main content link for keyboard users */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[10000] focus:bg-white focus:text-black focus:p-4 focus:m-4 focus:rounded">
-        Skip to main content
-      </a>
-      
-      <div className="container-wide mx-auto">
-        <nav
-          className="flex items-center justify-between h-16 px-4 lg:px-6 py-4 mx-auto max-w-7xl whitespace-nowrap"
-          aria-label="Main navigation"
-        >
-          {/* Logo */}
-          <motion.div
-            className="flex items-center flex-shrink-0 mr-4"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Link href="/" className="flex items-center" aria-label="LOTA - Leaders of Tomorrow Association - Home">
-              <span className="sr-only">LOTA - Leaders of Tomorrow Association</span>
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOTA%20LOGO%20transparent%20background-wgq7j7Ds3Bm7HWdTlI1nizMUcPicmN.png"
-                alt="LOTA"
-                width={150}
-                height={40}
-                className="h-8 w-auto"
-                priority
-              />
-            </Link>
-          </motion.div>
 
-          {/* Desktop navigation - centered */}
-          <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1">
-            <div className="flex items-center gap-1 xl:gap-2" role="menubar">
-              {navigation.map((item, index) => (
-                <div key={item.name} className="relative group px-2 xl:px-3" role="none">
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
+          isScrolled
+            ? "bg-gray-800 backdrop-blur-md shadow-md py-2 text-white"
+            : "bg-gray-800/90 py-4 text-white",
+          showAnnouncement ? "mt-[40px]" : "mt-0"
+        )}
+      >
+        <div className="container-wide">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex items-center space-x-3 group transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+            >
+              <div className="relative h-16 w-16 overflow-hidden rounded-md bg-white/10 backdrop-blur-sm shadow-sm">
+                <Image
+                  src={
+                    isScrolled
+                      ? "/LOTA LOGO white backgroud.png"
+                      : "/LOTA LOGO transparent background.png"
+                  }
+                  alt="LOTA Canada Logo"
+                  width={64}
+                  height={64}
+                  className="object-contain scale-110"
+                  priority
+                />
+              </div>
+              <div className="flex flex-col">
+                <span
+                  className={cn(
+                    "font-bold text-2xl leading-tight tracking-wide transition-colors duration-300",
+                    "text-white"
+                  )}
+                >
+                  LOTA
+                </span>
+                <span
+                  className={cn(
+                    "text-sm font-medium tracking-wider transition-colors duration-300",
+                    "text-primary"
+                  )}
+                >
+                  CANADA
+                </span>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-1">
+              {navigation.map((item) => (
+                <div key={item.name} className="relative group">
                   {item.submenu ? (
                     <>
                       <button
-                        className="inline-flex items-center text-sm font-medium text-foreground hover:text-primary transition-colors py-2 px-1"
-                        onMouseEnter={() => setActiveSubmenu(item.name)}
                         onClick={() => toggleSubmenu(item.name)}
-                        onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => handleKeyDown(e, item.name)}
-                        aria-expanded={activeSubmenu === item.name}
-                        aria-haspopup="menu"
-                        aria-controls={`submenu-${item.name}`}
-                        role="menuitem"
+                        onKeyDown={(e) => handleKeyDown(e, item.name)}
+                        className={cn(
+                          "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200",
+                          isActive(item)
+                            ? "text-primary bg-gray-700"
+                            : "text-white hover:text-primary hover:bg-gray-700",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        )}
+                        aria-expanded={openSubmenu === item.name}
+                        aria-haspopup="true"
                       >
                         {item.name}
                         <ChevronDown
                           className={cn(
-                            "ml-1 h-4 w-4 transition-transform",
-                            activeSubmenu === item.name ? "rotate-180" : "",
+                            "ml-1 h-4 w-4 transition-transform duration-200",
+                            openSubmenu === item.name ? "rotate-180" : ""
                           )}
-                          aria-hidden="true"
                         />
                       </button>
                       <AnimatePresence>
-                        {activeSubmenu === item.name && (
+                        {openSubmenu === item.name && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute left-1/2 -translate-x-1/2 mt-1 w-48 bg-white dark:bg-gray-900 shadow-lg rounded-md overflow-hidden z-20"
-                            onMouseLeave={() => setActiveSubmenu(null)}
-                            id={`submenu-${item.name}`}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="absolute left-0 mt-1 w-48 rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black/5 dark:ring-white/10 focus:outline-none z-50 overflow-hidden"
                             role="menu"
-                            aria-label={`${item.name} submenu`}
+                            aria-orientation="vertical"
+                            aria-labelledby="menu-button"
                           >
-                            <div className="py-1">
-                              {item.submenu.map((subitem) => (
+                            <div className="py-1" role="none">
+                              {item.submenu.map((subItem) => (
                                 <Link
-                                  key={subitem.name}
-                                  href={subitem.href}
-                                  className="block px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  className={cn(
+                                    "block px-4 py-2 text-sm transition-colors duration-150",
+                                    pathname === subItem.href
+                                      ? "bg-gray-100 dark:bg-gray-700 text-primary font-medium"
+                                      : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary"
+                                  )}
                                   role="menuitem"
-                                  onClick={() => setActiveSubmenu(null)}
+                                  onClick={() => setOpenSubmenu(null)}
                                 >
-                                  {subitem.name}
+                                  {subItem.name}
                                 </Link>
                               ))}
                             </div>
@@ -175,120 +234,103 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="block text-sm font-medium text-foreground hover:text-primary transition-colors py-2 px-1 relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
-                      role="menuitem"
+                      className={cn(
+                        "block px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 relative group",
+                        isActive(item)
+                          ? "text-primary bg-gray-700"
+                          : "text-white hover:text-primary hover:bg-gray-700",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      )}
                     >
                       {item.name}
+                      {pathname === item.href ? (
+                        <motion.span
+                          className="absolute bottom-0 left-0 h-0.5 bg-primary"
+                          initial={{ width: 0 }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      ) : (
+                        <span className="absolute bottom-0 left-0 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                      )}
                     </Link>
-                  )}
-                  {index < navigation.length - 1 && (
-                    <span className="absolute right-0 top-1/2 -translate-y-1/2 h-4 w-px bg-gray-200 dark:bg-gray-700 hidden xl:block" aria-hidden="true" />
                   )}
                 </div>
               ))}
-            </div>
-          </div>
+            </nav>
 
-          {/* Mobile menu button and CTA Button container */}
-          <div className="flex items-center space-x-4 flex-nowrap flex-shrink-0">
-            {/* CTA Button */}
-            <motion.div
-              className="hidden lg:block"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Button
-                asChild
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium whitespace-nowrap"
-              >
-                <Link href="/contact">Get in Touch</Link>
-              </Button>
-            </motion.div>
-
-            {/* Mobile menu button */}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild className="lg:hidden">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="text-foreground"
-                  aria-label="Open main menu"
-                  aria-expanded={mobileMenuOpen}
-                  aria-controls="mobile-menu"
-                >
-                  <span className="sr-only">Open main menu</span>
-                  <Menu className="h-6 w-6" aria-hidden="true" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-xs" id="mobile-menu" aria-label="Main navigation">
-                <div className="flex items-center justify-between">
-                  <Link href="/" className="-m-1.5 p-1.5" aria-label="LOTA - Leaders of Tomorrow Association - Home">
-                    <span className="sr-only">LOTA - Leaders of Tomorrow Association</span>
-                    <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOTA%20LOGO%20transparent%20background-wgq7j7Ds3Bm7HWdTlI1nizMUcPicmN.png"
-                      alt="LOTA"
-                      width={150}
-                      height={32}
-                      className="h-8 w-auto"
-                    />
-                  </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-label="Close menu"
+            {/* Mobile Menu Button */}
+            <div className="flex items-center md:hidden">
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "rounded-full transition-colors duration-300 h-12 w-12",
+                      "text-white hover:bg-gray-700"
+                    )}
+                    aria-label="Open menu"
                   >
-                    <span className="sr-only">Close menu</span>
-                    <X className="h-6 w-6" aria-hidden="true" />
+                    <Menu className="h-7 w-7" />
+                    <span className="sr-only">Open main menu</span>
                   </Button>
-                </div>
-                <div className="mt-6 flow-root">
-                  <div className="space-y-1 py-6" role="menu">
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="w-[85vw] sm:w-[350px] pt-16 border-l border-gray-200 dark:border-gray-800 bg-gray-800 text-white"
+                >
+                  <nav className="flex flex-col space-y-4">
                     {navigation.map((item) => (
-                      <div key={item.name} role="none">
+                      <div key={item.name} className="space-y-2">
                         {item.submenu ? (
                           <>
                             <button
-                              className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md"
                               onClick={() => toggleSubmenu(item.name)}
-                              onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => handleKeyDown(e, item.name)}
-                              aria-expanded={activeSubmenu === item.name}
-                              aria-haspopup="menu"
-                              aria-controls={`mobile-submenu-${item.name}`}
-                              role="menuitem"
+                              className={cn(
+                                "flex items-center justify-between w-full px-3 py-2.5 text-base font-medium rounded-md transition-all duration-200",
+                                isActive(item)
+                                  ? "text-primary bg-gray-700"
+                                  : "text-white hover:bg-gray-700/50 hover:text-primary"
+                              )}
+                              aria-expanded={openSubmenu === item.name}
                             >
                               {item.name}
                               <ChevronDown
                                 className={cn(
-                                  "h-4 w-4 transition-transform",
-                                  activeSubmenu === item.name ? "rotate-180" : "",
+                                  "h-5 w-5 transition-transform duration-200",
+                                  openSubmenu === item.name ? "rotate-180" : ""
                                 )}
-                                aria-hidden="true"
                               />
                             </button>
                             <AnimatePresence>
-                              {activeSubmenu === item.name && (
+                              {openSubmenu === item.name && (
                                 <motion.div
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.3 }}
-                                  className="overflow-hidden"
-                                  id={`mobile-submenu-${item.name}`}
-                                  role="menu"
-                                  aria-label={`${item.name} submenu`}
+                                  transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                  }}
+                                  className="overflow-hidden pl-4"
                                 >
-                                  <div className="pl-6 space-y-1 py-2">
-                                    {item.submenu.map((subitem) => (
+                                  <div className="py-1 border-l-2 border-primary/30 pl-4 space-y-1">
+                                    {item.submenu.map((subItem) => (
                                       <Link
-                                        key={subitem.name}
-                                        href={subitem.href}
-                                        className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        role="menuitem"
+                                        key={subItem.name}
+                                        href={subItem.href}
+                                        className={cn(
+                                          "block px-3 py-2.5 text-sm rounded-md transition-colors duration-200",
+                                          pathname === subItem.href
+                                            ? "text-primary font-medium bg-primary/5"
+                                            : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 hover:text-primary"
+                                        )}
+                                        onClick={() =>
+                                          setIsMobileMenuOpen(false)
+                                        }
                                       >
-                                        {subitem.name}
+                                        {subItem.name}
                                       </Link>
                                     ))}
                                   </div>
@@ -299,33 +341,72 @@ export default function Header() {
                         ) : (
                           <Link
                             href={item.href}
-                            className="block px-3 py-2 text-base font-medium text-foreground hover:bg-muted rounded-md"
-                            onClick={() => setMobileMenuOpen(false)}
-                            role="menuitem"
+                            className={cn(
+                              "block px-3 py-2.5 text-base font-medium rounded-md transition-colors duration-200",
+                              isActive(item)
+                                ? "text-primary bg-gray-700"
+                                : "text-white hover:bg-gray-700/50 hover:text-primary"
+                            )}
+                            onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {item.name}
                           </Link>
                         )}
                       </div>
                     ))}
+                  </nav>
+                  <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div className="space-y-3">
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="w-full justify-start"
+                        size="lg"
+                      >
+                        <Link
+                          href="/login"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <span className="mr-2">👋</span> Log In
+                        </Link>
+                      </Button>
+                      <Button className="w-full justify-start" size="lg">
+                        <Link
+                          href="/contact"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <span className="mr-2">✨</span> Join Now
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Mobile CTA Button */}
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <Button
-                    asChild
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-                  >
-                    <Link href="/contact">Get in Touch</Link>
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </nav>
-      </div>
-    </header>
-  )
-}
+                </SheetContent>
+              </Sheet>
+            </div>
 
+            {/* CTA Buttons */}
+            <div className="hidden md:flex items-center space-x-4">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "transition-all duration-300 border-white/30 text-white hover:bg-gray-700 hover:border-white/50"
+                )}
+              >
+                <Link href="/login">Log In</Link>
+              </Button>
+              <Button
+                asChild
+                size="sm"
+                className="transition-transform hover:scale-105 active:scale-95 bg-primary hover:bg-primary/90"
+              >
+                <Link href="/contact">Join Now</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}

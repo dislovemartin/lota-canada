@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import Image from "next/image"
-import { motion, useInView } from "framer-motion"
-import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { AnimatedButton } from "@/components/ui/animated-button"
-import { SectionDivider } from "@/components/ui/section-divider"
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
+import Image from "next/image";
+import { useRef } from "react";
 
 const upcomingEvents = [
   {
@@ -15,11 +15,12 @@ const upcomingEvents = [
     date: "June 2025",
     time: "9:00 AM - 5:00 PM",
     location: "Toronto, Canada",
-    description: "Join us for our flagship event featuring keynote speakers, workshops, and networking opportunities.",
+    description:
+      "Join us for our flagship event featuring keynote speakers, workshops, and networking opportunities.",
     image: "/placeholder.svg?height=600&width=800",
     status: "Coming Soon",
   },
-]
+];
 
 const pastEvents = [
   {
@@ -40,7 +41,7 @@ const pastEvents = [
     date: "July 2024",
     image: "/placeholder.svg?height=400&width=600",
   },
-]
+];
 
 export default function EventsPage() {
   return (
@@ -103,16 +104,19 @@ export default function EventsPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 interface UpcomingEventCardProps {
-  event: (typeof upcomingEvents)[0]
+  event: (typeof upcomingEvents)[0];
 }
 
 function UpcomingEventCard({ event }: UpcomingEventCardProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
@@ -124,8 +128,15 @@ function UpcomingEventCard({ event }: UpcomingEventCardProps) {
     >
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="relative aspect-video md:aspect-auto">
-          <Image src={event.image || "/placeholder.svg"} alt={event.title} fill className="object-cover" />
-          <div className="absolute top-4 right-4 bg-black text-white px-3 py-1 text-sm">{event.status}</div>
+          <Image
+            src={event.image || "/placeholder.svg"}
+            alt={event.title}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute top-4 right-4 bg-black text-white px-3 py-1 text-sm">
+            {event.status}
+          </div>
         </div>
 
         <div className="p-6 md:p-8">
@@ -150,21 +161,26 @@ function UpcomingEventCard({ event }: UpcomingEventCardProps) {
 
           <p className="mb-6 text-muted-foreground">{event.description}</p>
 
-          <AnimatedButton href={`/events/${event.id}`}>Stay Tuned</AnimatedButton>
+          <AnimatedButton href={`/events/${event.id}`}>
+            Stay Tuned
+          </AnimatedButton>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 interface PastEventCardProps {
-  event: (typeof pastEvents)[0]
-  index: number
+  event: (typeof pastEvents)[0];
+  index: number;
 }
 
 function PastEventCard({ event, index }: PastEventCardProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
@@ -188,7 +204,9 @@ function PastEventCard({ event, index }: PastEventCardProps) {
         </div>
       </div>
 
-      <h3 className="text-lg font-medium mb-2 group-hover:text-primary transition-colors">{event.title}</h3>
+      <h3 className="text-lg font-medium mb-2 group-hover:text-primary transition-colors">
+        {event.title}
+      </h3>
 
       <a
         href={`/events/past/${event.id}`}
@@ -197,6 +215,5 @@ function PastEventCard({ event, index }: PastEventCardProps) {
         View Recap <ArrowRight className="ml-1 h-4 w-4" />
       </a>
     </motion.div>
-  )
+  );
 }
-

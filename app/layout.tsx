@@ -1,24 +1,55 @@
-import Announcement from "@/components/announcement"
-import Footer from "@/components/footer"
-import Header from "@/components/header"
-import { ThemeProvider } from "@/components/theme-provider"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import type React from "react"
-import "./globals.css"
+import Announcement from "@/components/announcement";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { ThemeProvider } from "@/components/theme-provider";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import type React from "react";
+import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "LOTA Canada - Leaders of Tomorrow Association",
-  description: "Empowering the next generation of business leaders and professionals in Toronto and beyond.",
-    generator: 'v0.dev'
-}
+  description:
+    "Empowering the next generation of business leaders and professionals in Toronto and beyond.",
+  generator: "Next.js",
+  keywords: [
+    "leadership",
+    "business networking",
+    "professional development",
+    "Toronto",
+    "Canada",
+    "mentorship",
+  ],
+  authors: [{ name: "LOTA Canada" }],
+  openGraph: {
+    title: "LOTA Canada - Leaders of Tomorrow Association",
+    description:
+      "Empowering the next generation of business leaders and professionals in Toronto and beyond.",
+    url: "https://lota-two.vercel.app",
+    siteName: "LOTA Canada",
+    locale: "en_CA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LOTA Canada - Leaders of Tomorrow Association",
+    description:
+      "Empowering the next generation of business leaders and professionals in Toronto and beyond.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -35,14 +66,12 @@ export default function RootLayout({
             ]}
           />
           <Header />
-          <main className="pt-[calc(56px+40px)]">{children}</main>
+          <main className="pt-[calc(56px+80px)]">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
 
-
-
-import './globals.css'
+import "./globals.css";

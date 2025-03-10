@@ -1,20 +1,21 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { FileText, Download, Search, ArrowUpDown } from "lucide-react"
-import { AnimatedHeading } from "@/components/ui/animated-heading"
-import { SectionDivider } from "@/components/ui/section-divider"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AnimatedHeading } from "@/components/ui/animated-heading";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SectionDivider } from "@/components/ui/section-divider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion, useInView } from "framer-motion";
+import { ArrowUpDown, Download, FileText, Search } from "lucide-react";
+import { useRef, useState } from "react";
 
 // Sample resources data
 const resources = [
   {
     id: 1,
     title: "Leadership Development Guide",
-    description: "A comprehensive guide to developing essential leadership skills.",
+    description:
+      "A comprehensive guide to developing essential leadership skills.",
     category: "guides",
     fileType: "PDF",
     fileSize: "2.4 MB",
@@ -34,7 +35,8 @@ const resources = [
   {
     id: 3,
     title: "Event Planning Checklist",
-    description: "A detailed checklist for organizing successful professional events.",
+    description:
+      "A detailed checklist for organizing successful professional events.",
     category: "templates",
     fileType: "XLSX",
     fileSize: "1.2 MB",
@@ -44,7 +46,8 @@ const resources = [
   {
     id: 4,
     title: "Networking Strategies Presentation",
-    description: "Effective strategies for building and maintaining professional networks.",
+    description:
+      "Effective strategies for building and maintaining professional networks.",
     category: "presentations",
     fileType: "PPTX",
     fileSize: "5.7 MB",
@@ -54,7 +57,8 @@ const resources = [
   {
     id: 5,
     title: "Professional Development Plan Template",
-    description: "A template for creating personalized professional development plans.",
+    description:
+      "A template for creating personalized professional development plans.",
     category: "templates",
     fileType: "DOCX",
     fileSize: "0.8 MB",
@@ -64,14 +68,15 @@ const resources = [
   {
     id: 6,
     title: "Leadership Research Report",
-    description: "Findings from our annual research on leadership trends and practices.",
+    description:
+      "Findings from our annual research on leadership trends and practices.",
     category: "research",
     fileType: "PDF",
     fileSize: "4.2 MB",
     downloadUrl: "#",
     date: "2023-10-30",
   },
-]
+];
 
 const categories = [
   { value: "all", label: "All Resources" },
@@ -80,32 +85,33 @@ const categories = [
   { value: "handbooks", label: "Handbooks" },
   { value: "presentations", label: "Presentations" },
   { value: "research", label: "Research" },
-]
+];
 
 export default function ResourcesPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const filteredResources = resources
     .filter((resource) => {
       const matchesSearch =
         resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        resource.description.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory
+        resource.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || resource.category === selectedCategory;
 
-      return matchesSearch && matchesCategory
+      return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
-      const dateA = new Date(a.date).getTime()
-      const dateB = new Date(b.date).getTime()
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
 
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA
-    })
+      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+    });
 
   const toggleSortOrder = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-  }
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
 
   return (
     <div className="container-wide mx-auto py-16">
@@ -149,7 +155,9 @@ export default function ResourcesPage() {
               variant="outline"
               size="icon"
               onClick={toggleSortOrder}
-              title={`Sort by date: ${sortOrder === "asc" ? "Oldest first" : "Newest first"}`}
+              title={`Sort by date: ${
+                sortOrder === "asc" ? "Oldest first" : "Newest first"
+              }`}
             >
               <ArrowUpDown className="h-4 w-4" />
             </Button>
@@ -157,49 +165,60 @@ export default function ResourcesPage() {
         </div>
 
         {categories.map((category) => (
-          <TabsContent key={category.value} value={category.value} className="mt-0">
+          <TabsContent
+            key={category.value}
+            value={category.value}
+            className="mt-0"
+          >
             <ResourcesList resources={filteredResources} />
           </TabsContent>
         ))}
       </Tabs>
     </div>
-  )
+  );
 }
 
 interface ResourcesListProps {
-  resources: typeof resources
+  resources: typeof resources;
 }
 
 function ResourcesList({ resources }: ResourcesListProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
       {resources.length > 0 ? (
-        resources.map((resource, index) => <ResourceCard key={resource.id} resource={resource} index={index} />)
+        resources.map((resource, index) => (
+          <ResourceCard key={resource.id} resource={resource} index={index} />
+        ))
       ) : (
         <div className="text-center py-12 bg-muted/30 rounded-lg">
-          <p className="text-muted-foreground">No resources found matching your criteria.</p>
+          <p className="text-muted-foreground">
+            No resources found matching your criteria.
+          </p>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 interface ResourceCardProps {
-  resource: (typeof resources)[0]
-  index: number
+  resource: (typeof resources)[0];
+  index: number;
 }
 
 function ResourceCard({ resource, index }: ResourceCardProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
+    once: true,
+    amount: 0.3,
+  });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="bg-white border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="group"
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
@@ -209,11 +228,17 @@ function ResourceCard({ resource, index }: ResourceCardProps) {
 
           <div>
             <h3 className="text-lg font-medium mb-1">{resource.title}</h3>
-            <p className="text-muted-foreground text-sm mb-2">{resource.description}</p>
+            <p className="text-muted-foreground text-sm mb-2">
+              {resource.description}
+            </p>
 
             <div className="flex flex-wrap gap-2 text-xs">
-              <span className="bg-muted px-2 py-1 rounded-full">{resource.fileType}</span>
-              <span className="bg-muted px-2 py-1 rounded-full">{resource.fileSize}</span>
+              <span className="bg-muted px-2 py-1 rounded-full">
+                {resource.fileType}
+              </span>
+              <span className="bg-muted px-2 py-1 rounded-full">
+                {resource.fileSize}
+              </span>
               <span className="bg-muted px-2 py-1 rounded-full">
                 {new Date(resource.date).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -235,6 +260,5 @@ function ResourceCard({ resource, index }: ResourceCardProps) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
-
