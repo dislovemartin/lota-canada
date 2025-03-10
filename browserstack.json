@@ -1,0 +1,48 @@
+{
+  "browsers": [
+    {
+      "browser": "chrome",
+      "os": "Windows 10",
+      "versions": ["latest", "latest-1"]
+    },
+    {
+      "browser": "firefox",
+      "os": "Windows 10",
+      "versions": ["latest", "latest-1"]
+    },
+    {
+      "browser": "edge",
+      "os": "Windows 10",
+      "versions": ["latest"]
+    },
+    {
+      "browser": "safari",
+      "os": "OS X Monterey",
+      "versions": ["latest"]
+    },
+    {
+      "browser": "safari",
+      "os": "iOS",
+      "versions": ["latest"],
+      "devices": ["iPhone 13", "iPad Pro"]
+    },
+    {
+      "browser": "chrome",
+      "os": "android",
+      "versions": ["latest"],
+      "devices": ["Google Pixel 6", "Samsung Galaxy S22"]
+    }
+  ],
+  "run_settings": {
+    "parallel_runs": 5,
+    "cypress_config_file": "cypress.json",
+    "project_name": "LOTA Canada Website",
+    "build_name": "Cross Browser Tests",
+    "exclude_files": []
+  },
+  "connection_settings": {
+    "local": true,
+    "local_identifier": "LOTA_Canada_Local"
+  },
+  "disable_usage_reporting": false
+}

@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "*.d.ts",
+    "cypress.d.ts",
+    "react.d.ts",
+    "types.d.ts",
+    "framer-motion.d.ts",
+    "lucide-react.d.ts",
+    "global.d.ts"
+  ],
+  "exclude": ["node_modules", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+}
