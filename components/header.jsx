@@ -92,11 +92,7 @@ export default function Header() {
           >
             <div className="relative h-16 w-16 overflow-hidden rounded-md bg-white/10 backdrop-blur-sm shadow-sm">
               <Image
-                src={
-                  isScrolled
-                    ? "/LOTA LOGO white backgroud.png"
-                    : "/LOTA LOGO transparent background.png"
-                }
+                src="/lota-logo.svg"
                 alt="LOTA Canada Logo"
                 width={64}
                 height={64}
