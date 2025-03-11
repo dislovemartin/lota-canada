@@ -55,6 +55,8 @@ declare module 'lucide-react' {
   export const Send: Icon;
   export const Share2: Icon;
   export const Shield: Icon;
+  export const Sun: Icon;
+  export const Moon: Icon;
   export const Target: Icon;
   export const Twitter: Icon;
   export const Users: Icon;

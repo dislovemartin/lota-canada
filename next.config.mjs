@@ -20,6 +20,15 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.lotacanada.org',
+      },
+    ],
   },
   experimental: {
     optimizeCss: true,
@@ -27,6 +36,10 @@ const nextConfig = {
     webpackBuildWorker: true,
     parallelServerCompiles: true,
     parallelServerBuildTraces: true,
+    nextScriptWorkers: false, // Disabled to avoid requiring partytown
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
   async headers() {
     return [
@@ -56,6 +69,35 @@ const nextConfig = {
         ],
       },
     ];
+  },
+  webpack: (config, { dev, isServer }) => {
+    // Optimize bundle size in production
+    if (!dev) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          // Vendor chunk for third-party libraries
+          vendor: {
+            name: 'vendor',
+            chunks: 'all',
+            test: /node_modules/,
+            priority: 20,
+          },
+          // Common chunk for code shared between pages
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'async',
+            priority: 10,
+            reuseExistingChunk: true,
+            enforce: true,
+          },
+        },
+      };
+    }
+    return config;
   },
 };
 
