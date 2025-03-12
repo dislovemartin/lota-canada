@@ -1,4 +1,4 @@
-import { HeroSection } from "@/components/hero-section";
+import { HeroModern } from "@/components/hero-modern";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { AnimatedHeading } from "@/components/ui/animated-heading";
 import { AnimatedStats } from "@/components/ui/animated-stats";
@@ -11,7 +11,19 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <HeroSection />
+      <HeroModern
+        title="Leaders of Tomorrow Association"
+        subtitle="Empowering professionals through networking, mentorship, and leadership development opportunities across Canada."
+        imageSrc="/images/hero/image-asset.jpeg"
+        imageAlt="LOTA Hero Background - Professional Leadership"
+        ctaText="Learn More"
+        ctaHref="/about"
+        secondaryCtaText="Join Us"
+        secondaryCtaHref="/contact"
+        showLogo={true}
+        overlayOpacity={0.4}
+        className="home-hero"
+      />
 
       {/* Stats Section */}
       <section className="py-24 bg-gray-50">
@@ -230,48 +242,48 @@ const programs = [
     title: "Mentorship Program",
     description:
       "Connect with experienced professionals who provide guidance, support, and insights to help you navigate your career path.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: "/images/programs/mentorship.svg",
     href: "/programs/mentorship",
   },
   {
     title: "Leadership Workshop Series",
     description:
       "Develop essential leadership skills through interactive workshops led by industry experts and thought leaders.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: "/images/programs/workshop.svg",
     href: "/programs/workshops",
   },
   {
     title: "Community Engagement",
     description:
       "Participate in community service projects that make a positive impact while building valuable leadership experience.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: "/images/programs/community.svg",
     href: "/programs/community",
   },
 ];
 
 const articles = [
   {
-    title: "The Evolution of Leadership in the Digital Age",
+    title: "Developing Emotional Intelligence",
     excerpt:
-      "Exploring how technology is reshaping leadership paradigms and the skills needed to thrive in an increasingly digital world.",
+      "Learn how emotional intelligence can enhance your leadership effectiveness and team relationships.",
+    image: "/images/knowledge/leadership-article.svg",
     category: "Leadership",
-    image: "/placeholder.svg?height=500&width=500",
-    href: "/knowledge/leadership-digital-age",
+    href: "/knowledge/emotional-intelligence",
   },
   {
-    title: "Building Resilience: Strategies for Professional Growth",
+    title: "Navigating Career Transitions",
     excerpt:
-      "Practical approaches to developing resilience and adaptability in the face of professional challenges and setbacks.",
-    category: "Professional Development",
-    image: "/placeholder.svg?height=500&width=500",
-    href: "/knowledge/building-resilience",
+      "Strategies and insights for making successful career transitions at any stage of your professional journey.",
+    image: "/images/knowledge/professional-growth.svg",
+    category: "Career Growth",
+    href: "/knowledge/career-transitions",
   },
   {
-    title: "The Power of Mentorship: Research and Insights",
+    title: "Building a Professional Network",
     excerpt:
-      "Examining the impact of mentorship on career advancement, skill development, and professional satisfaction.",
-    category: "Mentorship",
-    image: "/placeholder.svg?height=500&width=500",
-    href: "/knowledge/power-of-mentorship",
+      "Practical tips for creating and maintaining a valuable professional network in today's business environment.",
+    image: "/images/knowledge/networking.svg",
+    category: "Networking",
+    href: "/knowledge/networking",
   },
 ];

@@ -124,8 +124,8 @@ export default function Header() {
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
           isScrolled
-            ? "bg-gray-800 backdrop-blur-md shadow-md py-2 text-white"
-            : "bg-gray-800/90 py-4 text-white",
+            ? "bg-gray-800 backdrop-blur-md shadow-md py-4 text-white"
+            : "bg-gray-800/90 py-5 text-white",
           showAnnouncement ? "mt-[40px]" : "mt-0"
         )}
       >
@@ -134,39 +134,17 @@ export default function Header() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center space-x-3 group transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+              className="flex items-center group transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
             >
-              <div className="relative h-16 w-16 overflow-hidden rounded-md bg-white/10 backdrop-blur-sm shadow-sm">
+              <div className="relative h-10 w-auto overflow-hidden rounded-md bg-white/5">
                 <Image
-                  src={
-                    isScrolled
-                      ? "/LOTA LOGO white backgroud.png"
-                      : "/LOTA LOGO transparent background.png"
-                  }
+                  src="/images/brand/image.png"
                   alt="LOTA Canada Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain scale-110"
+                  width={325}
+                  height={48}
+                  className="object-contain"
                   priority
                 />
-              </div>
-              <div className="flex flex-col">
-                <span
-                  className={cn(
-                    "font-bold text-2xl leading-tight tracking-wide transition-colors duration-300",
-                    "text-white"
-                  )}
-                >
-                  LOTA
-                </span>
-                <span
-                  className={cn(
-                    "text-sm font-medium tracking-wider transition-colors duration-300",
-                    "text-primary"
-                  )}
-                >
-                  CANADA
-                </span>
               </div>
             </Link>
 
@@ -278,7 +256,7 @@ export default function Header() {
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="w-[85vw] sm:w-[350px] pt-16 border-l border-gray-200 dark:border-gray-800 bg-gray-800 text-white"
+                  className="w-[85vw] sm:w-[350px] pt-20 border-l border-gray-200 dark:border-gray-800 bg-gray-800 text-white"
                 >
                   <nav className="flex flex-col space-y-4">
                     {navigation.map((item) => (
@@ -360,7 +338,7 @@ export default function Header() {
                       <Button
                         asChild
                         variant="outline"
-                        className="w-full justify-start"
+                        className="w-full justify-start border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
                         size="lg"
                       >
                         <Link
@@ -370,7 +348,7 @@ export default function Header() {
                           <span className="mr-2">👋</span> Log In
                         </Link>
                       </Button>
-                      <Button className="w-full justify-start" size="lg">
+                      <Button className="w-full justify-start bg-primary hover:bg-primary/90" size="lg">
                         <Link
                           href="/contact"
                           onClick={() => setIsMobileMenuOpen(false)}
@@ -391,7 +369,7 @@ export default function Header() {
                 variant="outline"
                 size="sm"
                 className={cn(
-                  "transition-all duration-300 border-white/30 text-white hover:bg-gray-700 hover:border-white/50"
+                  "transition-all duration-300 border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
                 )}
               >
                 <Link href="/login">Log In</Link>

@@ -1,5 +1,5 @@
-import type { Metadata } from "next"
 import { ProgramCard } from "@/components/program-card"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Leadership Programs | LOTA Canada",
@@ -20,7 +20,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Leadership Development"
           description="A 12-week program designed to help emerging leaders develop essential leadership skills through workshops, mentoring, and practical exercises."
-          image="/images/leadership-development.jpg"
+          image="/images/programs/workshop.svg"
           imageAlt="Young professionals participating in a leadership workshop"
           date="Next cohort: March 2025"
           url="/programs/leadership-development"
@@ -28,7 +28,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Business Networking"
           description="Monthly networking events connecting young professionals with established business leaders across various industries."
-          image="/images/business-networking.jpg"
+          image="/images/programs/community.svg"
           imageAlt="Professionals networking at a LOTA business event"
           date="Ongoing monthly events"
           url="/programs/business-networking"
@@ -36,7 +36,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Professional Mentorship"
           description="A structured mentorship program pairing emerging professionals with experienced leaders for career guidance and professional development."
-          image="/images/mentorship.jpg"
+          image="/images/programs/mentorship.svg"
           imageAlt="Mentor and mentee in a professional meeting"
           date="Applications open April 2025"
           url="/programs/professional-mentorship"
@@ -44,7 +44,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Industry Workshops"
           description="Specialized workshops focusing on industry-specific skills and knowledge, led by experts in their respective fields."
-          image="/images/industry-workshops.jpg"
+          image="/images/programs/workshop.svg"
           imageAlt="Industry expert leading a specialized workshop"
           date="Various dates throughout 2025"
           url="/programs/industry-workshops"
@@ -52,7 +52,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Community Leadership"
           description="Opportunities for young professionals to lead community service projects, developing leadership skills while making a positive impact."
-          image="/images/community-leadership.jpg"
+          image="/images/programs/community.svg"
           imageAlt="LOTA members leading a community service project"
           date="Next project: April 2025"
           url="/programs/community-leadership"
@@ -60,7 +60,7 @@ export default function ProgramsPage() {
         <ProgramCard
           title="Executive Shadowing"
           description="A unique opportunity for selected participants to shadow executives in partner organizations, gaining insights into high-level decision-making."
-          image="/images/executive-shadowing.jpg"
+          image="/images/programs/mentorship.svg"
           imageAlt="Young professional shadowing an executive in a corporate setting"
           date="Applications open May 2025"
           url="/programs/executive-shadowing"

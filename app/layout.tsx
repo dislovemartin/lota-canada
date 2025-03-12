@@ -66,7 +66,7 @@ export default function RootLayout({
             ]}
           />
           <Header />
-          <main className="pt-[calc(56px+80px)]">{children}</main>
+          <main>{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

@@ -51,6 +51,27 @@ class MockIntersectionObserver {
 
 global.IntersectionObserver = MockIntersectionObserver
 
+// Mock ResizeObserver
+class MockResizeObserver {
+  constructor(callback) {
+    this.callback = callback
+  }
+
+  observe() {
+    return null
+  }
+
+  unobserve() {
+    return null
+  }
+
+  disconnect() {
+    return null
+  }
+}
+
+global.ResizeObserver = MockResizeObserver
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

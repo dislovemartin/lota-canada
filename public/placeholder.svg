@@ -1,13 +1,11 @@
-<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="#f0f0f0"/>
-  <rect x="0" y="0" width="100%" height="100%" fill="url(#grid)" />
-  <defs>
-    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="1"/>
-    </pattern>
-  </defs>
-  <g>
-    <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" dominant-baseline="middle" fill="#888">LOTA Placeholder</text>
-    <text x="50%" y="calc(50% + 30px)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" dominant-baseline="middle" fill="#aaa">Image</text>
-  </g>
-</svg>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#F3F4F6"/>
+  <path d="M400 300L500 400H300L400 300Z" fill="#D1D5DB"/>
+  <circle cx="350" cy="250" r="30" fill="#D1D5DB"/>
+  <path d="M400 180H600V220H400V180Z" fill="#E5E7EB"/>
+  <path d="M400 240H550V260H400V240Z" fill="#E5E7EB"/>
+  <path d="M400 280H500V300H400V280Z" fill="#E5E7EB"/>
+  <path d="M200 450H600V470H200V450Z" fill="#E5E7EB"/>
+  <path d="M200 490H550V510H200V490Z" fill="#E5E7EB"/>
+  <path d="M200 530H500V550H200V530Z" fill="#E5E7EB"/>
+</svg> 

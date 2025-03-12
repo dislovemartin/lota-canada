@@ -11,10 +11,23 @@ const nextConfig = {
   eslint: { ignoreDuringBuilds: false, dirs: ["app", "components", "lib", "hooks"] },
   typescript: { ignoreBuildErrors: false },
   images: {
-    domains: [
-      "hebbkx1anhila5yf.public.blob.vercel-storage.com",
-      "images.unsplash.com",
-      "plus.unsplash.com",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.lotacanada.org',
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
@@ -23,12 +36,6 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.lotacanada.org',
-      },
-    ],
   },
   experimental: {
     optimizeCss: true,

@@ -1,6 +1,6 @@
+import { ArticleCard } from "@/components/article-card"
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArticleCard } from "@/components/article-card"
 
 export const metadata: Metadata = {
   title: "Knowledge Hub | LOTA Canada",
@@ -26,7 +26,7 @@ export default function KnowledgePage() {
           url="/knowledge/emotional-intelligence-leadership"
           date="February 15, 2025"
           author="Sarah Johnson"
-          image="/images/emotional-intelligence.jpg"
+          image="/images/knowledge/leadership-article.svg"
           imageAlt="Leader demonstrating emotional intelligence in a team meeting"
         />
 
@@ -39,7 +39,7 @@ export default function KnowledgePage() {
           url="/knowledge/career-transitions"
           date="January 28, 2025"
           author="Michael Chen"
-          image="/images/career-transitions.jpg"
+          image="/images/knowledge/professional-growth.svg"
           imageAlt="Professional at a career crossroads considering different paths"
         />
 
@@ -52,7 +52,7 @@ export default function KnowledgePage() {
           url="/knowledge/professional-networking"
           date="February 5, 2025"
           author="Priya Patel"
-          image="/images/networking.jpg"
+          image="/images/knowledge/networking.svg"
           imageAlt="Professionals exchanging business cards at a networking event"
         />
 
@@ -65,7 +65,7 @@ export default function KnowledgePage() {
           url="/knowledge/time-management"
           date="January 12, 2025"
           author="David Wilson"
-          image="/images/time-management.jpg"
+          image="/images/knowledge/professional-growth.svg"
           imageAlt="Professional organizing tasks with a digital calendar"
         />
 
@@ -78,7 +78,7 @@ export default function KnowledgePage() {
           url="/knowledge/public-speaking"
           date="February 20, 2025"
           author="Emma Rodriguez"
-          image="/images/public-speaking.jpg"
+          image="/images/knowledge/leadership-article.svg"
           imageAlt="Speaker presenting to an engaged audience"
         />
 
@@ -91,7 +91,7 @@ export default function KnowledgePage() {
           url="/knowledge/leading-through-change"
           date="January 30, 2025"
           author="James Thompson"
-          image="/images/leading-change.jpg"
+          image="/images/knowledge/leadership-article.svg"
           imageAlt="Leader guiding team through organizational change"
         />
       </div>

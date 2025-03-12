@@ -30,7 +30,7 @@ const directors = [
     position: "CEO",
     bio: "Mo Mokbel is a dynamic and visionary leader at the helm of the Leaders of Tomorrow Association. With a diverse background spanning business management, entrepreneurship, and cryptocurrency, he brings a wealth of experience and expertise to the role. As CEO, Mo is responsible for overseeing all aspects of the association, from strategic planning and partnership development to program management and financial oversight. He is committed to fostering a vibrant community of young professionals, empowering them to thrive in their careers and make a positive impact on society.",
     affiliations: "HODL Digital Services: CEO",
-    image: "/directers/Mo Mokbel - CEO.jpg",
+    image: "/images/directors/Mo Mokbel - CEO.svg",
     linkedin: "#",
     email: "mo.mokbel@lotacanada.com",
   },
@@ -43,7 +43,7 @@ const directors = [
       "Educated at Korea University in Business Administration and complemented by a tenure at the South Korean President's Office",
     experience:
       "Daniel's international experience spans across the globe, having previously contributed to facilitating global dialogues at the G20 Summit, Nuclear Security Summit, and the UN General Assembly.",
-    image: "/directers/Daniel Kim - COO.jpg",
+    image: "/images/directors/Daniel Kim - COO.svg",
     linkedin: "#",
     email: "daniel.kim@lotacanada.com",
   },
@@ -52,7 +52,7 @@ const directors = [
     name: "Andrew Kim",
     position: "CTO",
     bio: "Andrew Kim, CTO at Connex Telecommunications Inc., brings a rich legacy of IT leadership from his previous roles. At Connex, since February 2020, he previously excelled as the Director of Client Engagement Services, mastering the deployment of complex cloud solutions and enhancing customer service technologies. His tenure at Bell Canada and IBM involved significant IT projects, focusing on integration and system optimization. His deep experience in managing technology strategies and vendor relationships positions him to lead Connex's technological advancements effectively, aligning with the company's strategic goals for growth and innovation.",
-    image: "/directers/Andrew Kim - CTO.jpg",
+    image: "/images/directors/Andrew Kim - CTO.svg",
     linkedin: "#",
     email: "andrew.kim@lotacanada.com",
   },
@@ -62,7 +62,7 @@ const directors = [
     position: "CFO",
     bio: "David is a seasoned financial expert and accomplished real estate developer in the Greater Toronto Area. With a robust background in both finance and property development, David brings a unique blend of financial acumen and industry knowledge to his role as Chief Financial Officer. David's experience in real estate development in the GTA has equipped him with a deep understanding of the local market dynamics and economic trends. As CFO, he leverages this expertise to ensure the financial health and sustainability of the association.",
     affiliations: "Trulife Developments Inc.: CEO",
-    image: "/directers/David Chau - CFO.jpg",
+    image: "/images/directors/David Chau - CFO.svg",
     linkedin: "#",
     email: "david.chau@lotacanada.com",
   },
@@ -75,7 +75,7 @@ const directors = [
       "Stone Yu is dedicated to bridging the gaps faced by emerging professionals by facilitating a platform where they can unite to exchange ideas, cultivate relationships, and enhance their skills. By promoting inclusivity and diversity, he empowers members to excel in their respective fields and contribute positively to Canada's multicultural society.",
     affiliations:
       "Lucullus Bakery Group: CEO, Partners International: Director, Markham Richmond Hill Vaughan Chinese Business Association: Director, SEAS foundation: VP & Director",
-    image: "/directers/Stone Yu - Founding President_.jpg",
+    image: "/images/directors/Stone Yu - Founding President.svg",
     linkedin: "#",
     email: "stone.yu@lotacanada.com",
   },
@@ -86,7 +86,7 @@ const directors = [
     bio: "Charles Yin, Business Development Manager of Sihuan Pharmaceutical Holdings Group Ltd; Investment Analyst of Everest Prestige Capital; Co-founder and Vice President of G.A.N. Golf Club; Graduated double major in Human Biology and Statistics from University of Toronto. As Vice President of Alliances, Charles is a strategic visionary adept at forging symbiotic partnerships to drive mutual growth and innovation.",
     expertise:
       "With a proven track record in cultivating and nurturing alliances across diverse industries, Charles excels in creating synergies that maximize resources and expand market reach. Drawing upon his extensive experience in business development and relationship management, Charles Yin is committed to driving organizational success through strategic alliances, alliances that not only amplify market presence but also foster innovation and drive value for all members involved.",
-    image: "/directers/Charles Yin - VP of membership_.jpg",
+    image: "/images/directors/Charles Yin - VP of membership.svg",
     linkedin: "#",
     email: "charles.yin@lotacanada.com",
   },
@@ -97,7 +97,7 @@ const directors = [
     bio: "Sue is a seasoned realtor and VP at Tyler McLay Realty Group working in the vibrant Toronto / GTA area, bringing a wealth of experience and dedication to every client interaction. A proud graduate of the prestigious Schulich School of Business, Sue combines her academic prowess with a genuine passion for community engagement. With a firm belief in the transformative power of connection, she thrives on fostering meaningful relationships within her community.",
     mission:
       "Beyond facilitating property transactions, her mission extends to guiding individuals towards their entrepreneurial dreams. Armed with versatile skills in marketing, event planning, fundraising, and mentorship, she is committed to empowering others to navigate the dynamic business landscape with confidence.",
-    image: "/directers/Sue Mclay - VP of Marketing_.jpg",
+    image: "/images/directors/Sue Mclay - VP of Marketing.svg",
     linkedin: "#",
     email: "sue.mclay@lotacanada.com",
   },
@@ -108,7 +108,7 @@ const directors = [
     bio: "Robin Nan is the Founder and President of G.A.N Golf Club and serves as the Marketing Manager at Everest Prestige. He graduated with a degree in Film and Television from Sheridan College, focusing his career on social platform building and entrepreneurial support. In the realm of platform building, Robin has developed a dynamic and resource-rich social network centered around golf, which has become a vital community hub.",
     expertise:
       "As for entrepreneurial support, Robin specializes in providing bridge financing and private loans to address the funding challenges faced by businesses and entrepreneurs. He maintains strong relationships with a broad spectrum of investors and venture capital funds, offering essential financing pathways and practical fundraising advice.",
-    image: "/directers/Robin Nan - VP of Alliances_.jpg",
+    image: "/images/directors/Robin Nan - VP of Alliances.svg",
     linkedin: "#",
     email: "robin.nan@lotacanada.com",
   },
@@ -118,7 +118,7 @@ const directors = [
     position: "VP of IT and Technology",
     bio: "Martin is a visionary entrepreneur and the founder of Soln AI and dve.ai, fueled by a profound passion for crafting inclusive AI solutions that uplift communities worldwide. His dedication to friendly innovation shines through his altruistic spirit, evident in his global educational initiatives aimed at inspiring others. Resourceful and adaptable, Martin excels at bridging cultural divides, leveraging his fluency in English and Mandarin to foster collaboration.",
     affiliations: "American Association for the Advancement of Science (AAAS)",
-    image: "/directers/Copy of Martin Lyn - Director_.jpg",
+    image: "/images/directors/Copy of Martin Lyn - Director.svg",
     linkedin: "#",
     email: "martin.lyu@lotacanada.com",
   },
@@ -127,7 +127,7 @@ const directors = [
     name: "Casper Pan",
     position: "Director",
     bio: "Casper Pan, an emerging entrepreneur with a passion for economics, finance, and commercial real estate investments. Armed with a background in Economics and Finance, Casper has honed his expertise in identifying advantageous opportunities and navigating the complexities of the real estate market. Committed to fostering the success of new and upcoming professionals, Casper is dedicated to building a robust network infrastructure that provides support, guidance, and opportunities for growth.",
-    image: "/directers/Casper Pan - Director_.jpg",
+    image: "/images/directors/Casper Pan - Director.svg",
     linkedin: "#",
     email: "casper.pan@lotacanada.com",
   },
@@ -154,47 +154,12 @@ export default function BoardPage() {
 
       <SectionDivider className="mb-16" />
 
-      {/* Executive Team Section */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-center mb-8">
-          Executive Leadership
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 max-w-7xl mx-auto">
-          {executiveTeam.map((director, index) => (
-            <DirectorCard key={director.id} director={director} index={index} />
-          ))}
-        </div>
+      {/* All Directors in a single grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        {directors.map((director, index) => (
+          <DirectorCard key={director.id} director={director} index={index} />
+        ))}
       </div>
-
-      {/* Vice Presidents Section */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold text-center mb-8">Vice Presidents</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {vicePresidents.map((director, index) => (
-            <DirectorCard
-              key={director.id}
-              director={director}
-              index={index + executiveTeam.length}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Board Members Section */}
-      {boardMembers.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-center mb-8">Board Members</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {boardMembers.map((director, index) => (
-              <DirectorCard
-                key={director.id}
-                director={director}
-                index={index + executiveTeam.length + vicePresidents.length}
-              />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -217,7 +182,7 @@ function DirectorCard({ director, index }: DirectorCardProps) {
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center h-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
     >
       <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-lg shadow-md group">
         <Image
@@ -254,17 +219,16 @@ function DirectorCard({ director, index }: DirectorCardProps) {
       </p>
 
       {/* Bio Modal Trigger */}
-      <button
-        className="text-sm text-center text-muted-foreground mb-2 hover:text-primary transition-colors line-clamp-3"
-        onClick={() => (window.location.hash = `bio-${director.id}`)}
-      >
-        {director.bio}
-      </button>
+      <div className="flex-grow">
+        <p className="text-sm text-center text-muted-foreground mb-2 line-clamp-3">
+          {director.bio}
+        </p>
+      </div>
 
       {/* View Full Bio Button */}
       <a
         href={`#bio-${director.id}`}
-        className="text-xs font-medium text-primary hover:underline"
+        className="mt-auto text-xs font-medium text-primary hover:underline"
       >
         View Full Bio
       </a>

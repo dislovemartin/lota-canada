@@ -159,7 +159,7 @@ export function ContactForm() {
         department: "",
         privacyPolicy: false,
       })
-      
+
       // Announce success to screen readers
       if (statusRegion) {
         statusRegion.textContent = 'Your message has been sent successfully.'
@@ -169,7 +169,7 @@ export function ContactForm() {
         success: false,
         message: "There was an error submitting your message. Please try again.",
       })
-      
+
       // Announce error to screen readers
       if (statusRegion) {
         statusRegion.textContent = 'There was an error submitting your message. Please try again.'
@@ -183,10 +183,10 @@ export function ContactForm() {
     <div>
       {/* Status region for screen readers */}
       <output id="form-status" className="sr-only" aria-live="polite" aria-atomic="true"></output>
-      
-      <form 
-        onSubmit={handleSubmit} 
-        className="space-y-6" 
+
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6"
         aria-label="Contact form"
         noValidate
       >
@@ -245,8 +245,8 @@ export function ContactForm() {
           <label htmlFor="department" className="block text-sm font-medium">
             Department <span className="text-red-500" aria-hidden="true">*</span>
           </label>
-          <Select 
-            value={formState.department} 
+          <Select
+            value={formState.department}
             onValueChange={handleDepartmentChange}
             required
           >
@@ -256,6 +256,7 @@ export function ContactForm() {
               aria-invalid={!!errors.department}
               aria-describedby={errors.department ? "department-error" : undefined}
               className={errors.department ? "border-red-500" : ""}
+              aria-label="Department selection"
             >
               <SelectValue placeholder="Select a department" />
             </SelectTrigger>
@@ -347,6 +348,7 @@ export function ContactForm() {
               aria-required="true"
               aria-invalid={!!errors.privacyPolicy}
               aria-describedby={errors.privacyPolicy ? "privacy-error" : undefined}
+              aria-label="I consent to LOTA Canada collecting and processing my data"
               required
             />
           </div>
@@ -372,6 +374,7 @@ export function ContactForm() {
             className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
             disabled={isSubmitting}
             aria-busy={isSubmitting}
+            aria-label="Send Message"
           >
             {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
@@ -379,9 +382,8 @@ export function ContactForm() {
 
         {submitResult && (
           <div
-            className={`p-4 rounded-md ${
-              submitResult.success ? "bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-            }`}
+            className={`p-4 rounded-md ${submitResult.success ? "bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+              }`}
             role="alert"
             aria-live="assertive"
           >
