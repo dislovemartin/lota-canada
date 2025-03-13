@@ -1,10 +1,13 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 export function AnimatedHeading({ title, subtitle, align = "left", className, subtitleClassName, size = "md", underline = false, }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const isInView = useInView(ref, {
+        once: true,
+        amount: 0.3,
+    });
     const alignClasses = {
         left: "text-left",
         center: "text-center",
@@ -22,10 +25,23 @@ export function AnimatedHeading({ title, subtitle, align = "left", className, su
           {title}
         </motion.span>
 
-        {underline && (<motion.span className="block h-1 bg-primary mt-2 rounded-full" initial={{ width: 0 }} animate={isInView ? { width: align === "center" ? "80px" : "40px" } : { width: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.215, 0.61, 0.355, 1] }} style={{ marginLeft: align === "center" ? "auto" : 0, marginRight: align === "center" ? "auto" : 0 }}/>)}
+        {underline && (<motion.span className="block h-1 bg-primary mt-2 rounded-full" initial={{ width: 0 }} animate={isInView
+                ? { width: align === "center" ? "80px" : "40px" }
+                : { width: 0 }} transition={{
+                duration: 0.8,
+                delay: 0.3,
+                ease: [0.215, 0.61, 0.355, 1],
+            }} style={{
+                marginLeft: align === "center" ? "auto" : 0,
+                marginRight: align === "center" ? "auto" : 0,
+            }}/>)}
       </h2>
 
-      {subtitle && (<motion.p className={cn("text-muted-foreground mt-4", subtitleClassName)} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.6, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }}>
+      {subtitle && (<motion.p className={cn("text-muted-foreground mt-4", subtitleClassName)} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{
+                duration: 0.6,
+                delay: 0.2,
+                ease: [0.215, 0.61, 0.355, 1],
+            }}>
           {subtitle}
         </motion.p>)}
     </div>);

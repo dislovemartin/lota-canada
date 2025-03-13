@@ -1,9 +1,9 @@
 "use client";
-import { useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, ArrowRight } from "lucide-react";
+import { ArrowRight, Facebook, Instagram, Linkedin, Mail, MapPin, Twitter, } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
 const navigation = {
     main: [
         { name: "Home", href: "/" },
@@ -63,12 +63,15 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
             <Link href="/" className="inline-block">
-              <span className="sr-only">LOTA - Leaders of Tomorrow Association</span>
+              <span className="sr-only">
+                LOTA - Leaders of Tomorrow Association
+              </span>
               <Image src="/placeholder.svg?height=40&width=180" alt="LOTA" width={180} height={40} className="h-10 w-auto"/>
             </Link>
 
             <p className="text-sm text-gray-300 max-w-xs">
-              Empowering the next generation of leaders through connection, education, and opportunity.
+              Empowering the next generation of leaders through connection,
+              education, and opportunity.
             </p>
 
             <div className="flex space-x-6">
@@ -115,7 +118,9 @@ export default function Footer() {
 
                   <div className="flex items-start">
                     <MapPin className="h-5 w-5 text-gray-400 mt-0.5 mr-3"/>
-                    <span className="text-sm text-gray-300">Toronto, Ontario, Canada</span>
+                    <span className="text-sm text-gray-300">
+                      Toronto, Ontario, Canada
+                    </span>
                   </div>
 
                   <div className="pt-2">
@@ -131,7 +136,8 @@ export default function Footer() {
 
         <div className="mt-16 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-xs text-gray-400 mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} Leaders of Tomorrow Association. All rights reserved.
+            &copy; {new Date().getFullYear()} Leaders of Tomorrow Association.
+            All rights reserved.
           </p>
 
           <div className="flex space-x-6">
@@ -151,7 +157,10 @@ function SocialLink({ item }) {
 }
 function FooterColumn({ title, children, className }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const isInView = useInView(ref, {
+        once: true,
+        amount: 0.3,
+    });
     return (<motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.6 }} className={className}>
       <h3 className="text-sm font-semibold text-white">{title}</h3>
       {children}

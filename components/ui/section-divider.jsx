@@ -1,10 +1,13 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
-export function SectionDivider({ className, width = "medium", color = "primary" }) {
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+export function SectionDivider({ className, width = "medium", color = "primary", }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const isInView = useInView(ref, {
+        once: true,
+        amount: 0.5,
+    });
     const widthClasses = {
         narrow: "max-w-xs",
         medium: "max-w-md",

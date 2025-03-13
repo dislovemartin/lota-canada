@@ -10,9 +10,8 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import * as React from "react";
 import { OTPInput, OTPInputContext } from "input-otp";
-import { Dot } from "lucide-react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 const InputOTP = React.forwardRef((_a, ref) => {
     var { className, containerClassName } = _a, props = __rest(_a, ["className", "containerClassName"]);
@@ -37,10 +36,10 @@ const InputOTPSlot = React.forwardRef((_a, ref) => {
 });
 InputOTPSlot.displayName = "InputOTPSlot";
 const InputOTPSeparator = React.forwardRef((_a, ref) => {
-    var props = __rest(_a, []);
-    return (<div ref={ref} role="separator" {...props}>
-    <Dot />
+    var { className } = _a, props = __rest(_a, ["className"]);
+    return (<div ref={ref} className={cn("flex items-center justify-center", className)} {...props}>
+    <div className="h-1 w-1 rounded-full bg-muted-foreground"/>
   </div>);
 });
 InputOTPSeparator.displayName = "InputOTPSeparator";
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator };
+export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };

@@ -1,10 +1,13 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
-export function AnimatedStats({ stats, className, columns = 4, variant = "default" }) {
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+export function AnimatedStats({ stats, className, columns = 4, variant = "default", }) {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const isInView = useInView(ref, {
+        once: true,
+        amount: 0.3,
+    });
     const [hasAnimated, setHasAnimated] = useState(false);
     useEffect(() => {
         if (isInView) {
@@ -32,7 +35,7 @@ export function AnimatedStats({ stats, className, columns = 4, variant = "defaul
       </div>
     </div>);
 }
-function CountUp({ from, to, duration, isInView, prefix = "", suffix = "" }) {
+function CountUp({ from, to, duration, isInView, prefix = "", suffix = "", }) {
     const [count, setCount] = useState(from);
     useEffect(() => {
         if (!isInView)

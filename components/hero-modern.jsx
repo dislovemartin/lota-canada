@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { cn } from "@/lib/utils";
 import { AnimatedButton } from "@/components/ui/animated-button";
-export function HeroModern({ title, subtitle, imageSrc, imageAlt, ctaText = "Learn More", ctaHref = "/about", secondaryCtaText = "Join Now", secondaryCtaHref = "/contact", className, }) {
+import { cn } from "@/lib/utils";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+export function HeroModern({ title, subtitle, imageSrc, imageAlt, ctaText = "Learn More", ctaHref = "/about", secondaryCtaText = "Join Now", secondaryCtaHref = "/contact", className, showLogo = true, overlayOpacity = 0.5, }) {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -17,16 +17,23 @@ export function HeroModern({ title, subtitle, imageSrc, imageAlt, ctaText = "Lea
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
     const titleWords = title.split(" ");
-    return (<div ref={ref} className={cn("relative h-[90vh] flex items-center overflow-hidden", className)} role="banner" aria-label="Hero section">
+    return (<div ref={ref} className={cn("relative h-screen w-full flex items-center overflow-hidden mt-0", className)} style={{ marginTop: 0 }} role="banner" aria-label="Hero section">
       {/* Parallax Background Image */}
       <motion.div className="absolute inset-0 z-0" style={{ y, opacity }}>
-        <Image src={imageSrc || "/placeholder.svg"} alt={imageAlt} fill priority className="object-cover" sizes="100vw" quality={90}/>
+        <Image src={imageSrc || "/placeholder.svg"} alt={imageAlt} fill priority className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw" quality={90}/>
         {/* Darker overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/60"/>
+        <div className="absolute inset-0 bg-black" style={{ opacity: overlayOpacity }}/>
       </motion.div>
 
+      {/* Logo Watermark (Optional) */}
+      {showLogo && (<div className="absolute right-10 bottom-10 opacity-20 z-0 hidden md:block">
+          <div className="relative h-auto w-auto overflow-hidden rounded-md bg-white/5">
+            <Image src="/images/brand/image.png" alt="LOTA Logo Watermark" width={325} height={48} className="object-contain"/>
+          </div>
+        </div>)}
+
       {/* Content */}
-      <div className="container-wide relative z-10 text-white">
+      <div className="container-wide relative z-10 text-white pt-24 md:pt-28">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 uppercase tracking-wide text-white">
             {isMounted ? (<>
@@ -40,7 +47,7 @@ export function HeroModern({ title, subtitle, imageSrc, imageAlt, ctaText = "Lea
               </>) : (title)}
           </h1>
 
-          {subtitle && (<motion.p className="text-xl mb-8 text-white font-medium" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}>
+          {subtitle && (<motion.p className="text-xl mb-8 text-white/90 font-medium max-w-2xl" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}>
               {subtitle}
             </motion.p>)}
 

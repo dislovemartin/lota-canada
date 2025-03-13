@@ -148,7 +148,7 @@ export function ContactForm() {
     return (<div>
       {/* Status region for screen readers */}
       <output id="form-status" className="sr-only" aria-live="polite" aria-atomic="true"></output>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6" aria-label="Contact form" noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
@@ -179,7 +179,7 @@ export function ContactForm() {
             Department <span className="text-red-500" aria-hidden="true">*</span>
           </label>
           <Select value={formState.department} onValueChange={handleDepartmentChange} required>
-            <SelectTrigger id="department" aria-required="true" aria-invalid={!!errors.department} aria-describedby={errors.department ? "department-error" : undefined} className={errors.department ? "border-red-500" : ""}>
+            <SelectTrigger id="department" aria-required="true" aria-invalid={!!errors.department} aria-describedby={errors.department ? "department-error" : undefined} className={errors.department ? "border-red-500" : ""} aria-label="Department selection">
               <SelectValue placeholder="Select a department"/>
             </SelectTrigger>
             <SelectContent>
@@ -234,7 +234,7 @@ export function ContactForm() {
 
         <div className="flex items-start">
           <div className="flex items-center h-5">
-            <Checkbox id="privacyPolicy" checked={formState.privacyPolicy} onCheckedChange={handlePrivacyPolicyChange} aria-required="true" aria-invalid={!!errors.privacyPolicy} aria-describedby={errors.privacyPolicy ? "privacy-error" : undefined} required/>
+            <Checkbox id="privacyPolicy" checked={formState.privacyPolicy} onCheckedChange={handlePrivacyPolicyChange} aria-required="true" aria-invalid={!!errors.privacyPolicy} aria-describedby={errors.privacyPolicy ? "privacy-error" : undefined} aria-label="I consent to LOTA Canada collecting and processing my data" required/>
           </div>
           <div className="ml-3 text-sm">
             <label htmlFor="privacyPolicy" className={`font-medium ${errors.privacyPolicy ? "text-red-500" : ""}`}>
@@ -248,7 +248,7 @@ export function ContactForm() {
         </div>
 
         <div>
-          <Button type="submit" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isSubmitting} aria-busy={isSubmitting}>
+          <Button type="submit" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isSubmitting} aria-busy={isSubmitting} aria-label="Send Message">
             {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
         </div>

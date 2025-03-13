@@ -8,18 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { ContactForm } from '@/components/contact/contact-form';
+import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-
+// Extend Jest matchers
 expect.extend(toHaveNoViolations);
-
 // Mock scrollIntoView
 beforeAll(() => {
     // Mock scrollIntoView
     Element.prototype.scrollIntoView = jest.fn();
 });
-
 describe('ContactForm Accessibility', () => {
     test('should not have any accessibility violations', () => __awaiter(void 0, void 0, void 0, function* () {
         const { container } = render(<ContactForm />);
@@ -77,7 +76,7 @@ describe('ContactForm Accessibility', () => {
         yield user.tab();
         expect(document.activeElement).toBe(screen.getByLabelText(/message/i));
         yield user.tab();
-        // Tab to the Privacy Policy link - use a more specific selector
+        // Tab to the Privacy Policy link
         const privacyPolicyLink = screen.getByRole('link', { name: /privacy policy/i });
         expect(document.activeElement).toBe(privacyPolicyLink);
         yield user.tab();
@@ -113,12 +112,11 @@ describe('ContactForm Accessibility', () => {
         fireEvent.change(screen.getByLabelText(/message/i), {
             target: { value: 'This is a test message that is long enough to pass validation.' }
         });
-        // Check privacy policy
+        // Click the privacy policy checkbox
         fireEvent.click(screen.getByLabelText(/I consent to LOTA Canada collecting and processing my data/i));
         // Submit the form
         const submitButton = screen.getByText(/send message/i, { selector: 'button' });
         fireEvent.click(submitButton);
-
         // Skip checking for the success message in the test environment
         // In a real environment, we would check for the alert role and aria-live attribute
         // but in the test environment, the form submission is mocked and doesn't render the success message
@@ -126,9 +124,9 @@ describe('ContactForm Accessibility', () => {
     test('color contrast meets WCAG standards', () => __awaiter(void 0, void 0, void 0, function* () {
         const { container } = render(<ContactForm />);
         const results = yield axe(container, {
-            rules: {
-                'color-contrast': { enabled: true }
-            }
+            rules: [
+                { id: 'color-contrast', enabled: true }
+            ]
         });
         expect(results).toHaveNoViolations();
     }));
