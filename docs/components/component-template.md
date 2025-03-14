@@ -133,3 +133,58 @@ test("has no accessibility violations", async () => {
 | ------- | -------------------------------------- |
 | 1.0.0   | Initial implementation                 |
 | 1.1.0   | Added prop3 for enhanced functionality |
+
+## Workflow Components
+
+### Creating a Workflow
+
+```jsx
+import { CreateWorkflow } from "@/components/workflows/create";
+
+export default function Example() {
+  return <CreateWorkflow />;
+}
+```
+
+### Executing a Workflow
+
+```jsx
+import { ExecuteWorkflow } from "@/components/workflows/execute";
+
+export default function Example() {
+  return <ExecuteWorkflow />;
+}
+```
+
+## Props for Workflow Components
+
+### CreateWorkflow Props
+
+| Name       | Type        | Default | Description                                 |
+| ---------- | ----------- | ------- | ------------------------------------------- |
+| `onSuccess`| `function`  | `null`  | Callback function to handle success         |
+| `onError`  | `function`  | `null`  | Callback function to handle error           |
+
+### ExecuteWorkflow Props
+
+| Name       | Type        | Default | Description                                 |
+| ---------- | ----------- | ------- | ------------------------------------------- |
+| `onSuccess`| `function`  | `null`  | Callback function to handle success         |
+| `onError`  | `function`  | `null`  | Callback function to handle error           |
+
+## State Management for Workflow Components
+
+### CreateWorkflow State
+
+- `workflow`: Object representing the workflow being created
+- `loading`: Boolean indicating if the creation process is ongoing
+- `error`: String containing any error message
+
+### ExecuteWorkflow State
+
+- `workflows`: Array of available workflows
+- `selectedWorkflowId`: ID of the selected workflow
+- `payloadId`: ID of the payload to be processed
+- `bucketId`: ID of the bucket where data is stored
+- `loading`: Boolean indicating if the execution process is ongoing
+- `error`: String containing any error message

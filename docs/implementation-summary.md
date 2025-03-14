@@ -24,6 +24,7 @@ This document summarizes the implementation work completed for the LOTA Canada w
 - ✅ Developed detailed accessibility strategy document
 - ✅ Created user testing plan with scenarios, participant recruitment, and analysis methods
 - ✅ Created component documentation template for consistent documentation
+- ✅ Added documentation for workflow setup and usage
 
 ### CI/CD Pipeline
 
@@ -81,6 +82,7 @@ This document summarizes the implementation work completed for the LOTA Canada w
 - [Accessibility Strategy](/docs/accessibility-strategy.md)
 - [User Testing Plan](/docs/testing/user-testing-plan.md)
 - [Component Documentation Template](/docs/components/component-template.md)
+- [Workflow Setup and Usage Documentation](/docs/components/workflow-setup-usage.md)
 
 ## Team Responsibilities
 
