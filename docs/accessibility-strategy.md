@@ -149,6 +149,31 @@ Content must be robust enough that it can be interpreted by a wide variety of us
 </div>
 ```
 
+### Workflow Components
+
+- Ensure all workflow-related components are keyboard accessible
+- Provide appropriate ARIA roles and states for workflow forms
+- Implement proper focus management for workflow creation and execution interfaces
+- Ensure sufficient touch target size for mobile users
+
+```jsx
+// Workflow creation form implementation
+<form aria-labelledby="create-workflow-form">
+  <h2 id="create-workflow-form">Create Workflow</h2>
+  <label htmlFor="workflow-name">Workflow Name</label>
+  <input id="workflow-name" name="workflow-name" aria-required="true" />
+  <button type="submit">Create</button>
+</form>
+
+// Workflow execution form implementation
+<form aria-labelledby="execute-workflow-form">
+  <h2 id="execute-workflow-form">Execute Workflow</h2>
+  <label htmlFor="workflow-id">Workflow ID</label>
+  <input id="workflow-id" name="workflow-id" aria-required="true" />
+  <button type="submit">Execute</button>
+</form>
+```
+
 ## Testing Methodology
 
 ### Automated Testing

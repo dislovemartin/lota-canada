@@ -150,6 +150,22 @@ We will recruit participants from the following user groups:
    - Verify that all information is perceivable
    - Ensure no information is conveyed by color alone
 
+### Workflow Component Scenarios
+
+1. **Creating a Workflow**
+
+   - Navigate to the workflow creation page
+   - Fill out the workflow creation form
+   - Add tasks to the workflow
+   - Submit the workflow creation form
+
+2. **Executing a Workflow**
+
+   - Navigate to the workflow execution page
+   - Select a workflow to execute
+   - Enter the required parameters for execution
+   - Submit the workflow execution form
+
 ## Data Collection
 
 ### Metrics to Collect
