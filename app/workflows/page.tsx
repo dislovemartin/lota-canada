@@ -30,9 +30,10 @@ export default function WorkflowsPage() {
           const response = await client.getWorkflowInstances();
           setInstances(response.data);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error fetching data:", err);
         setError(
+          err.message ||
           "Failed to fetch data. The MONAI Workflow Manager might not be running."
         );
       } finally {
@@ -69,21 +70,19 @@ export default function WorkflowsPage() {
           <nav className="-mb-px flex space-x-8">
             <button
               onClick={() => setActiveTab("workflows")}
-              className={`${
-                activeTab === "workflows"
-                  ? "border-indigo-500 text-indigo-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              className={`${activeTab === "workflows"
+                ? "border-indigo-500 text-indigo-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
             >
               Workflows
             </button>
             <button
               onClick={() => setActiveTab("instances")}
-              className={`${
-                activeTab === "instances"
-                  ? "border-indigo-500 text-indigo-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+              className={`${activeTab === "instances"
+                ? "border-indigo-500 text-indigo-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
             >
               Workflow Instances
             </button>
@@ -100,9 +99,14 @@ export default function WorkflowsPage() {
           <strong className="font-bold">Error:</strong>
           <span className="block sm:inline"> {error}</span>
           <p className="mt-2">
-            Make sure the MONAI Workflow Manager is running and accessible at
-            http://localhost:5000.
+            Make sure the MONAI Workflow Manager is running and accessible. Troubleshooting steps:
           </p>
+          <ul className="list-disc ml-6 mt-1">
+            <li>Check if the MONAI Workflow Manager service is running</li>
+            <li>Verify the API URL in your environment configuration</li>
+            <li>Check for CORS issues if running in development mode</li>
+            <li>Ensure network connectivity between your browser and the API server</li>
+          </ul>
         </div>
       ) : (
         <>

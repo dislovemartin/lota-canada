@@ -26,9 +26,9 @@ fi
 echo -e "${GREEN}Build successful!${NC}"
 
 # Set environment variables if needed
-# echo -e "${YELLOW}Setting environment variables...${NC}"
-# vercel env add NEXT_PUBLIC_API_URL
-# vercel env add NEXT_PUBLIC_MONAI_WORKFLOW_API_URL
+echo -e "${YELLOW}Setting environment variables...${NC}"
+vercel env add NEXT_PUBLIC_API_URL
+vercel env add NEXT_PUBLIC_MONAI_WORKFLOW_API_URL
 
 # Deploy to Vercel
 echo -e "${YELLOW}Deploying to Vercel...${NC}"

@@ -1,6 +1,17 @@
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
 export default function MinimalPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MinimalContent />
+    </Suspense>
+  );
+}
+
+function MinimalContent() {
   return (
     <div className="flex min-h-svh items-center justify-center">
       <div className="flex flex-col items-center gap-2">

@@ -1,41 +1,36 @@
 "use client";
 
-import type React from "react";
 
-import { motion, useInView } from "framer-motion";
+import { siteConfig } from "@/config/site";
+import { motion } from "framer-motion";
 import {
-  ArrowRight,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Mail,
-  MapPin,
-  Twitter,
+    Facebook,
+    Instagram,
+    Linkedin,
+    Mail,
+    Twitter,
+    Video
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
 
 const navigation = {
   main: [
-    { name: "Home", href: "/" },
-    { name: "Mission", href: "/mission" },
+    { name: "About", href: "/about" },
+    { name: "Programs", href: "/programs" },
     { name: "Events", href: "/events" },
     { name: "Knowledge", href: "/knowledge" },
-    { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ],
   programs: [
     { name: "Mentorship Program", href: "/programs/mentorship" },
-    { name: "Leadership Workshop Series", href: "/programs/workshops" },
-    { name: "Community Engagement", href: "/programs/community" },
-    { name: "Executive Mentorship", href: "/programs/executive-mentorship" },
+    { name: "Leadership Workshops", href: "/programs/leadership-workshops" },
+    { name: "Community Engagement", href: "/programs/community-engagement" },
   ],
   knowledge: [
-    { name: "Articles", href: "/knowledge" },
-    { name: "Research", href: "/knowledge/research" },
+    { name: "Articles", href: "/knowledge/articles" },
     { name: "Resources", href: "/knowledge/resources" },
-    { name: "Case Studies", href: "/knowledge/case-studies" },
+    { name: "Research", href: "/knowledge/research" },
   ],
   legal: [
     { name: "Privacy Policy", href: "/privacy" },
@@ -45,215 +40,235 @@ const navigation = {
   social: [
     {
       name: "Facebook",
-      href: "#",
+      href: "https://facebook.com",
       icon: Facebook,
     },
     {
-      name: "Instagram",
-      href: "#",
-      icon: Instagram,
-    },
-    {
       name: "Twitter",
-      href: "#",
+      href: "https://twitter.com",
       icon: Twitter,
     },
     {
+      name: "Instagram",
+      href: "https://instagram.com",
+      icon: Instagram,
+    },
+    {
       name: "LinkedIn",
-      href: "#",
+      href: "https://linkedin.com",
       icon: Linkedin,
+    },
+    {
+      name: "YouTube",
+      href: "https://youtube.com",
+      icon: Video,
     },
   ],
 };
 
-export default function Footer() {
+const footerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+export function Footer() {
   return (
-    <footer className="bg-black text-white" aria-labelledby="footer-heading">
-      <h2 id="footer-heading" className="sr-only">
-        Footer
-      </h2>
-
-      <div className="container-wide mx-auto pt-16 pb-8">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="space-y-8">
-            <Link href="/" className="inline-block">
-              <span className="sr-only">
-                LOTA - Leaders of Tomorrow Association
-              </span>
+    <footer className="bg-black text-white">
+      {/* Top pattern */}
+      <div className="h-24 bg-gradient-to-b from-black/0 to-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay" />
+        <div className="grid grid-cols-20 h-full w-full">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} className="border-[0.5px] border-white/5" />
+          ))}
+        </div>
+      </div>
+      
+      <div className="container-wide pt-12 pb-8 relative">
+        {/* Background accents */}
+        <motion.div 
+          className="absolute -top-[20%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-500/5 blur-3xl"
+          animate={{
+            x: [0, 20, 0],
+            y: [0, 10, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        />
+        <motion.div 
+          className="absolute -bottom-[10%] -right-[10%] w-[30%] h-[30%] rounded-full bg-purple-500/5 blur-3xl"
+          animate={{
+            x: [0, -20, 0],
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        />
+        
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-20 pt-10 relative z-10"
+          variants={footerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {/* Brand column */}
+          <motion.div className="lg:col-span-2" variants={itemVariants}>
+            <Link href="/" className="inline-block mb-6">
               <Image
-                src="/placeholder.svg?height=40&width=180"
-                alt="LOTA"
-                width={180}
-                height={40}
-                className="h-10 w-auto"
+                src="/images/logo.svg"
+                alt={siteConfig.name}
+                width={50}
+                height={50}
+                className="mb-4"
               />
+              <h3 className="text-xl font-semibold tracking-tight">{siteConfig.name}</h3>
             </Link>
-
-            <p className="text-sm text-gray-300 max-w-xs">
-              Empowering the next generation of leaders through connection,
-              education, and opportunity.
+            <p className="text-gray-400 max-w-xs mb-6">
+              Empowering professionals through networking, mentorship, and leadership development opportunities across Canada.
             </p>
-
-            <div className="flex space-x-6">
+            <div className="flex space-x-5">
               {navigation.social.map((item) => (
-                <SocialLink key={item.name} item={item} />
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  aria-label={item.name}
+                >
+                  <item.icon className="h-5 w-5" />
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Navigation columns */}
+          <motion.div className="lg:col-span-1" variants={itemVariants}>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Navigation</h3>
+            <ul className="space-y-3">
+              {navigation.main.map((item) => (
+                <li key={item.name}>
+                  <Link 
+                    href={item.href} 
+                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div className="lg:col-span-1" variants={itemVariants}>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Programs</h3>
+            <ul className="space-y-3">
+              {navigation.programs.map((item) => (
+                <li key={item.name}>
+                  <Link 
+                    href={item.href} 
+                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div className="lg:col-span-1" variants={itemVariants}>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Resources</h3>
+            <ul className="space-y-3">
+              {navigation.knowledge.map((item) => (
+                <li key={item.name}>
+                  <Link 
+                    href={item.href} 
+                    className="text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact / Newsletter */}
+          <motion.div className="lg:col-span-1" variants={itemVariants}>
+            <h3 className="text-lg font-semibold mb-4 text-white/90">Contact Us</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-primary" />
+                <a href="mailto:info@lotacanada.org" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  info@lotacanada.org
+                </a>
+              </div>
+              <form className="mt-6">
+                <label htmlFor="email-address" className="sr-only">
+                  Email address
+                </label>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="min-w-0 flex-auto rounded-md border border-white/10 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 placeholder:text-gray-400"
+                    placeholder="Join our newsletter"
+                  />
+                  <button
+                    type="submit"
+                    className="flex-none rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  >
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom section */}
+        <motion.div
+          className="mt-16 pt-8 border-t border-white/10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <p className="text-gray-400 text-sm">
+                &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+              </p>
+            </div>
+            <div className="flex space-x-6">
+              {navigation.legal.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
               ))}
             </div>
           </div>
-
-          <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <FooterColumn title="Navigation">
-                <div className="mt-6 space-y-4">
-                  {navigation.main.map((item) => (
-                    <FooterLink key={item.name} href={item.href}>
-                      {item.name}
-                    </FooterLink>
-                  ))}
-                </div>
-              </FooterColumn>
-
-              <FooterColumn title="Programs" className="mt-10 md:mt-0">
-                <div className="mt-6 space-y-4">
-                  {navigation.programs.map((item) => (
-                    <FooterLink key={item.name} href={item.href}>
-                      {item.name}
-                    </FooterLink>
-                  ))}
-                </div>
-              </FooterColumn>
-            </div>
-
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <FooterColumn title="Knowledge">
-                <div className="mt-6 space-y-4">
-                  {navigation.knowledge.map((item) => (
-                    <FooterLink key={item.name} href={item.href}>
-                      {item.name}
-                    </FooterLink>
-                  ))}
-                </div>
-              </FooterColumn>
-
-              <FooterColumn title="Contact Us" className="mt-10 md:mt-0">
-                <div className="mt-6 space-y-4">
-                  <div className="flex items-start">
-                    <Mail className="h-5 w-5 text-gray-400 mt-0.5 mr-3" />
-                    <a
-                      href="mailto:info@lotacanada.com"
-                      className="text-sm text-gray-300 hover:text-white transition-colors"
-                    >
-                      info@lotacanada.com
-                    </a>
-                  </div>
-
-                  <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-gray-400 mt-0.5 mr-3" />
-                    <span className="text-sm text-gray-300">
-                      Toronto, Ontario, Canada
-                    </span>
-                  </div>
-
-                  <div className="pt-2">
-                    <a
-                      href="/contact"
-                      className="inline-flex items-center text-sm text-white hover:text-gray-300 transition-colors"
-                    >
-                      Contact Us <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-              </FooterColumn>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-16 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-xs text-gray-400 mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} Leaders of Tomorrow Association.
-            All rights reserved.
-          </p>
-
-          <div className="flex space-x-6">
-            {navigation.legal.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-xs text-gray-400 hover:text-gray-300 transition-colors"
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
-  );
-}
-
-interface SocialLinkProps {
-  item: {
-    name: string;
-    href: string;
-    icon: React.ComponentType<{ className?: string }>;
-  };
-}
-
-function SocialLink({ item }: SocialLinkProps) {
-  return (
-    <a
-      href={item.href}
-      className="text-gray-400 hover:text-white transition-colors"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <span className="sr-only">{item.name}</span>
-      <item.icon className="h-6 w-6" aria-hidden="true" />
-    </a>
-  );
-}
-
-interface FooterColumnProps {
-  title: string;
-  children: React.ReactNode;
-  className?: string;
-}
-
-function FooterColumn({ title, children, className }: FooterColumnProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
-    once: true,
-    amount: 0.3,
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.6 }}
-      className={className}
-    >
-      <h3 className="text-sm font-semibold text-white">{title}</h3>
-      {children}
-    </motion.div>
-  );
-}
-
-interface FooterLinkProps {
-  href: string;
-  children: React.ReactNode;
-}
-
-function FooterLink({ href, children }: FooterLinkProps) {
-  return (
-    <div>
-      <Link
-        href={href}
-        className="text-sm text-gray-300 hover:text-white transition-colors"
-      >
-        {children}
-      </Link>
-    </div>
   );
 }

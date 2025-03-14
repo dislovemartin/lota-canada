@@ -36,8 +36,8 @@ export function createDynamicComponent<T>(
  * 
  * @param importFunc - Function that imports the component
  */
-export function preloadComponent(
-  importFunc: () => Promise<{ default: ComponentType<any> }>
+export function preloadComponent<T>(
+  importFunc: () => Promise<{ default: ComponentType<T> }>
 ) {
   // This will trigger the import but not render anything
   // In Next.js 15, we can't use preload directly, so we'll use the import directly

@@ -7,7 +7,8 @@ import { SectionDivider } from "@/components/ui/section-divider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, useInView } from "framer-motion";
 import { ArrowUpDown, Download, FileText, Search } from "lucide-react";
-import { useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useRef, useState } from "react";
 
 // Sample resources data
 const resources = [
@@ -88,9 +89,20 @@ const categories = [
 ];
 
 export default function ResourcesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  return (
+    <Suspense fallback={<div>Loading resources...</div>}>
+      <ResourcesContent />
+    </Suspense>
+  );
+}
+
+function ResourcesContent() {
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams?.get("q") || "");
+  const [selectedCategory, setSelectedCategory] = useState(searchParams?.get("category") || "all");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(
+    (searchParams?.get("sort") as "asc" | "desc") || "desc"
+  );
 
   const filteredResources = resources
     .filter((resource) => {

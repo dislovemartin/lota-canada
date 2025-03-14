@@ -82,7 +82,11 @@ export function LazyLoad({
     // Check if we're in a browser environment with requestIdleCallback
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       // Use requestIdleCallback with proper typing
-      (window as any).requestIdleCallback(() => {
+      interface WindowWithIdleCallback extends Window {
+        requestIdleCallback: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      }
+      
+      (window as WindowWithIdleCallback).requestIdleCallback(() => {
         // If still not visible after idle, check if it's in viewport now
         if (!isVisible && containerRef.current) {
           const rect = containerRef.current.getBoundingClientRect();

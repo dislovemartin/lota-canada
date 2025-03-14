@@ -134,14 +134,21 @@ const directors = [
 ];
 
 export default function BoardPage() {
-  // Filter directors by role type
-  const executiveTeam = directors.filter((d) =>
+  // Sort directors to place President at the top, then maintain original order for others
+  const sortedDirectors = [...directors].sort((a, b) => {
+    if (a.position === "President") return -1;
+    if (b.position === "President") return 1;
+    return 0;
+  });
+
+  // Filter directors by role type (using the sorted array)
+  const executiveTeam = sortedDirectors.filter((d) =>
     ["CEO", "COO", "CTO", "CFO", "President"].includes(d.position)
   );
 
-  const vicePresidents = directors.filter((d) => d.position.startsWith("VP"));
+  const vicePresidents = sortedDirectors.filter((d) => d.position.startsWith("VP"));
 
-  const boardMembers = directors.filter((d) => d.position === "Director");
+  const boardMembers = sortedDirectors.filter((d) => d.position === "Director");
 
   return (
     <div className="container-wide mx-auto py-16">
@@ -156,7 +163,7 @@ export default function BoardPage() {
 
       {/* All Directors in a single grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-        {directors.map((director, index) => (
+        {sortedDirectors.map((director, index) => (
           <DirectorCard key={director.id} director={director} index={index} />
         ))}
       </div>

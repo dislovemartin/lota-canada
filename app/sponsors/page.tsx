@@ -5,7 +5,7 @@ import { AnimatedHeading } from "@/components/ui/animated-heading";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { Suspense, useRef } from "react";
 
 const sponsorTiers = [
   {
@@ -74,6 +74,14 @@ const sponsorTiers = [
 ];
 
 export default function SponsorsPage() {
+  return (
+    <Suspense fallback={<div>Loading sponsors...</div>}>
+      <SponsorsContent />
+    </Suspense>
+  );
+}
+
+function SponsorsContent() {
   return (
     <div className="container-wide mx-auto py-16">
       <AnimatedHeading

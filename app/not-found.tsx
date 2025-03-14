@@ -1,6 +1,6 @@
-"use client";
-import { AnimatedButton } from "@/components/ui/animated-button";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+import Link from "next/link";
 
 // Custom SVG icons to replace Lucide icons
 const HomeIcon = () => (
@@ -37,50 +37,30 @@ const ArrowLeftIcon = () => (
   </svg>
 );
 
+export const metadata: Metadata = {
+  title: "Page Not Found | LOTA Canada",
+  description: "The page you are looking for could not be found. Please check the URL or navigate back to the homepage.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 export default function NotFound() {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <div className="container max-w-md text-center">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-9xl font-bold text-primary">404</h1>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <h2 className="text-2xl font-medium mt-4 mb-6">Page Not Found</h2>
-          <p className="text-muted-foreground mb-8">
-            The page you are looking for might have been removed, had its name
-            changed, or is temporarily unavailable.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          <AnimatedButton href="/" variant="primary" className="gap-2">
-            <HomeIcon />
-            Back to Home
-          </AnimatedButton>
-
-          <AnimatedButton
-            href="javascript:history.back()"
-            variant="outline"
-            className="gap-2"
-          >
-            <ArrowLeftIcon />
-            Go Back
-          </AnimatedButton>
-        </motion.div>
+    <div className="container flex flex-col items-center justify-center min-h-[70vh] py-24 text-center">
+      <h1 className="text-6xl font-bold mb-6">404</h1>
+      <h2 className="text-3xl font-semibold mb-4">Page Not Found</h2>
+      <p className="text-xl text-muted-foreground max-w-md mb-8">
+        The page you are looking for could not be found. It might have been moved, deleted, or never existed.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Button asChild size="lg">
+          <Link href="/">Return to Homepage</Link>
+        </Button>
+        <Button asChild variant="outline" size="lg">
+          <Link href="/contact">Contact Support</Link>
+        </Button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { TestimonialCard } from "@/components/ui/testimonial-card";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 // Sample testimonials data
 const testimonials = [
@@ -17,7 +17,7 @@ const testimonials = [
     title: "Program Participant, 2023",
     testimonial:
       "The mentorship and networking opportunities provided by LOTA have been instrumental in my professional development. The connections I've made and the skills I've gained have truly transformed my career trajectory.",
-    rating: 5,
+    rating: 5 as const,
     avatarSrc: "/placeholder.svg?height=80&width=80",
     featured: true,
   },
@@ -27,7 +27,7 @@ const testimonials = [
     title: "Marketing Director, Tech Innovations Inc.",
     testimonial:
       "The Executive Mentorship Program provided me with invaluable guidance at a critical point in my career. My mentor helped me navigate complex challenges and identify opportunities for growth.",
-    rating: 4,
+    rating: 4 as const,
     avatarSrc: "/placeholder.svg?height=80&width=80",
     featured: false,
   },
@@ -37,7 +37,7 @@ const testimonials = [
     title: "Operations Manager, Global Solutions",
     testimonial:
       "Participating in the Leadership Workshop Series transformed my approach to team management. The practical strategies I learned have helped me build a more collaborative and productive work environment.",
-    rating: 5,
+    rating: 5 as const,
     avatarSrc: "/placeholder.svg?height=80&width=80",
     featured: true,
   },
@@ -74,6 +74,14 @@ const testimonials = [
 ];
 
 export default function TestimonialsPage() {
+  return (
+    <Suspense fallback={<div>Loading testimonials...</div>}>
+      <TestimonialsContent />
+    </Suspense>
+  );
+}
+
+function TestimonialsContent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const featuredTestimonials = testimonials.filter((t) => t.featured);
 
@@ -100,7 +108,7 @@ export default function TestimonialsPage() {
 
       {/* Featured Testimonial Carousel */}
       <div className="relative max-w-4xl mx-auto mt-16 mb-24">
-        <div className="absolute -top-12 left-0 text-6xl text-primary/10">
+        <div className="absolute -top-12 left-0 text-6xl text-blue-700/10">
           <Quote />
         </div>
 
@@ -154,6 +162,7 @@ export default function TestimonialsPage() {
             size="icon"
             onClick={handlePrevious}
             aria-label="Previous testimonial"
+            className="border-blue-700 text-blue-700 hover:bg-blue-50"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -163,7 +172,7 @@ export default function TestimonialsPage() {
               <button
                 key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? "bg-primary" : "bg-gray-300"
+                  index === currentIndex ? "bg-blue-700" : "bg-gray-300 hover:bg-blue-300"
                 }`}
                 onClick={() => setCurrentIndex(index)}
                 aria-label={`Go to testimonial ${index + 1}`}
@@ -176,6 +185,7 @@ export default function TestimonialsPage() {
             size="icon"
             onClick={handleNext}
             aria-label="Next testimonial"
+            className="border-blue-700 text-blue-700 hover:bg-blue-50"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
@@ -234,10 +244,7 @@ interface TestimonialItemProps {
 
 function TestimonialItem({ testimonial, index }: TestimonialItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref as React.RefObject<HTMLElement>, {
-    once: true,
-    amount: 0.3,
-  });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <motion.div
@@ -245,13 +252,13 @@ function TestimonialItem({ testimonial, index }: TestimonialItemProps) {
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-white p-8 shadow-sm"
+      className="bg-white p-8 shadow-sm rounded-lg hover:shadow-md transition-shadow duration-300"
     >
       <TestimonialCard
-        name={testimonial.name}
-        title={testimonial.title}
-        testimonial={testimonial.testimonial}
-        rating={testimonial.rating}
+        author={testimonial.name}
+        role={testimonial.title}
+        quote={testimonial.testimonial}
+        rating={testimonial.rating as 1 | 2 | 3 | 4 | 5}
         avatarSrc={testimonial.avatarSrc}
       />
     </motion.div>

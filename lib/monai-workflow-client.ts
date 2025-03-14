@@ -48,7 +48,7 @@ export interface WorkflowInstance {
   start_time?: string;
   status?: string;
   bucket_id?: string;
-  input_metadata?: Record<string, any>;
+  input_metadata?: Record<string, unknown>;
   tasks?: WorkflowInstanceTask[];
 }
 
@@ -58,17 +58,17 @@ export interface WorkflowInstanceTask {
   task_type?: string;
   task_start_time?: string;
   task_end_time?: string | null;
-  execution_stats?: Record<string, any>;
+  execution_stats?: Record<string, unknown>;
   task_plugin_arguments?: Record<string, string>;
   task_id?: string;
   previous_task_id?: string;
   status?: string;
   reason?: string;
-  input_artifacts?: Record<string, any>;
-  output_artifacts?: Record<string, any>;
+  input_artifacts?: Record<string, unknown>;
+  output_artifacts?: Record<string, unknown>;
   output_directory?: string;
-  result?: Record<string, any>;
-  input_parameters?: Record<string, any>;
+  result?: Record<string, unknown>;
+  input_parameters?: Record<string, unknown>;
   next_timeout?: string;
 }
 
@@ -88,13 +88,27 @@ export interface PaginatedResponse<T> {
 export class MonaiWorkflowClient {
   private baseUrl: string;
   private headers: HeadersInit;
+  private useProxy: boolean;
 
-  constructor(baseUrl: string = "http://localhost:5000", apiKey?: string) {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl: string = process.env.NEXT_PUBLIC_MONAI_WORKFLOW_API_URL || "http://localhost:5000", apiKey?: string) {
+    // If baseUrl is provided, use it directly (for backward compatibility)
+    // Otherwise, use the Next.js API routes as a proxy
+    this.useProxy = !baseUrl;
+    this.baseUrl = baseUrl || "";
     this.headers = {
       "Content-Type": "application/json",
       ...(apiKey && { Authorization: `Bearer ${apiKey}` }),
     };
+  }
+
+  // Helper method to get the appropriate URL
+  private getUrl(endpoint: string): string {
+    if (this.useProxy) {
+      // Use Next.js API routes as a proxy
+      return `/api/monai${endpoint}`;
+    }
+    // Use direct connection to MONAI Workflow Manager
+    return `${this.baseUrl}${endpoint}`;
   }
 
   // Workflows API
@@ -102,70 +116,120 @@ export class MonaiWorkflowClient {
     pageNumber: number = 1,
     pageSize: number = 10
   ): Promise<PaginatedResponse<Workflow>> {
-    const response = await fetch(
-      `${this.baseUrl}/workflows?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-      {
+    try {
+      const url = this.getUrl(`/workflows?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+      const response = await fetch(url, {
         method: "GET",
         headers: this.headers,
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to get workflows: ${response.statusText}`);
       }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to get workflows: ${response.statusText}`);
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching workflows:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async getWorkflow(id: string): Promise<Workflow> {
-    const response = await fetch(`${this.baseUrl}/workflows/${id}`, {
-      method: "GET",
-      headers: this.headers,
-    });
+    try {
+      const url = this.getUrl(`/workflows/${id}`);
+      const response = await fetch(url, {
+        method: "GET",
+        headers: this.headers,
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get workflow: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to get workflow: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching workflow:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async createWorkflow(workflow: Workflow): Promise<Workflow> {
-    const response = await fetch(`${this.baseUrl}/workflows`, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify(workflow),
-    });
+    try {
+      const url = this.getUrl("/workflows");
+      const response = await fetch(url, {
+        method: "POST",
+        headers: this.headers,
+        body: JSON.stringify(workflow),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to create workflow: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to create workflow: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error creating workflow:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async updateWorkflow(id: string, workflow: Workflow): Promise<Workflow> {
-    const response = await fetch(`${this.baseUrl}/workflows/${id}`, {
-      method: "PUT",
-      headers: this.headers,
-      body: JSON.stringify(workflow),
-    });
+    try {
+      const url = this.getUrl(`/workflows/${id}`);
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: this.headers,
+        body: JSON.stringify(workflow),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to update workflow: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to update workflow: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error updating workflow:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async deleteWorkflow(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/workflows/${id}`, {
-      method: "DELETE",
-      headers: this.headers,
-    });
+    try {
+      const url = this.getUrl(`/workflows/${id}`);
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: this.headers,
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to delete workflow: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to delete workflow: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error deleting workflow:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
   }
 
@@ -176,43 +240,64 @@ export class MonaiWorkflowClient {
     status?: string,
     payloadId?: string
   ): Promise<PaginatedResponse<WorkflowInstance>> {
-    let url = `${this.baseUrl}/workflowinstances?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    try {
+      let url = this.getUrl(`/workflowinstances?pageNumber=${pageNumber}&pageSize=${pageSize}`);
 
-    if (status) {
-      url += `&status=${status}`;
+      if (status) {
+        url += `&status=${status}`;
+      }
+
+      if (payloadId) {
+        url += `&payloadId=${payloadId}`;
+      }
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: this.headers,
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to get workflow instances: ${response.statusText}`
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching workflow instances:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    if (payloadId) {
-      url += `&payloadId=${payloadId}`;
-    }
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: this.headers,
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to get workflow instances: ${response.statusText}`
-      );
-    }
-
-    return await response.json();
   }
 
   async getWorkflowInstance(id: string): Promise<WorkflowInstance> {
-    const response = await fetch(`${this.baseUrl}/workflowinstances/${id}`, {
-      method: "GET",
-      headers: this.headers,
-    });
+    try {
+      const url = this.getUrl(`/workflowinstances/${id}`);
+      const response = await fetch(url, {
+        method: "GET",
+        headers: this.headers,
+      });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to get workflow instance: ${response.statusText}`
-      );
+      if (!response.ok) {
+        throw new Error(
+          `Failed to get workflow instance: ${response.statusText}`
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching workflow instance:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async createWorkflowInstance(
@@ -220,56 +305,86 @@ export class MonaiWorkflowClient {
     payloadId: string,
     bucketId: string
   ): Promise<WorkflowInstance> {
-    const response = await fetch(`${this.baseUrl}/workflowinstances`, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify({
-        workflow_id: workflowId,
-        payload_id: payloadId,
-        bucket_id: bucketId,
-      }),
-    });
+    try {
+      const url = this.getUrl(`/workflowinstances`);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: this.headers,
+        body: JSON.stringify({
+          workflow_id: workflowId,
+          payload_id: payloadId,
+          bucket_id: bucketId,
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to create workflow instance: ${response.statusText}`
-      );
+      if (!response.ok) {
+        throw new Error(
+          `Failed to create workflow instance: ${response.statusText}`
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error creating workflow instance:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 
   async acknowledgeFailedTask(
     instanceId: string,
     taskId: string
   ): Promise<void> {
-    const response = await fetch(
-      `${this.baseUrl}/workflowinstances/${instanceId}/tasks/${taskId}/acknowledge`,
-      {
+    try {
+      const url = this.getUrl(`/workflowinstances/${instanceId}/tasks/${taskId}/acknowledge`);
+      const response = await fetch(url, {
         method: "PUT",
         headers: this.headers,
-      }
-    );
+      });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to acknowledge failed task: ${response.statusText}`
-      );
+      if (!response.ok) {
+        throw new Error(
+          `Failed to acknowledge failed task: ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      console.error("Error acknowledging failed task:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
   }
 
   // Health API
   async getHealth(): Promise<{ status: string }> {
-    const response = await fetch(`${this.baseUrl}/health`, {
-      method: "GET",
-      headers: this.headers,
-    });
+    try {
+      const url = this.getUrl(`/health`);
+      const response = await fetch(url, {
+        method: "GET",
+        headers: this.headers,
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get health status: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to get health status: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching health status:", error);
+      if (error instanceof Error && error.message === "Failed to fetch") {
+        throw new Error(
+          `Failed to connect to MONAI Workflow Manager. Please ensure the service is running and accessible.`
+        );
+      }
+      throw error;
     }
-
-    return await response.json();
   }
 }
 
