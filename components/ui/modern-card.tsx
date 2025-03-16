@@ -87,7 +87,7 @@ export function ModernCard({
   const variantStyles = {
     default: "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800",
     glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white",
-    gradient: "bg-gradient-to-br from-blue-600 to-purple-700 text-white",
+    gradient: "bg-gradient-to-br from-black to-gray-700 text-white",
     bordered: "bg-white dark:bg-gray-900 border-2 border-black dark:border-white",
     minimal: "bg-transparent hover:bg-gray-50 dark:hover:bg-gray-900",
     elevated: "bg-white dark:bg-gray-900 shadow-xl hover:shadow-2xl",

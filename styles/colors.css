@@ -1,0 +1,49 @@
+:root {
+  /* Primary palette - black accent (replacing gold) */
+  --primary: #000000;
+  --primary-dark: #111111;
+  --primary-light: #333333;
+  
+  /* Secondary palette - white accent (replacing silver) */
+  --secondary: #ffffff;
+  --secondary-dark: #e0e0e0;
+  --secondary-light: #f5f5f5;
+  
+  /* Neutral palette - dark backgrounds with light text */
+  --neutral-100: #f8f9fa;
+  --neutral-200: #e9ecef;
+  --neutral-300: #dee2e6;
+  --neutral-400: #ced4da;
+  --neutral-500: #adb5bd;
+  --neutral-600: #6c757d;
+  --neutral-700: #495057;
+  --neutral-800: #1a1a1a;
+  --neutral-900: #121212;
+  
+  /* Semantic colors - changed to black and white */
+  --success: #333333;
+  --warning: #000000;
+  --danger: #000000;
+  --info: #333333;
+  
+  /* Accent colors - changed to black and white */
+  --gold: #000000;
+  --gold-light: #333333;
+  --gold-dark: #111111;
+  --silver: #ffffff;
+  --silver-light: #f5f5f5;
+  --silver-dark: #e0e0e0;
+}
+
+/* Dark mode is now the default */
+.dark {
+  --neutral-100: #f8f9fa;
+  --neutral-200: #e9ecef;
+  --neutral-300: #dee2e6;
+  --neutral-400: #ced4da;
+  --neutral-500: #adb5bd;
+  --neutral-600: #6c757d;
+  --neutral-700: #495057;
+  --neutral-800: #1a1a1a;
+  --neutral-900: #121212;
+} 

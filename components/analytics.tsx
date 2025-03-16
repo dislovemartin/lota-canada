@@ -1,5 +1,7 @@
 "use client";
 
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect } from "react";
@@ -50,6 +52,12 @@ export function Analytics() {
           `,
         }}
       />
+      
+      {/* Vercel Analytics */}
+      <VercelAnalytics />
+      
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </>
   );
 } 

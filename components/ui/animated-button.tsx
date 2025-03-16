@@ -49,16 +49,16 @@ export function AnimatedButton({
 
   const baseStyles = cn(
     "relative inline-flex items-center justify-center overflow-hidden font-medium transition-all duration-300 rounded-lg",
-    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500/50",
+    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/50",
     disabled && "opacity-60 cursor-not-allowed pointer-events-none",
     fullWidth && "w-full"
   )
 
   const variantStyles = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg active:bg-blue-800 active:text-white",
+    primary: "bg-black text-white hover:bg-gray-800 shadow-md hover:shadow-lg active:bg-gray-900 active:text-white",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-md hover:shadow-lg",
     outline: "bg-transparent border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-    gradient: "text-white shadow-md hover:shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700",
+    gradient: "text-white shadow-md hover:shadow-lg bg-gradient-to-r from-black to-gray-800 hover:from-gray-800 hover:to-black",
     glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-md hover:shadow-lg hover:bg-white/20",
     minimal: "bg-transparent text-primary hover:bg-accent hover:text-accent-foreground"
   }
@@ -90,10 +90,10 @@ export function AnimatedButton({
       <motion.span
         className={cn(
           "absolute inset-0 z-0 origin-left",
-          variant === "primary" ? "bg-blue-800" : 
+          variant === "primary" ? "bg-gray-900" : 
           variant === "secondary" ? "bg-gray-300" : 
-          variant === "gradient" ? "bg-gradient-to-r from-blue-700 to-blue-900" :
-          variant === "glass" ? "bg-white/30" : "bg-blue-50"
+          variant === "gradient" ? "bg-gradient-to-r from-black to-gray-900" :
+          variant === "glass" ? "bg-white/30" : "bg-gray-100"
         )}
         initial={{ scaleX: 0 }}
         animate={{ scaleX: isHovered ? 1 : 0 }}
@@ -116,7 +116,7 @@ export function AnimatedButton({
       {/* Border animation for outline variant */}
       {variant === "outline" && (
         <motion.span
-          className="absolute inset-0 z-0 rounded-lg border border-blue-700 pointer-events-none"
+          className="absolute inset-0 z-0 rounded-lg border border-black pointer-events-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}

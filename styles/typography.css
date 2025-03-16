@@ -1,0 +1,114 @@
+:root {
+  /* Font families */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  
+  /* Base sizes */
+  --base-font-size: 1rem;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.2;
+  
+  /* Type scale (1.25 ratio) */
+  --text-xs: calc(var(--base-font-size) / 1.25);
+  --text-sm: calc(var(--base-font-size) / 1.1);
+  --text-md: var(--base-font-size);
+  --text-lg: calc(var(--base-font-size) * 1.25);
+  --text-xl: calc(var(--base-font-size) * 1.563);
+  --text-2xl: calc(var(--base-font-size) * 1.953);
+  --text-3xl: calc(var(--base-font-size) * 2.441);
+  --text-4xl: calc(var(--base-font-size) * 3.052);
+}
+
+/* Fluid typography for responsive design */
+@media screen and (min-width: 768px) {
+  :root {
+    --base-font-size: 1.125rem;
+  }
+}
+
+/* Typography base styles */
+body {
+  font-family: var(--font-body);
+  font-size: var(--base-font-size);
+  line-height: var(--line-height-body);
+  color: var(--neutral-900);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: var(--line-height-heading);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+h5 {
+  font-size: var(--text-lg);
+}
+
+h6 {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1.5em;
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-md {
+  font-size: var(--text-md);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+}
+
+.text-3xl {
+  font-size: var(--text-3xl);
+}
+
+.text-4xl {
+  font-size: var(--text-4xl);
+}
+
+/* Dark mode overrides */
+.dark body {
+  color: var(--neutral-100);
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--neutral-100);
+} 

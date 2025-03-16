@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 
 interface ParallaxBackgroundProps {
   className?: string;
@@ -13,12 +14,22 @@ interface ParallaxBackgroundProps {
   interactive?: boolean;
 }
 
-export function ParallaxBackground({
+// Create a client-only version of the component to avoid hydration mismatches
+const ParallaxBackgroundClient = dynamic(() => Promise.resolve(ParallaxBackgroundBase), { ssr: false });
+
+// Export the client-only version as the main component
+export function ParallaxBackground(props: ParallaxBackgroundProps) {
+  // Initial render placeholder (server-side and during hydration)
+  return <ParallaxBackgroundClient {...props} />;
+}
+
+// Base component implementation that will only run on the client
+function ParallaxBackgroundBase({
   className,
   pattern = "grid",
   intensity = 1,
-  color1 = "#3B82F6", // blue-500
-  color2 = "#8B5CF6", // purple-500
+  color1 = "#000000", // black
+  color2 = "#4B5563", // gray-600
   interactive = true,
 }: ParallaxBackgroundProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -49,50 +60,57 @@ export function ParallaxBackground({
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
 
   // Generate particle elements based on the pattern
-  const generateParticles = () => {
-    const particles = [];
-    const count = pattern === "dots" ? 50 : pattern === "grid" ? 100 : 20;
+  const [particles, setParticles] = useState<React.ReactNode[]>([]);
 
-    for (let i = 0; i < count; i++) {
-      const size = Math.random() * 10 + 5;
-      const x = Math.random() * 100;
-      const y = Math.random() * 100;
-      const delay = Math.random() * 2;
-      const duration = Math.random() * 15 + 10;
-      const opacity = Math.random() * 0.5 + 0.1;
+  // Generate particles only on the client side to avoid hydration mismatch
+  useEffect(() => {
+    const generateParticles = () => {
+      const newParticles = [];
+      const count = pattern === "dots" ? 50 : pattern === "grid" ? 100 : 20;
 
-      particles.push(
-        <motion.div
-          key={i}
-          className={cn(
-            "absolute rounded-full",
-            pattern === "grid" ? "bg-white/20" : "bg-white/30"
-          )}
-          style={{
-            width: size + "px",
-            height: size + "px",
-            left: x + "%",
-            top: y + "%",
-            opacity: opacity,
-            x: interactive ? mousePosition.x * intensity * -30 * (1 + i % 3) : 0,
-            y: interactive ? mousePosition.y * intensity * -30 * (1 + i % 3) : 0,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            x: interactive ? undefined : [0, 10, 0],
-            opacity: [opacity, opacity + 0.1, opacity]
-          }}
-          transition={{
-            duration: duration,
-            delay: delay,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-        />
-      );
-    }
-    return particles;
-  };
+      for (let i = 0; i < count; i++) {
+        const size = Math.random() * 10 + 5;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const delay = Math.random() * 2;
+        const duration = Math.random() * 15 + 10;
+        const opacity = Math.random() * 0.5 + 0.1;
+
+        newParticles.push(
+          <motion.div
+            key={i}
+            className={cn(
+              "absolute rounded-full",
+              pattern === "grid" ? "bg-white/20" : "bg-white/30"
+            )}
+            style={{
+              width: size + "px",
+              height: size + "px",
+              left: x + "%",
+              top: y + "%",
+              opacity: opacity,
+              x: interactive ? mousePosition.x * intensity * -30 * (1 + i % 3) : 0,
+              y: interactive ? mousePosition.y * intensity * -30 * (1 + i % 3) : 0,
+            }}
+            animate={{
+              y: interactive ? undefined : [0, -20, 0],
+              x: interactive ? undefined : [0, 10, 0],
+              opacity: [opacity, opacity + 0.1, opacity]
+            }}
+            transition={{
+              duration: duration,
+              delay: delay,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          />
+        );
+      }
+      return newParticles;
+    };
+
+    setParticles(generateParticles());
+  }, [pattern, interactive, intensity, mousePosition]);
 
   // Render wave pattern
   const renderWaves = () => {
@@ -138,7 +156,7 @@ export function ParallaxBackground({
     >
       {/* Base gradient background */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/20"
+        className="absolute inset-0 bg-gradient-to-br from-black/10 to-gray-500/20"
         style={{
           scale,
           opacity,
@@ -165,13 +183,13 @@ export function ParallaxBackground({
 
       {(pattern === "dots" || pattern === "grid" || pattern === "circles") && (
         <div className="absolute inset-0">
-          {generateParticles()}
+          {particles}
         </div>
       )}
       
       {/* Advanced parallax effect with floating shapes */}
       <motion.div 
-        className="absolute -top-[10%] -left-[5%] w-[30%] h-[30%] rounded-full bg-blue-500/10 blur-3xl"
+        className="absolute -top-[10%] -left-[5%] w-[30%] h-[30%] rounded-full bg-black/10 blur-3xl"
         style={{
           x: interactive ? mousePosition.x * intensity * -30 : 0,
           y: interactive ? mousePosition.y * intensity * -30 : 0

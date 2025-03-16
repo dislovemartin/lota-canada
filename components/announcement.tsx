@@ -11,6 +11,8 @@ interface AnnouncementProps {
   className?: string;
   showCloseButton?: boolean;
   storageKey?: string;
+  // Allow any HTML attributes to be passed to the component
+  [key: string]: any;
 }
 
 export default function Announcement({
@@ -19,6 +21,7 @@ export default function Announcement({
   className,
   showCloseButton = true,
   storageKey = "announcement-dismissed",
+  ...props
 }: AnnouncementProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -62,15 +65,22 @@ export default function Announcement({
   return (
     <div
       className={cn(
-        "bg-black text-white py-2 relative overflow-hidden",
-        "fixed top-0 left-0 right-0 z-50 h-[40px] flex items-center",
+        "bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-2 relative overflow-hidden",
+        "fixed top-0 left-0 right-0 z-50 h-[40px] flex items-center shadow-md",
         className
       )}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      role="alert"
+      role="region"
+      aria-label="Announcements"
       aria-live="polite"
+      {...props}
     >
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-blue-500/10 to-transparent"></div>
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-blue-500/10 to-transparent"></div>
+      </div>
       <div className="container-wide relative flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.div
@@ -79,32 +89,43 @@ export default function Announcement({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
-            className="text-center px-4 sm:px-8 py-1"
+            className="text-center px-4 sm:px-8 py-1 flex items-center"
           >
-            <span className="text-sm sm:text-base font-medium">
+            {/* Decorative dot */}
+            <div className="hidden sm:block w-2 h-2 rounded-full bg-blue-300 mr-3"></div>
+            <span className="text-sm sm:text-base font-medium tracking-wide"
+                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
               {messages[currentIndex]}
             </span>
+            {/* Decorative dot */}
+            <div className="hidden sm:block w-2 h-2 rounded-full bg-blue-300 ml-3"></div>
           </motion.div>
         </AnimatePresence>
 
         {showCloseButton && (
           <button
             type="button"
-            className="absolute right-4 p-1 rounded-full hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="absolute right-4 p-1.5 rounded-full bg-blue-700 hover:bg-blue-600 border border-blue-500/30 shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white group"
             onClick={handleClose}
             aria-label="Close announcement"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleClose();
+              }
+            }}
           >
             <span className="sr-only">Close</span>
-            <X className="h-4 w-4" aria-hidden="true" />
+            <X className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
           </button>
         )}
       </div>
 
       {/* Progress indicator */}
       {messages.length > 1 && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/20">
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-700/30 via-blue-600/30 to-blue-700/30">
           <motion.div
-            className="h-full bg-white"
+            className="h-full bg-gradient-to-r from-blue-400 via-blue-300 to-blue-400"
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
             transition={{
@@ -118,6 +139,12 @@ export default function Announcement({
           />
         </div>
       )}
+      
+      {/* Decorative dots for visual interest */}
+      <div className="absolute top-1 left-4 w-1.5 h-1.5 rounded-full bg-blue-400/40"></div>
+      <div className="absolute top-3 left-8 w-1 h-1 rounded-full bg-blue-400/30"></div>
+      <div className="absolute top-2 right-12 w-1 h-1 rounded-full bg-blue-400/30"></div>
+      <div className="absolute top-4 right-6 w-1.5 h-1.5 rounded-full bg-blue-400/40"></div>
     </div>
   );
 }

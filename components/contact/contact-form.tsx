@@ -186,11 +186,12 @@ export function ContactForm() {
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-6"
+        className="space-y-6 rounded-lg border border-gray-200 dark:border-gray-800 p-6 shadow-md bg-white dark:bg-gray-950"
         aria-label="Contact form"
         noValidate
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <h2 className="col-span-full text-xl font-semibold text-gray-800 dark:text-white mb-2 pb-2 border-b border-gray-200 dark:border-gray-700">Contact Information</h2>
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-medium">
               Your Name <span className="text-red-500" aria-hidden="true">*</span>
@@ -204,7 +205,7 @@ export function ContactForm() {
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
               placeholder="John Doe"
-              className={errors.name ? "border-red-500" : ""}
+              className={`transition-all duration-200 ${errors.name ? "border-red-500 shadow-sm shadow-red-200" : "border-gray-300 hover:border-gray-400 focus:border-blue-500 dark:border-gray-600 dark:hover:border-gray-500"}`}
               required
             />
             {errors.name && (
@@ -229,7 +230,7 @@ export function ContactForm() {
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
               placeholder="john@example.com"
-              className={errors.email ? "border-red-500" : ""}
+              className={`transition-all duration-200 ${errors.email ? "border-red-500 shadow-sm shadow-red-200" : "border-gray-300 hover:border-gray-400 focus:border-black dark:border-gray-600 dark:hover:border-gray-500"}`}
               required
             />
             {errors.email && (
@@ -241,7 +242,8 @@ export function ContactForm() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 mb-8">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Inquiry Details</h2>
           <label htmlFor="department" className="block text-sm font-medium">
             Department <span className="text-red-500" aria-hidden="true">*</span>
           </label>
@@ -255,7 +257,7 @@ export function ContactForm() {
               aria-required="true"
               aria-invalid={!!errors.department}
               aria-describedby={errors.department ? "department-error" : undefined}
-              className={errors.department ? "border-red-500" : ""}
+              className={`transition-all duration-200 ${errors.department ? "border-red-500 shadow-sm shadow-red-200" : "border-gray-300 hover:border-gray-400 focus:border-blue-500 dark:border-gray-600 dark:hover:border-gray-500"}`}
               aria-label="Department selection"
             >
               <SelectValue placeholder="Select a department" />
@@ -289,7 +291,7 @@ export function ContactForm() {
             aria-invalid={!!errors.subject}
             aria-describedby={errors.subject ? "subject-error" : undefined}
             placeholder="Your message subject"
-            className={errors.subject ? "border-red-500" : ""}
+            className={`transition-all duration-200 ${errors.subject ? "border-red-500 shadow-sm shadow-red-200" : "border-gray-300 hover:border-gray-400 focus:border-blue-500 dark:border-gray-600 dark:hover:border-gray-500"}`}
             required
           />
           {errors.subject && (
@@ -314,7 +316,7 @@ export function ContactForm() {
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
             placeholder="How can we help you?"
-            className={errors.message ? "border-red-500" : ""}
+            className={`transition-all duration-200 ${errors.message ? "border-red-500 shadow-sm shadow-red-200" : "border-gray-300 hover:border-gray-400 focus:border-blue-500 dark:border-gray-600 dark:hover:border-gray-500"}`}
             required
           />
           {errors.message && (
@@ -326,14 +328,17 @@ export function ContactForm() {
         </div>
 
         {/* Privacy Notice Section */}
-        <div className="text-sm text-gray-600 dark:text-gray-300 p-4 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
-          <h3 className="font-medium text-base mb-2">Privacy Notice</h3>
+        <div className="text-sm text-gray-600 dark:text-gray-300 p-5 bg-gray-50 dark:bg-gray-800/50 rounded-md border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="font-medium text-base mb-2 text-gray-800 dark:text-gray-200 flex items-center">
+            <span className="inline-block w-1 h-5 bg-black mr-2 rounded-sm"></span>
+            Privacy Notice
+          </h3>
           <p className="mb-2">
             We collect your contact information to respond to your inquiry and provide the information you requested. Your data will be processed in accordance with our privacy policy.
           </p>
           <p>
             We will not share your information with third parties without your consent. For more information, please see our{" "}
-            <Link href="/privacy-policy" className="text-primary underline hover:text-primary/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm">
+            <Link href="/privacy-policy" className="text-black dark:text-white font-medium hover:text-gray-800 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-sm transition-colors duration-200">
               Privacy Policy
             </Link>.
           </p>
@@ -349,13 +354,14 @@ export function ContactForm() {
               aria-invalid={!!errors.privacyPolicy}
               aria-describedby={errors.privacyPolicy ? "privacy-error" : undefined}
               aria-label="I consent to LOTA Canada collecting and processing my data"
+              className={errors.privacyPolicy ? "border-red-500 text-red-500" : "text-blue-600 border-gray-300 focus:ring-blue-500"}
               required
             />
           </div>
           <div className="ml-3 text-sm">
             <label
               htmlFor="privacyPolicy"
-              className={`font-medium ${errors.privacyPolicy ? "text-red-500" : ""}`}
+              className={`font-medium ${errors.privacyPolicy ? "text-red-500" : "text-gray-700 dark:text-gray-300"}`}
             >
               I consent to LOTA Canada collecting and processing my data as described in the privacy notice.
             </label>
@@ -368,22 +374,31 @@ export function ContactForm() {
           </div>
         </div>
 
-        <div>
+        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button
             type="submit"
-            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium transition-all duration-200 shadow-md hover:shadow-lg active:shadow-sm px-6 py-2.5 rounded-md"
             disabled={isSubmitting}
             aria-busy={isSubmitting}
             aria-label="Send Message"
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+              </>
+            ) : (
+              "Send Message"
+            )}
           </Button>
         </div>
 
         {submitResult && (
           <div
-            className={`p-4 rounded-md ${submitResult.success ? "bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-              }`}
+            className={`p-4 rounded-md shadow-md ${submitResult.success ? "bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800" : "bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800"}`}
             role="alert"
             aria-live="assertive"
           >
@@ -405,4 +420,3 @@ export function ContactForm() {
     </div>
   )
 }
-

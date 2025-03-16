@@ -1,7 +1,7 @@
 import { Analytics } from "@/components/analytics";
 import Announcement from "@/components/announcement";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 import { LocalBusinessStructuredData, OrganizationStructuredData, WebSiteStructuredData } from "@/components/structured-data";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+    { media: "(prefers-color-scheme: light)", color: "#121212" },
     { media: "(prefers-color-scheme: dark)", color: "#121212" }
   ],
   width: "device-width",
@@ -105,27 +105,31 @@ export default function RootLayout({
         <meta name="color-scheme" content="light dark" />
       </head>
       <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {/* Accessibility Skip Link (placed at the top for keyboard users) */}
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:p-4 focus:bg-white focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+        >
+          Skip to main content
+        </a>
+        
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Announcement
             messages={[
               "Join us for our upcoming Leadership Workshop - Register Now!",
               "New mentorship opportunities available - Apply Today!",
               "Visit lotacanada.com for more information about our programs.",
             ]}
+            role="region"
+            aria-label="Announcements"
           />
           <Header />
-          <main className="flex-1">
+          <main id="main-content" className="flex-1" tabIndex={-1}>
             {children}
           </main>
           <Footer />
           
-          {/* Accessibility Skip Link (hidden visually but available for screen readers) */}
-          <a 
-            href="#main-content" 
-            className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-black"
-          >
-            Skip to main content
-          </a>
+          {/* Skip link moved to top of document for better keyboard accessibility */}
 
           {/* Structured Data for SEO */}
           <OrganizationStructuredData
@@ -199,6 +203,9 @@ export default function RootLayout({
             <Analytics />
           </Suspense>
           <TailwindIndicator />
+          
+          {/* Immersive effects script */}
+          <script src="/scripts/immersive-effects.js" async></script>
         </ThemeProvider>
       </body>
     </html>

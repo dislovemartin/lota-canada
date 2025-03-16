@@ -1,94 +1,133 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind directives - processed by PostCSS */
+/* @tailwind base; */
+@import 'tailwindcss/base';
+/* @tailwind components; */
+@import 'tailwindcss/components';
+/* @tailwind utilities; */
+@import 'tailwindcss/utilities';
+
+/* Import custom styles */
+@import '../styles/colors.css';
+@import '../styles/typography.css';
+@import '../styles/layout.css';
+@import '../styles/components.css';
+@import '../styles/utilities.css';
+
+/* Base styles */
+/* Components */
+/* Utilities */
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 20 14.3% 4.1%;
+    /* Dark theme as default */
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
+    /* Black accent (replacing gold) */
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
+    /* White accent (replacing silver) */
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 80%;
 
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
+    --destructive: 0 0% 0%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 0%;
 
     --radius: 0.5rem;
 
     /* New theme variables */
-    --heading: 24 9.8% 10%;
-    --highlight: 220 60% 50%;
+    --heading: 0 0% 95%;
+    --highlight: 0 0% 0%; /* Black (replacing Gold) */
     --highlight-foreground: 0 0% 100%;
-    --subtle-bg: 60 30% 96%;
-    --divider: 20 10% 85%;
+    --subtle-bg: 0 0% 12%;
+    --divider: 0 0% 20%;
+    
+    /* Additional accent colors - changed to black and white */
+    --gold: 0 0% 0%;
+    --gold-light: 0 0% 20%;
+    --gold-dark: 0 0% 10%;
+    --silver: 0 0% 100%;
+    --silver-light: 0 0% 95%;
+    --silver-dark: 0 0% 85%;
   }
 
-  .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+  .light {
+    --background: 0 0% 95%;
+    --foreground: 0 0% 7%;
 
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
 
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
 
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
+    --destructive: 0 0% 0%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 0 0% 0%;
 
-    /* New theme variables for dark mode */
-    --heading: 60 9.1% 97.8%;
-    --highlight: 217 91% 60%;
+    /* New theme variables for light mode */
+    --heading: 0 0% 7%;
+    --highlight: 0 0% 0%; /* Black (replacing Gold) */
     --highlight-foreground: 0 0% 100%;
-    --subtle-bg: 20 10% 8%;
-    --divider: 12 8% 20%;
+    --subtle-bg: 0 0% 92%;
+    --divider: 0 0% 80%;
+    
+    /* Additional accent colors - changed to black and white */
+    --gold: 0 0% 0%;
+    --gold-light: 0 0% 20%;
+    --gold-dark: 0 0% 10%;
+    --silver: 0 0% 100%;
+    --silver-light: 0 0% 95%;
+    --silver-dark: 0 0% 85%;
   }
 }
 
 /* Add smooth transitions for all elements when theme changes */
 * {
-  @apply border-border transition-colors duration-300;
+  border-color: hsl(var(--border));
+  transition-property: color, background-color, border-color;
+  transition-duration: 300ms;
 }
 
-@layer base {
-  body {
-    @apply bg-background text-foreground transition-colors duration-300;
-  }
+/* Base styles */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition-property: color, background-color;
+  transition-duration: 300ms;
+}
 
   h1,
   h2,
@@ -96,29 +135,88 @@
   h4,
   h5,
   h6 {
-    @apply font-serif tracking-tight text-[hsl(var(--heading))] transition-colors duration-300;
+    font-family: var(--font-serif, serif);
+    letter-spacing: -0.025em;
+    color: hsl(var(--heading));
+    transition-property: color;
+    transition-duration: 300ms;
   }
 
   h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-normal;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 400;
+  }
+  
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 3rem;
+      line-height: 1;
+    }
   }
 
   h2 {
-    @apply text-2xl md:text-3xl lg:text-4xl font-normal;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 400;
+  }
+  
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    h2 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
   }
 
   h3 {
-    @apply text-xl md:text-2xl font-normal;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+  }
+  
+  @media (min-width: 768px) {
+    h3 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
   }
 
   p {
-    @apply leading-relaxed text-muted-foreground transition-colors duration-300;
+    line-height: 1.625;
+    color: hsl(var(--muted-foreground));
+    transition-property: color;
+    transition-duration: 300ms;
   }
-}
 
-@layer components {
+/* Component styles */
   .container-wide {
-    @apply container max-w-7xl mx-auto px-4 md:px-6;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container-wide {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
   }
 
   .home-hero {
@@ -152,14 +250,13 @@
 
   /* Additional utility classes */
   .highlight {
-    @apply text-[hsl(var(--highlight))];
+    color: hsl(var(--highlight));
   }
 
   .subtle-bg {
-    @apply bg-[hsl(var(--subtle-bg))];
+    background-color: hsl(var(--subtle-bg));
   }
 
   .divider {
-    @apply bg-[hsl(var(--divider))];
+    background-color: hsl(var(--divider));
   }
-}

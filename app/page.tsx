@@ -27,25 +27,27 @@ export default function Home() {
         imageAlt="LOTA Hero Background - Professional Leadership"
         ctaText="Learn More"
         ctaHref="/about"
-        secondaryCtaText="Join Us"
+        secondaryCtaText="Become a Member"
         secondaryCtaHref="/contact"
         showLogo={true}
-        overlayOpacity={0.4}
+        overlayOpacity={0.5}
         className="home-hero"
         variant="parallax"
-        titleAnimation="liquid"
-        pattern="waves"
+        titleAnimation="fade"
+        pattern="grid"
         height="full"
         textColor="text-white"
-        hoverColor="text-blue-300"
+        hoverColor="text-blue-200"
+
       />
       {/* Stats Section - Using enhanced AnimatedStats component */}
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
         <div className="container-wide relative">
           {/* Decorative elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.02] mix-blend-overlay" />
             <motion.div 
-              className="absolute -top-[10%] -left-[5%] w-[30%] h-[30%] rounded-full bg-blue-500/5 blur-3xl"
+              className="absolute -top-[10%] -left-[5%] w-[30%] h-[30%] rounded-full bg-blue-700/5 blur-3xl"
               animate={{
                 x: [0, 20, 0],
                 y: [0, 15, 0],
@@ -57,7 +59,7 @@ export default function Home() {
               }}
             />
             <motion.div 
-              className="absolute top-[60%] -right-[5%] w-[25%] h-[25%] rounded-full bg-purple-500/5 blur-3xl"
+              className="absolute top-[60%] -right-[5%] w-[25%] h-[25%] rounded-full bg-blue-900/5 blur-3xl"
               animate={{
                 x: [0, -20, 0],
                 y: [0, 20, 0],
@@ -75,36 +77,89 @@ export default function Home() {
               subtitle="LOTA has been fostering professional growth and leadership development since our founding."
               align="center"
               underline
-              gradient
               animated={true}
-              variant="gradient"
+              variant="default"
               size="lg"
             />
           </ScrollTransition>
           <ScrollTransition type="slide" direction="up" delay={0.3}>
-            <AnimatedStats
-              stats={[
-                { value: 500, label: "Members", suffix: "+", decimal: 0 },
-                { value: 48, label: "Events Hosted", suffix: "", decimal: 0 },
-                { value: 120, label: "Mentorship Connections", suffix: "+", decimal: 0 },
-                { value: 25, label: "Corporate Partners", suffix: "", decimal: 0 },
-              ]}
-              variant="cards"
-              columns={4}
-              animated={true}
-              duration={2}
-              delay={0.3}
-            />
+            <div className="relative z-10">
+              <AnimatedStats
+                stats={[
+                  { value: 750, label: "Active Members", suffix: "+", decimal: 0 },
+                  { value: 65, label: "Professional Events", suffix: "", decimal: 0 },
+                  { value: 180, label: "Mentorship Connections", suffix: "+", decimal: 0 },
+                  { value: 32, label: "Industry Partners", suffix: "", decimal: 0 },
+                ]}
+                variant="cards"
+                columns={4}
+                animated={true}
+                duration={1.5}
+                delay={0.2}
+                className="gap-6"
+              />
+            </div>
           </ScrollTransition>
         </div>
       </section>
       <SectionDivider 
-        variant="wave" 
-        className="text-gray-50 dark:text-gray-950"
-        height="lg"
+        variant="curve" 
+        className="text-gray-100 dark:text-gray-950"
+        height="md"
       />
+      
+      {/* Mid-page CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-blue-700 to-blue-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay" />
+        <div className="container-wide relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-4 text-white"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+            >
+              Ready to Advance Your Leadership Journey?
+            </motion.h2>
+            <motion.p 
+              className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Join LOTA today and connect with a community of professionals dedicated to leadership excellence and career growth.
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <AnimatedButton 
+                href="/contact" 
+                variant="primary" 
+                size="lg" 
+                className="bg-white hover:bg-gray-100 text-blue-800 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-white"
+              >
+                Become a Member
+              </AnimatedButton>
+              <AnimatedButton 
+                href="/programs" 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-white text-white hover:bg-white/10 font-semibold"
+              >
+                Explore Programs
+              </AnimatedButton>
+            </motion.div>
+          </div>
+        </div>
+      </section>
       {/* Programs Section - Enhanced with interactive cards and scroll transitions */}
-      <section className="py-20 bg-white dark:bg-gray-950">
+      <section className="py-24 bg-white dark:bg-gray-950">
         <div className="container-wide">
           <ScrollTransition type="fade">
             <AnimatedHeading
@@ -113,6 +168,7 @@ export default function Home() {
               align="center"
               variant="default"
               size="lg"
+              className="mb-4"
             />
           </ScrollTransition>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
@@ -122,18 +178,20 @@ export default function Home() {
                 glare={true}
                 border={true}
                 intensity={10}
+                hoverScale={1.02}
               >
                 <div className="flex flex-col h-full">
-                  <div className="rounded-xl bg-blue-100 dark:bg-blue-950/30 p-4 mb-4 w-14 h-14 flex items-center justify-center">
+                  <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 mb-4 w-14 h-14 flex items-center justify-center shadow-sm border border-blue-100 dark:border-blue-800/30">
                     <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Leadership Development</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white tracking-tight">Leadership Development</h3>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-blue-300 dark:from-blue-600 dark:to-blue-400 mb-3 rounded-full"></div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow leading-relaxed">
                     Structured programs to develop essential leadership skills through workshops, mentorships, and practical experiences.
                   </p>
-                  <AnimatedButton href="/programs/leadership" variant="outline" size="sm" className="mt-auto w-full">
+                  <AnimatedButton href="/programs/leadership" variant="primary" size="sm" className="mt-auto w-full bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 text-white shadow-md hover:shadow-lg transition-all duration-300 font-medium text-base py-2.5">
                     Learn More
                   </AnimatedButton>
                 </div>
@@ -145,18 +203,20 @@ export default function Home() {
                 glare={true}
                 border={true}
                 intensity={10}
+                hoverScale={1.02}
               >
                 <div className="flex flex-col h-full">
-                  <div className="rounded-xl bg-purple-100 dark:bg-purple-950/30 p-4 mb-4 w-14 h-14 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 mb-4 w-14 h-14 flex items-center justify-center shadow-sm border border-blue-100 dark:border-blue-800/30">
+                    <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Professional Networking</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white tracking-tight">Professional Networking</h3>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-blue-300 dark:from-blue-600 dark:to-blue-400 mb-3 rounded-full"></div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow leading-relaxed">
                     Connect with professionals across different industries through networking events, conferences, and social gatherings.
                   </p>
-                  <AnimatedButton href="/programs/networking" variant="outline" size="sm" className="mt-auto w-full">
+                  <AnimatedButton href="/programs/networking" variant="outline" size="sm" className="mt-auto w-full border-blue-300 dark:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-800 dark:text-blue-300 shadow-sm hover:shadow-md transition-all duration-300 font-medium text-base py-2.5">
                     Learn More
                   </AnimatedButton>
                 </div>
@@ -168,18 +228,20 @@ export default function Home() {
                 glare={true}
                 border={true}
                 intensity={10}
+                hoverScale={1.02}
               >
                 <div className="flex flex-col h-full">
-                  <div className="rounded-xl bg-green-100 dark:bg-green-950/30 p-4 mb-4 w-14 h-14 flex items-center justify-center">
+                  <div className="rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-4 mb-4 w-14 h-14 flex items-center justify-center shadow-sm border border-green-100 dark:border-green-800/30">
                     <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">Mentorship Program</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white tracking-tight">Mentorship Program</h3>
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-green-500 to-green-300 dark:from-green-600 dark:to-green-400 mb-3 rounded-full"></div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 flex-grow leading-relaxed">
                     Gain insights and guidance from experienced professionals through our structured mentorship program.
                   </p>
-                  <AnimatedButton href="/programs/mentorship" variant="outline" size="sm" className="mt-auto w-full">
+                  <AnimatedButton href="/programs/mentorship" variant="outline" size="sm" className="mt-auto w-full border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/20 text-green-700 dark:text-green-400 shadow-sm hover:shadow-md transition-all duration-300">
                     Learn More
                   </AnimatedButton>
                 </div>
@@ -388,11 +450,22 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Testimonial Section - Enhanced with liquid text */}
-      <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
-        <div className="container-wide">
+      {/* Testimonial Section - Enhanced with carousel-like layout */}
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.02] mix-blend-overlay" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+          <div className="absolute -top-[10%] -left-[5%] w-[30%] h-[30%] rounded-full bg-blue-500/5 blur-3xl" />
+          <div className="absolute top-[60%] -right-[5%] w-[25%] h-[25%] rounded-full bg-blue-500/5 blur-3xl" />
+        </div>
+        
+        <div className="container-wide relative z-10">
           <ScrollTransition type="fade">
-            <div className="mb-12 text-center">
+            <div className="mb-16 text-center">
+              <div className="inline-block mb-4 px-4 py-1 bg-gradient-to-r from-blue-100 to-blue-50 dark:from-blue-900/30 dark:to-blue-800/30 rounded-full text-blue-800 dark:text-blue-300 text-sm font-medium border border-blue-200/50 dark:border-blue-700/50 shadow-sm">
+                Testimonials
+              </div>
               <LiquidText
                 text="What Our Members Say"
                 variant="gradient"
@@ -402,56 +475,88 @@ export default function Home() {
                 staggerChildren={0.03}
                 interactive={true}
               />
-              <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
+              <p className="mt-4 text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
                 Hear from professionals who have experienced the benefits of LOTA membership.
               </p>
+              
+              {/* Decorative accent line */}
+              <div className="mt-8 flex items-center justify-center">
+                <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-blue-300 dark:from-blue-600 dark:to-blue-400 rounded-full" />
+              </div>
             </div>
           </ScrollTransition>
-          <div ref={testimonialsSectionRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ScrollTransition type="slide" direction="up" delay={0.1}>
-              <TestimonialCard
-                quote="LOTA provided me with invaluable connections and mentorship that accelerated my career growth significantly."
-                author="Sarah Johnson"
-                role="Marketing Director"
-                avatarSrc="/images/testimonials/testimonial-1.jpg"
-                rating={5}
-              />
+          
+          {/* Testimonial carousel-like layout */}
+          <div className="relative px-4 py-8">
+            {/* Large featured testimonial */}
+            <ScrollTransition type="fade" delay={0.2}>
+              <div className="mb-12">
+                <TestimonialCard
+                  quote="LOTA provided me with invaluable connections and mentorship that accelerated my career growth significantly. The community has been instrumental in helping me navigate challenges and seize opportunities in my professional journey."
+                  author="Sarah Johnson"
+                  role="Marketing Director"
+                  company="TechVision Inc."
+                  avatarSrc="/images/testimonials/testimonial-1.jpg"
+                  rating={5}
+                  featured={true}
+                  variant="gradient"
+                  size="lg"
+                />
+              </div>
             </ScrollTransition>
-            <ScrollTransition type="slide" direction="up" delay={0.2}>
-              <TestimonialCard
-                quote="The leadership workshops were transformative. I've applied those skills daily in my role as a team leader."
-                author="Michael Chen"
-                role="Project Manager"
-                avatarSrc="/images/testimonials/testimonial-2.jpg"
-                rating={5}
-              />
-            </ScrollTransition>
-            <ScrollTransition type="slide" direction="up" delay={0.3}>
-              <TestimonialCard
-                quote="Being part of LOTA has opened doors I never thought possible. The network I've built is priceless."
-                author="Priya Patel"
-                role="Software Engineer"
-                avatarSrc="/images/testimonials/testimonial-3.jpg"
-                rating={5}
-              />
-            </ScrollTransition>
+            
+            {/* Row of additional testimonials */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <ScrollTransition type="slide" direction="up" delay={0.3}>
+                <TestimonialCard
+                  quote="The leadership workshops were transformative. I've applied those skills daily in my role as a team leader."
+                  author="Michael Chen"
+                  role="Project Manager"
+                  company="InnovateCorp"
+                  avatarSrc="/images/testimonials/testimonial-2.jpg"
+                  rating={5}
+                  variant="bordered"
+                  size="md"
+                />
+              </ScrollTransition>
+              <ScrollTransition type="slide" direction="up" delay={0.4}>
+                <TestimonialCard
+                  quote="Being part of LOTA has opened doors I never thought possible. The network I've built is priceless."
+                  author="Priya Patel"
+                  role="Software Engineer"
+                  company="GlobalTech Solutions"
+                  avatarSrc="/images/testimonials/testimonial-3.jpg"
+                  rating={5}
+                  variant="default"
+                  size="md"
+                />
+              </ScrollTransition>
+              <ScrollTransition type="slide" direction="up" delay={0.5}>
+                <TestimonialCard
+                  quote="The mentorship program connected me with an industry leader who helped me refine my career goals and strategy."
+                  author="David Wilson"
+                  role="Financial Analyst"
+                  company="Capital Investments"
+                  avatarSrc="/images/testimonials/testimonial-4.jpg"
+                  rating={5}
+                  variant="glass"
+                  size="md"
+                />
+              </ScrollTransition>
+            </div>
+            
+            {/* View all testimonials button */}
+            <div className="mt-12 text-center">
+              <AnimatedButton 
+                href="/testimonials" 
+                variant="outline" 
+                size="lg"
+                className="border-blue-300 dark:border-blue-700 text-blue-800 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 shadow-sm"
+              >
+                View All Testimonials
+              </AnimatedButton>
+            </div>
           </div>
-          <ScrollTransition type="fade">
-            <div className="mb-12 text-center">
-              <LiquidText
-                text="What Our Members Say"
-                variant="gradient"
-                size="5xl"
-                className="font-bold tracking-tight text-center"
-                interactive={true}
-                delay={0.1}
-                staggerChildren={0.03}
-              />
-              <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
-                Hear from professionals who have experienced the benefits of LOTA membership.
-              </p>
-            </div>
-          </ScrollTransition>
         </div>
       </section>
       {/* Newsletter Section - Enhanced with modern styling */}

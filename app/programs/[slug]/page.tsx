@@ -1,9 +1,11 @@
 import {
   ArrowLeft,
+  ArrowRight,
   Calendar,
   Clock,
   Download,
   MapPin,
+  Quote,
   Share2,
   Users,
 } from "lucide-react";
@@ -51,34 +53,49 @@ export default async function ProgramDetail({
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
+          {/* Decorative elements */}
+          <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-10" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/80 to-primary/20" />
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary/20 to-primary/80" />
         </div>
 
         <div className="container-wide relative z-10 text-white">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl relative">
+            {/* Decorative border */}
+            <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/10 via-primary/50 to-primary/10" />
+            
             <Link
               href="/programs"
-              className="inline-flex items-center text-sm hover:underline mb-6"
+              className="inline-flex items-center text-sm hover:underline mb-6 group"
             >
+              <span className="inline-block w-8 h-[1px] bg-white/60 mr-2 group-hover:bg-white transition-colors" />
               <ArrowLeft size={16} className="mr-2" />
               Back to Programs
             </Link>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal mb-6">
-              {program.title}
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal mb-6 relative">
+              <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                {program.title}
+              </span>
+              <span className="absolute -bottom-3 left-0 w-24 h-[2px] bg-gradient-to-r from-primary to-transparent" />
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8">
+            
+            <p className="text-lg md:text-xl text-white/90 mb-10 leading-relaxed">
               {program.description}
             </p>
-            <div className="flex flex-wrap gap-4">
+            
+            <div className="flex flex-wrap gap-6">
               <Link
                 href={`/programs/${slug}/apply`}
-                className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-white/90 transition-colors"
+                className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-white to-white/90 text-black hover:from-white/95 hover:to-white/85 transition-all shadow-lg hover:shadow-xl rounded-sm"
               >
                 Apply Now
+                <span className="ml-2 text-primary">→</span>
               </Link>
-              <button className="inline-flex items-center px-6 py-3 border border-white text-white hover:bg-white/10 transition-colors">
+              <button className="inline-flex items-center px-6 py-3 border border-white/80 text-white hover:bg-white/10 transition-colors rounded-sm hover:border-white">
                 <Share2 size={18} className="mr-2" />
-                Share
+                Share Program
               </button>
             </div>
           </div>
@@ -86,38 +103,57 @@ export default async function ProgramDetail({
       </section>
 
       {/* Key Information */}
-      <section className="py-12 border-b">
+      <section className="py-16 relative">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        
         <div className="container-wide">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-normal inline-block relative">
+              Program Highlights
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+            </h2>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="flex items-start">
-              <Calendar className="mr-4 text-primary" size={24} />
+            <div className="flex items-start group p-6 rounded-sm border border-transparent hover:border-primary/20 hover:bg-secondary/50 transition-all">
+              <div className="mr-5 p-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10 transition-all">
+                <Calendar className="text-primary" size={24} />
+              </div>
               <div>
-                <h3 className="text-sm font-medium mb-1">Duration</h3>
-                <p>{program.specs.duration}</p>
+                <h3 className="text-sm uppercase tracking-wider text-primary mb-2 font-medium">Duration</h3>
+                <p className="font-light text-lg">{program.specs.duration}</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <Users className="mr-4 text-primary" size={24} />
+            <div className="flex items-start group p-6 rounded-sm border border-transparent hover:border-primary/20 hover:bg-secondary/50 transition-all">
+              <div className="mr-5 p-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10 transition-all">
+                <Users className="text-primary" size={24} />
+              </div>
               <div>
-                <h3 className="text-sm font-medium mb-1">Eligibility</h3>
-                <p>{program.specs.eligibility}</p>
+                <h3 className="text-sm uppercase tracking-wider text-primary mb-2 font-medium">Eligibility</h3>
+                <p className="font-light text-lg">{program.specs.eligibility}</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <Clock className="mr-4 text-primary" size={24} />
+            <div className="flex items-start group p-6 rounded-sm border border-transparent hover:border-primary/20 hover:bg-secondary/50 transition-all">
+              <div className="mr-5 p-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10 transition-all">
+                <Clock className="text-primary" size={24} />
+              </div>
               <div>
-                <h3 className="text-sm font-medium mb-1">Commitment</h3>
-                <p>{program.specs.commitment}</p>
+                <h3 className="text-sm uppercase tracking-wider text-primary mb-2 font-medium">Commitment</h3>
+                <p className="font-light text-lg">{program.specs.commitment}</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <MapPin className="mr-4 text-primary" size={24} />
+            <div className="flex items-start group p-6 rounded-sm border border-transparent hover:border-primary/20 hover:bg-secondary/50 transition-all">
+              <div className="mr-5 p-2 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10 transition-all">
+                <MapPin className="text-primary" size={24} />
+              </div>
               <div>
-                <h3 className="text-sm font-medium mb-1">Location</h3>
-                <p>{program.specs.location}</p>
+                <h3 className="text-sm uppercase tracking-wider text-primary mb-2 font-medium">Location</h3>
+                <p className="font-light text-lg">{program.specs.location}</p>
               </div>
             </div>
           </div>
@@ -125,54 +161,97 @@ export default async function ProgramDetail({
       </section>
 
       {/* Program Overview */}
-      <section className="py-24">
-        <div className="container-wide">
+      <section className="py-24 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-bl from-primary/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-70" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-primary/5 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 opacity-70" />
+        
+        <div className="container-wide relative">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             <div className="lg:col-span-2">
-              <h2 className="text-3xl font-normal mb-8">Overview</h2>
+              <div className="inline-block rounded-sm bg-primary/10 px-3 py-1 text-sm text-primary mb-4">
+                Program Details
+              </div>
+              <h2 className="text-3xl font-normal mb-8 relative inline-block">
+                Overview
+                <span className="absolute -bottom-2 left-0 w-16 h-[2px] bg-gradient-to-r from-primary to-transparent" />
+              </h2>
               <div className="prose prose-lg max-w-none">
-                <p>{program.overview}</p>
+                <p className="text-lg leading-relaxed">{program.overview}</p>
 
-                <h3 className="mt-12 mb-6 text-2xl font-normal">
-                  Program Structure
-                </h3>
-                <p>{program.structure}</p>
+                <div className="my-12 p-6 border-l-2 border-primary/30 bg-gradient-to-r from-secondary/80 to-transparent rounded-r-sm">
+                  <h3 className="text-2xl font-normal mb-4 text-primary/90">
+                    Program Structure
+                  </h3>
+                  <p className="text-lg leading-relaxed">{program.structure}</p>
+                </div>
 
-                <div className="my-12 aspect-video relative">
+                <div className="my-12 aspect-video relative rounded-sm overflow-hidden shadow-lg">
                   <Image
                     src="/placeholder.svg?height=720&width=1280"
                     alt="Program in action"
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 transition-transform duration-700"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="text-white text-lg font-medium">Experience the {program.title}</div>
+                  </div>
                 </div>
 
-                <h3 className="mt-12 mb-6 text-2xl font-normal">
+                <h3 className="mt-12 mb-6 text-2xl font-normal relative inline-block">
                   Learning Outcomes
+                  <span className="absolute -bottom-2 left-0 w-12 h-[2px] bg-gradient-to-r from-primary to-transparent" />
                 </h3>
-                <ul>
+                <ul className="space-y-4">
                   {program.outcomes.map((outcome, index) => (
-                    <li key={index} className="mb-3">
-                      {outcome}
+                    <li key={index} className="flex items-start p-3 border border-transparent hover:border-primary/10 hover:bg-secondary/30 transition-all rounded-sm">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary mr-3 flex-shrink-0 mt-0.5">{index + 1}</span>
+                      <span className="text-lg">{outcome}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Testimonials */}
-              <div className="mt-16">
-                <h3 className="text-2xl font-normal mb-8">
-                  Participant Testimonials
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="mt-20 relative">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                
+                <div className="text-center mb-12">
+                  <div className="inline-block p-2 rounded-full bg-primary/5 mb-4">
+                    <Quote className="text-primary" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-normal relative inline-block">
+                    Participant Testimonials
+                    <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  </h3>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   {program.testimonials.map((testimonial, index) => (
-                    <div key={index} className="bg-secondary p-8">
-                      <blockquote className="text-lg mb-6 font-serif">
-                        "{testimonial.quote}"
-                      </blockquote>
-                      <div className="font-medium">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.title}
+                    <div key={index} className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-sm transform group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+                      
+                      <div className="relative p-8 border border-primary/10 bg-white shadow-sm rounded-sm z-10">
+                        <div className="absolute -top-5 -left-2 text-primary/20 transform -scale-x-100">
+                          <Quote size={40} />
+                        </div>
+                        
+                        <blockquote className="text-lg mb-6 leading-relaxed italic text-gray-700">
+                          "{testimonial.quote}"
+                        </blockquote>
+                        
+                        <div className="flex items-center">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center text-primary font-medium mr-4">
+                            {testimonial.name.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="font-medium">{testimonial.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {testimonial.title}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -180,77 +259,90 @@ export default async function ProgramDetail({
               </div>
             </div>
 
-            <div>
-              <div className="bg-secondary p-8 sticky top-24">
-                <h3 className="text-xl font-normal mb-6">
-                  Program Specifications
-                </h3>
-
-                <div className="space-y-6">
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Duration
+            <div className="lg:col-span-1">
+              <div className="relative p-8 sticky top-24 rounded-sm overflow-hidden">
+                {/* Background elements */}
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary/90 to-secondary/80 z-0" />
+                <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-5 z-0" />
+                
+                {/* Decorative corner elements */}
+                <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary/20 -translate-x-2 -translate-y-2 z-0" />
+                <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/20 translate-x-2 translate-y-2 z-0" />
+                
+                <div className="relative z-10">
+                  <h3 className="text-xl font-normal mb-8 pb-2 border-b border-primary/20 relative">
+                    Program Specifications
+                    <span className="absolute bottom-[-1px] left-0 w-12 h-[2px] bg-primary" />
+                  </h3>
+    
+                  <div className="space-y-6">
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Duration
+                      </div>
+                      <div className="font-light text-lg">{program.specs.duration}</div>
                     </div>
-                    <div>{program.specs.duration}</div>
-                  </div>
-
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Format
+    
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Format
+                      </div>
+                      <div className="font-light text-lg">{program.specs.format}</div>
                     </div>
-                    <div>{program.specs.format}</div>
-                  </div>
-
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Eligibility
+    
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Eligibility
+                      </div>
+                      <div className="font-light text-lg">{program.specs.eligibility}</div>
                     </div>
-                    <div>{program.specs.eligibility}</div>
-                  </div>
-
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Commitment
+    
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Commitment
+                      </div>
+                      <div className="font-light text-lg">{program.specs.commitment}</div>
                     </div>
-                    <div>{program.specs.commitment}</div>
-                  </div>
-
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Upcoming Dates
+    
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Upcoming Dates
+                      </div>
+                      <div className="font-light text-lg">{program.specs.dates}</div>
                     </div>
-                    <div>{program.specs.dates}</div>
-                  </div>
-
-                  <div className="border-b pb-4">
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Location
+    
+                    <div className="border-b border-primary/10 pb-4 hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Location
+                      </div>
+                      <div className="font-light text-lg">{program.specs.location}</div>
                     </div>
-                    <div>{program.specs.location}</div>
-                  </div>
-
-                  <div>
-                    <div className="text-sm text-muted-foreground mb-1">
-                      Fee
+    
+                    <div className="hover:bg-white/5 transition-colors p-2 -mx-2">
+                      <div className="text-sm uppercase tracking-wider text-primary/80 mb-2 font-medium">
+                        Fee
+                      </div>
+                      <div className="font-light text-lg">{program.specs.fee}</div>
                     </div>
-                    <div>{program.specs.fee}</div>
                   </div>
-                </div>
-
-                <div className="mt-8">
-                  <Link
-                    href={`/programs/${slug}/apply`}
-                    className="w-full inline-flex justify-center items-center px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                  >
-                    Apply Now
-                  </Link>
-                </div>
-
-                <div className="mt-4">
-                  <button className="w-full inline-flex justify-center items-center px-6 py-3 border border-primary bg-transparent hover:bg-primary/5 transition-colors">
-                    <Download size={18} className="mr-2" />
-                    Download Program Guide
-                  </button>
+    
+                  <div className="mt-10 relative">
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                    <div className="pt-8">
+                      <Link
+                        href={`/programs/${slug}/apply`}
+                        className="w-full inline-flex justify-center items-center px-6 py-4 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/95 hover:to-primary/85 transition-all shadow-md hover:shadow-lg rounded-sm mb-4"
+                      >
+                        Apply Now
+                        <span className="ml-2">→</span>
+                      </Link>
+    
+                      <button className="w-full inline-flex justify-center items-center px-6 py-3 border border-primary/80 bg-transparent hover:bg-primary/5 transition-colors rounded-sm hover:border-primary">
+                        <Download size={18} className="mr-2 text-primary/80" />
+                        Download Program Guide
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -259,63 +351,122 @@ export default async function ProgramDetail({
       </section>
 
       {/* Application Process */}
-      <section className="py-24 bg-secondary">
-        <div className="container-wide">
-          <h2 className="text-3xl font-normal mb-12 text-center">
-            Application Process
-          </h2>
+      <section className="py-24 relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 via-secondary to-secondary/80" />
+        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-5" />
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        
+        <div className="container-wide relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-block p-2 rounded-full bg-primary/5 mb-4">
+              <ArrowLeft className="rotate-45 text-primary" size={24} />
+            </div>
+            <h2 className="text-3xl font-normal relative inline-block">
+              Application Process
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+            </h2>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {program.applicationSteps.map((step, index) => (
-              <div key={index} className="bg-background p-8">
-                <div className="text-4xl font-light text-primary mb-4">
-                  {index + 1}
+              <div key={index} className="relative group">
+                {/* Step connector line for desktop */}
+                {index < program.applicationSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-12 left-full w-full h-[2px] bg-gradient-to-r from-primary/50 to-primary/10 -translate-x-4 z-0" />
+                )}
+                
+                <div className="bg-background p-8 rounded-sm border border-primary/10 shadow-md hover:shadow-lg transition-all relative z-10 h-full">
+                  <div className="absolute -top-5 -left-5 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-medium shadow-md">
+                    {index + 1}
+                  </div>
+                  
+                  <div className="pt-4">
+                    <h3 className="text-xl font-normal mb-4 text-primary/90 border-b border-primary/10 pb-2">{step.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-normal mb-3">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-16 text-center">
-            <Link
-              href={`/programs/${slug}/apply`}
-              className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              Begin Your Application
-            </Link>
+            <div className="inline-block p-8 rounded-sm bg-gradient-to-br from-white to-secondary/10 shadow-lg border border-primary/5">
+              <p className="text-lg mb-6 max-w-2xl mx-auto">
+                Ready to take the next step in your leadership journey? Our application process is designed to be straightforward and focused on your potential.
+              </p>
+              <Link
+                href={`/programs/${slug}/apply`}
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/95 hover:to-primary/85 transition-all shadow-md hover:shadow-lg rounded-sm"
+              >
+                Begin Your Application
+                <span className="ml-2">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Program Curriculum */}
-      <section className="py-24">
-        <div className="container-wide">
+      <section className="py-24 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-bl from-primary/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-70" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-primary/5 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 opacity-70" />
+        
+        <div className="container-wide relative">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-normal mb-12 text-center">
-              Program Curriculum
-            </h2>
+            <div className="text-center mb-16">
+              <div className="inline-block p-2 rounded-full bg-primary/5 mb-4">
+                <Calendar className="text-primary" size={24} />
+              </div>
+              <h2 className="text-3xl font-normal relative inline-block">
+                Program Curriculum
+                <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+              </h2>
+            </div>
 
-            <div className="space-y-12">
+            <div className="space-y-16">
               {program.curriculum.map((module, index) => (
-                <div key={index} className="border-b pb-12">
-                  <div className="flex flex-col md:flex-row gap-8">
-                    <div className="md:w-1/3">
-                      <div className="text-sm text-muted-foreground mb-1">
-                        Module {index + 1}
+                <div key={index} className="relative">
+                  {/* Module connector line */}
+                  {index < program.curriculum.length - 1 && (
+                    <div className="absolute top-full left-[30px] w-[2px] h-16 bg-gradient-to-b from-primary/50 to-primary/10 -translate-y-4 z-0" />
+                  )}
+                  
+                  <div className="border-b border-primary/10 pb-12 relative">
+                    <div className="flex flex-col md:flex-row gap-8">
+                      <div className="md:w-1/3">
+                        <div className="flex items-center mb-4">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary font-medium mr-3">
+                            {index + 1}
+                          </div>
+                          <div className="text-sm uppercase tracking-wider text-primary/80 font-medium">
+                            Module {index + 1}
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-normal text-primary/90">{module.title}</h3>
                       </div>
-                      <h3 className="text-xl font-normal">{module.title}</h3>
-                    </div>
-                    <div className="md:w-2/3">
-                      <p className="mb-4">{module.description}</p>
-                      <ul className="space-y-2">
-                        {module.topics.map((topic, i) => (
-                          <li key={i} className="flex items-start">
-                            <span className="inline-block w-1 h-1 rounded-full bg-primary mt-2 mr-2"></span>
-                            {topic}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="md:w-2/3 bg-gradient-to-r from-secondary/50 to-transparent p-6 rounded-sm border-l-2 border-primary/20">
+                        <p className="mb-6 leading-relaxed">{module.description}</p>
+                        <div className="border-t border-primary/10 pt-4">
+                          <div className="text-sm uppercase tracking-wider text-primary/80 mb-3 font-medium">
+                            Topics Covered
+                          </div>
+                          <ul className="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                            {module.topics.map((topic, i) => (
+                              <li key={i} className="flex items-start group p-2 hover:bg-white/30 transition-colors rounded-sm">
+                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 text-primary text-xs mr-3 flex-shrink-0 transition-all">
+                                  {i + 1}
+                                </span>
+                                <span>{topic}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -326,57 +477,102 @@ export default async function ProgramDetail({
       </section>
 
       {/* Sustainability Information */}
-      <section className="py-24 bg-secondary">
-        <div className="container-wide">
+      <section className="py-24 relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary/80 via-secondary to-secondary/90" />
+        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-5" />
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        
+        {/* LOTA emblem for section divider */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center text-primary font-medium">
+              LOTA
+            </div>
+          </div>
+        </div>
+        
+        <div className="container-wide relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary mb-6">
-                Sustainability
+              <div className="inline-block rounded-sm bg-primary/10 px-4 py-1.5 text-sm text-primary mb-6 border-l-2 border-primary">
+                Sustainability Initiatives
               </div>
-              <h2 className="text-3xl font-normal mb-6">
+              <h2 className="text-3xl font-normal mb-6 relative inline-block">
                 Our Commitment to Sustainability
+                <span className="absolute -bottom-2 left-0 w-16 h-[2px] bg-gradient-to-r from-primary to-transparent" />
               </h2>
-              <p className="text-lg mb-8">
+              <p className="text-lg mb-10 leading-relaxed max-w-xl">
                 {program.sustainability.description}
               </p>
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {program.sustainability.initiatives.map((initiative, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="w-12 h-12 flex items-center justify-center border border-primary rounded-full flex-shrink-0 mr-4">
-                      <span className="font-medium">{index + 1}</span>
+                  <div key={index} className="flex items-start group">
+                    <div className="w-14 h-14 flex items-center justify-center border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10 rounded-full flex-shrink-0 mr-6 transition-all shadow-md">
+                      <span className="font-medium text-primary">{index + 1}</span>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-medium mb-2">
+                    <div className="pt-1">
+                      <h3 className="text-lg font-medium mb-3 text-primary/90 group-hover:text-primary transition-colors">
                         {initiative.title}
                       </h3>
-                      <p>{initiative.description}</p>
+                      <p className="leading-relaxed text-gray-700">{initiative.description}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="aspect-square relative">
+            <div className="aspect-square relative rounded-sm overflow-hidden shadow-xl">
+              <div className="absolute inset-0 border border-primary/10 rounded-sm z-20" />
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary/20 -translate-x-2 -translate-y-2 z-10" />
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/20 translate-x-2 translate-y-2 z-10" />
+              
               <Image
                 src="/placeholder.svg?height=800&width=800"
                 alt="Sustainability initiatives"
                 fill
-                className="object-cover"
+                className="object-cover hover:scale-105 transition-transform duration-700 z-0"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60 z-10" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                <div className="text-white text-lg font-medium">Sustainable Leadership in Action</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Related Programs */}
-      <section className="py-24">
-        <div className="container-wide">
-          <h2 className="text-3xl font-normal mb-12 text-center">
-            Related Programs
-          </h2>
+      <section className="py-24 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-bl from-primary/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-70" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-primary/5 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 opacity-70" />
+        
+        {/* LOTA emblem for section divider */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center text-primary font-medium">
+              LOTA
+            </div>
+          </div>
+        </div>
+        
+        <div className="container-wide relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-block p-2 rounded-full bg-primary/5 mb-4">
+              <ArrowLeft className="rotate-90 text-primary" size={24} />
+            </div>
+            <h2 className="text-3xl font-normal relative inline-block">
+              Related Programs
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+            </h2>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {programs
               .filter((p) => p.slug !== slug)
               .slice(0, 3)
@@ -384,27 +580,56 @@ export default async function ProgramDetail({
                 <Link
                   key={relatedProgram.slug}
                   href={`/programs/${relatedProgram.slug}`}
-                  className="group"
+                  className="group relative"
                 >
-                  <div className="aspect-[4/3] relative mb-6 overflow-hidden">
-                    <Image
-                      src={
-                        relatedProgram.image ||
-                        "/placeholder.svg?height=600&width=800"
-                      }
-                      alt={relatedProgram.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative">
+                    {/* Card background and decorative elements */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white to-secondary/10 rounded-sm border border-primary/10 shadow-md group-hover:shadow-lg transition-all z-0" />
+                    <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-primary/20 -translate-x-1 -translate-y-1 z-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-0 right-0 w-12 h-12 border-b border-r border-primary/20 translate-x-1 translate-y-1 z-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+                    <div className="relative p-6 z-10">
+                      <div className="aspect-[4/3] relative mb-6 overflow-hidden rounded-sm shadow-md group-hover:shadow-lg transition-all">
+                        <Image
+                          src={
+                            relatedProgram.image ||
+                            "/placeholder.svg?height=600&width=800"
+                          }
+                          alt={relatedProgram.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      
+                      <div className="inline-block rounded-sm bg-primary/10 px-3 py-1 text-xs text-primary mb-3 border-l border-primary/50">
+                        Related Program
+                      </div>
+                      
+                      <h3 className="text-xl font-normal mb-3 group-hover:text-primary transition-colors relative inline-block">
+                        {relatedProgram.title}
+                        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all" />
+                      </h3>
+                      
+                      <p className="text-muted-foreground leading-relaxed line-clamp-2">
+                        {relatedProgram.description}
+                      </p>
+                      
+                      <div className="mt-4 flex items-center text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span>Learn more</span>
+                        <span className="ml-2">→</span>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-normal mb-2 group-hover:underline">
-                    {relatedProgram.title}
-                  </h3>
-                  <p className="text-muted-foreground line-clamp-2">
-                    {relatedProgram.description}
-                  </p>
                 </Link>
               ))}
+          </div>
+          
+          <div className="mt-16 text-center">
+            <Link href="/programs" className="inline-flex items-center px-6 py-3 border border-primary/80 bg-transparent hover:bg-primary/5 transition-colors rounded-sm hover:border-primary">
+              <span className="mr-2">View All Programs</span>
+              <ArrowRight size={18} className="text-primary/80" />
+            </Link>
           </div>
         </div>
       </section>
@@ -414,134 +639,134 @@ export default async function ProgramDetail({
 
 const programs = [
   {
-    title: "Executive Mentorship Program",
-    slug: "executive-mentorship",
+    title: "Professional Networking Program",
+    slug: "networking",
     description:
-      "Connect with experienced executives who provide personalized guidance to help you navigate your career path and develop leadership skills.",
-    image: "/placeholder.svg?height=600&width=800",
-    heroImage: "/placeholder.svg?height=1080&width=1920",
+      "Connect with industry professionals through exclusive networking events, conferences, and social gatherings designed to expand your professional circle.",
+    image: "/images/programs/networking-event.jpg",
+    heroImage: "/images/hero/networking-hero.jpg",
     overview:
-      "The Executive Mentorship Program pairs emerging professionals with experienced executives for personalized guidance and career development. This flagship program is designed to accelerate your professional growth through structured mentorship, skill-building workshops, and networking opportunities with industry leaders.",
+      "The Professional Networking Program provides structured opportunities to build meaningful professional relationships across industries. Through a carefully curated calendar of events, participants gain access to Canada's leading professionals, creating connections that drive career growth and business opportunities.",
     structure:
-      "The program spans six months and includes bi-weekly one-on-one sessions with your assigned mentor, monthly group workshops focused on leadership development, and quarterly networking events. Participants also complete a capstone project addressing a real-world leadership challenge, with guidance from their mentor.",
+      "The program includes monthly networking mixers in major Canadian cities, quarterly industry-specific roundtables, two annual conferences featuring keynote speakers and panel discussions, and exclusive access to our digital networking platform for continued engagement between events.",
     outcomes: [
-      "Develop a personalized leadership development plan with guidance from an experienced executive",
-      "Build a professional network of peers and industry leaders",
-      "Gain insights into leadership challenges and strategies across different industries",
-      "Enhance your communication, decision-making, and strategic thinking skills",
-      "Receive guidance on career advancement and professional development opportunities",
+      "Expand your professional network with quality connections across industries",
+      "Develop refined networking skills and strategies for building meaningful relationships",
+      "Gain access to exclusive industry events and conferences",
+      "Discover new business opportunities and potential collaborations",
+      "Enhance your professional visibility and personal brand in your industry",
     ],
     specs: {
-      duration: "6 months",
-      format: "Hybrid (in-person and virtual sessions)",
+      duration: "Annual membership with ongoing events",
+      format: "In-person networking events and digital platform access",
       eligibility:
-        "Early to mid-career professionals with 3+ years of experience",
-      commitment: "5-7 hours per month",
+        "Professionals at all career stages across industries",
+      commitment: "4-6 hours per month (flexible attendance)",
       dates:
-        "Applications open January 15, 2025 | Program begins March 1, 2025",
-      location: "Toronto, with virtual options available",
-      fee: "$1,500 (scholarships available)",
+        "Rolling admissions | Events calendar updated quarterly",
+      location: "Major cities across Canada (Toronto, Vancouver, Montreal, Calgary, Ottawa)",
+      fee: "$750 annual membership (corporate rates available)",
     },
     applicationSteps: [
       {
-        title: "Submit Application",
+        title: "Apply for Membership",
         description:
-          "Complete the online application form, including your resume and a personal statement outlining your career goals and interest in the program.",
+          "Complete the online membership application with your professional profile, industry focus, and networking objectives.",
       },
       {
-        title: "Application Review",
+        title: "Membership Review",
         description:
-          "Our selection committee reviews all applications based on eligibility criteria, alignment with program objectives, and potential for growth.",
+          "Our membership committee reviews applications to ensure a diverse and complementary mix of professionals across industries and experience levels.",
       },
       {
-        title: "Interview",
+        title: "Payment & Activation",
         description:
-          "Selected candidates are invited for an interview to discuss their application, professional aspirations, and expectations for the program.",
+          "Upon approval, complete your membership payment to activate your account and gain immediate access to the digital networking platform.",
       },
       {
-        title: "Acceptance & Onboarding",
+        title: "Orientation & Profile Setup",
         description:
-          "Successful applicants receive an acceptance letter and participate in an orientation session to prepare for the program.",
+          "Attend a virtual orientation session and complete your enhanced networking profile with our guidance to maximize your visibility.",
       },
     ],
     curriculum: [
       {
-        title: "Leadership Foundations",
+        title: "Strategic Networking",
         description:
-          "Establish a strong foundation in leadership principles and self-awareness to maximize your mentorship experience.",
+          "Master the art of purposeful networking that creates genuine connections and mutual value.",
         topics: [
-          "Leadership styles and their applications",
-          "Personal strengths assessment and development areas",
-          "Setting effective goals for the mentorship relationship",
-          "Ethical leadership and decision-making frameworks",
+          "Identifying high-value networking opportunities",
+          "Creating memorable first impressions",
+          "Developing authentic relationship-building strategies",
+          "Following up effectively to nurture new connections",
         ],
       },
       {
-        title: "Communication & Influence",
+        title: "Professional Presence",
         description:
-          "Develop advanced communication skills to effectively convey ideas, inspire teams, and influence stakeholders.",
+          "Develop a compelling professional presence that enhances your credibility and influence in networking contexts.",
         topics: [
-          "Strategic communication for different audiences",
-          "Persuasive presentation techniques",
-          "Navigating difficult conversations",
-          "Building and leveraging professional relationships",
+          "Personal branding for industry positioning",
+          "Executive presence and confidence in professional settings",
+          "Digital presence optimization across platforms",
+          "Storytelling techniques for memorable introductions",
         ],
       },
       {
-        title: "Strategic Thinking",
+        title: "Relationship Management",
         description:
-          "Learn to analyze complex situations, identify opportunities, and develop strategic approaches to challenges.",
+          "Learn systematic approaches to nurturing and leveraging your professional network for mutual benefit.",
         topics: [
-          "Industry analysis and competitive positioning",
-          "Problem-solving methodologies for complex challenges",
-          "Innovation and design thinking",
-          "Risk assessment and management",
+          "CRM strategies for professional relationships",
+          "Creating value exchanges in your network",
+          "Maintaining connections across geographic distances",
+          "Reactivating dormant professional relationships",
         ],
       },
       {
-        title: "Team Leadership",
+        title: "Strategic Connections",
         description:
-          "Master the skills needed to build, develop, and lead high-performing teams in diverse environments.",
+          "Develop advanced strategies for connecting with high-value contacts and building strategic alliances.",
         topics: [
-          "Team dynamics and development stages",
-          "Inclusive leadership practices",
-          "Performance management and feedback",
-          "Conflict resolution and mediation",
+          "Accessing decision-makers and industry leaders",
+          "Building mutually beneficial strategic partnerships",
+          "Cross-industry networking for innovation",
+          "Leveraging your network for career advancement",
         ],
       },
     ],
     testimonials: [
       {
         quote:
-          "The Executive Mentorship Program provided me with invaluable guidance at a critical point in my career. My mentor helped me navigate complex challenges and identify opportunities for growth that I might have otherwise missed.",
-        name: "Michael Zhang",
-        title: "Marketing Director, Tech Innovations Inc.",
+          "LOTA's Professional Networking Program has been transformative for my career. I've made connections with industry leaders that led directly to new business partnerships and a significant promotion within my company.",
+        name: "David Chen",
+        title: "VP of Business Development, Maple Innovations",
       },
       {
         quote:
-          "This program transformed my approach to leadership. The combination of one-on-one mentorship and group workshops created a powerful learning environment that accelerated my professional development.",
-        name: "Priya Sharma",
-        title: "Operations Manager, Global Solutions",
+          "The quality of connections I've made through this program is exceptional. Unlike typical networking events, LOTA creates an environment where meaningful relationships develop naturally. I've gained mentors, collaborators, and friends who have been instrumental in my professional growth.",
+        name: "Sarah Patel",
+        title: "Founder & CEO, EcoSolutions Canada",
       },
     ],
     sustainability: {
       description:
-        "At LOTA, we're committed to sustainable practices that minimize environmental impact while maximizing social benefit. Our Executive Mentorship Program incorporates sustainability principles throughout its design and implementation.",
+        "Our Professional Networking Program is designed with environmental and social responsibility at its core. We implement sustainable practices throughout our events and digital platforms while fostering connections that drive positive impact.",
       initiatives: [
         {
-          title: "Digital-First Resources",
+          title: "Green Event Certification",
           description:
-            "We've reduced paper usage by 95% through our digital resource library and communication platform, saving approximately 2.5 trees per program cycle.",
+            "All our networking events meet Green Meeting Industry Council standards, with zero single-use plastics, locally-sourced catering, and comprehensive waste diversion programs achieving 95% landfill diversion.",
         },
         {
-          title: "Community Impact Projects",
+          title: "Virtual Networking Options",
           description:
-            "Each cohort completes a community impact project addressing social or environmental challenges, contributing over 500 volunteer hours annually.",
+            "Our hybrid event model and digital platform reduce travel emissions by an estimated 40% while maintaining high-quality networking experiences for remote participants.",
         },
         {
-          title: "Carbon-Neutral Events",
+          title: "Impact Networking",
           description:
-            "All in-person events are carbon-neutral, with emissions offset through investments in renewable energy projects across Canada.",
+            "Quarterly events specifically connect professionals working in sustainability and social impact sectors, facilitating partnerships that have launched 15+ collaborative projects addressing environmental and social challenges.",
         },
       ],
     },
@@ -550,13 +775,13 @@ const programs = [
     title: "Leadership Workshop Series",
     slug: "leadership-workshops",
     description:
-      "Develop essential leadership skills through interactive workshops led by industry experts and thought leaders.",
-    image: "/placeholder.svg?height=600&width=800",
-    heroImage: "/placeholder.svg?height=1080&width=1920",
+      "Develop essential leadership skills through hands-on workshops focused on practical experiences and real-world application.",
+    image: "/images/programs/leadership-workshop.jpg",
+    heroImage: "/images/hero/leadership-workshop-hero.jpg",
     overview:
-      "The Leadership Workshop Series offers focused, skill-building sessions designed to enhance specific leadership competencies. Each workshop combines theoretical frameworks with practical applications, allowing participants to develop and practice new skills in a supportive environment.",
+      "The Leadership Workshop Series is LOTA's flagship professional development program focused on practical skill-building through experiential learning. Each intensive workshop puts theory into immediate practice, with participants working through real business scenarios under the guidance of industry veterans and leadership experts.",
     structure:
-      "The series consists of six standalone workshops that can be taken individually or as a complete program. Each workshop includes pre-work materials, a full-day interactive session, and follow-up resources for continued learning and application.",
+      "The series consists of eight specialized workshops that build progressively on leadership competencies. Each workshop includes pre-work case studies, a full-day immersive session with role-playing and simulation exercises, and a 30-day action plan with executive coaching support for implementation in your workplace.",
     outcomes: [
       "Acquire practical leadership skills that can be immediately applied in your professional context",
       "Learn from industry experts with extensive experience in leadership development",
@@ -678,132 +903,132 @@ const programs = [
     },
   },
   {
-    title: "Community Engagement Initiative",
-    slug: "community-engagement",
+    title: "Mentorship Program",
+    slug: "mentorship",
     description:
-      "Participate in community service projects that make a positive impact while building valuable leadership experience.",
-    image: "/placeholder.svg?height=600&width=800",
-    heroImage: "/placeholder.svg?height=1080&width=1920",
+      "Receive personalized guidance from industry professionals who share their expertise and insights to accelerate your career development.",
+    image: "/images/programs/mentorship-program.jpg",
+    heroImage: "/images/hero/mentorship-hero.jpg",
     overview:
-      "The Community Engagement Initiative provides opportunities for emerging leaders to develop their skills while making meaningful contributions to local communities. Participants work in teams to address real community challenges, applying leadership principles in practical contexts while creating positive social impact.",
+      "The Mentorship Program creates powerful one-on-one relationships between emerging professionals and established industry leaders. Our structured approach ensures mentees receive targeted guidance on their specific career goals while mentors gain fresh perspectives and develop their leadership capabilities.",
     structure:
-      "The program runs for four months and includes an orientation session, team formation, project planning workshops, community service implementation, and a final presentation and reflection session. Teams work with community partners to identify needs and develop sustainable solutions.",
+      "The program runs for eight months and includes a comprehensive matching process, bi-weekly mentoring sessions, monthly peer learning circles, quarterly skills workshops, and ongoing support from our program coordinators. Each mentorship pair establishes clear goals and develops a personalized development plan.",
     outcomes: [
-      "Gain hands-on leadership experience in real-world community contexts",
-      "Develop project management, teamwork, and problem-solving skills",
-      "Build relationships with community organizations and fellow participants",
-      "Create measurable positive impact in local communities",
-      "Enhance your resume with demonstrated leadership and community service",
+      "Receive personalized guidance tailored to your specific career goals and challenges",
+      "Gain insider knowledge and wisdom from experienced industry professionals",
+      "Develop critical professional skills through targeted feedback and coaching",
+      "Navigate career transitions and advancement opportunities with expert support",
+      "Build a lasting professional relationship with an established industry leader",
     ],
     specs: {
-      duration: "4 months",
-      format: "In-person community service with supporting workshops",
-      eligibility: "Open to all professionals and students",
-      commitment: "8-10 hours per month",
-      dates: "Programs begin quarterly (January, April, July, October)",
-      location: "Various community sites across Montreal",
-      fee: "$250 (covers program materials and project seed funding)",
+      duration: "8 months",
+      format: "One-on-one mentoring with supporting group activities",
+      eligibility: "Early to mid-career professionals with 1-7 years of experience",
+      commitment: "6-8 hours per month",
+      dates: "Programs begin bi-annually (February and August)",
+      location: "Virtual and in-person options available across Canada",
+      fee: "$450 (scholarships available for qualified applicants)",
     },
     applicationSteps: [
       {
-        title: "Apply Online",
+        title: "Submit Application",
         description:
-          "Submit your application indicating your interests, skills, and availability for community service projects.",
+          "Complete the detailed application form outlining your career background, goals, development areas, and what you're seeking in a mentor.",
       },
       {
-        title: "Orientation",
+        title: "Assessment & Matching",
         description:
-          "Attend an orientation session to learn about the program structure, community partners, and potential projects.",
+          "Participate in our comprehensive assessment process to identify your learning style, career aspirations, and mentorship needs for optimal mentor matching.",
       },
       {
-        title: "Team Formation",
+        title: "Mentor Introduction",
         description:
-          "Based on your interests and skills, you'll be matched with a team and community partner for your service project.",
+          "Once matched, participate in a facilitated introduction session with your potential mentor to ensure compatibility and establish initial rapport.",
       },
       {
-        title: "Project Kickoff",
+        title: "Goal Setting & Agreement",
         description:
-          "Meet with your team and community partner to define project scope, goals, and implementation plan.",
+          "Work with your mentor and program coordinator to establish clear goals, expectations, and a structured development plan for your mentorship journey.",
       },
     ],
     curriculum: [
       {
-        title: "Community Needs Assessment",
+        title: "Career Development Planning",
         description:
-          "Learn to identify and analyze community needs through research, stakeholder interviews, and collaborative assessment methods.",
+          "Create a comprehensive career development strategy with guidance from your mentor to achieve your professional goals.",
         topics: [
-          "Stakeholder mapping and engagement",
-          "Qualitative and quantitative assessment methods",
-          "Asset-based community development",
-          "Prioritizing needs and opportunities",
+          "Career trajectory mapping and milestone planning",
+          "Skill gap analysis and development planning",
+          "Industry trend analysis and opportunity identification",
+          "Personal brand development and positioning",
         ],
       },
       {
-        title: "Project Planning & Management",
+        title: "Leadership Development",
         description:
-          "Develop skills to plan, implement, and evaluate community service projects effectively.",
+          "Develop essential leadership capabilities through personalized guidance and practical application.",
         topics: [
-          "Setting SMART objectives",
-          "Resource allocation and budgeting",
-          "Timeline development and milestone tracking",
-          "Risk assessment and mitigation strategies",
+          "Leadership style assessment and refinement",
+          "Influence and stakeholder management",
+          "Decision-making frameworks for complex situations",
+          "Executive presence and communication",
         ],
       },
       {
-        title: "Collaborative Leadership",
+        title: "Strategic Networking",
         description:
-          "Learn to lead effectively in collaborative, multi-stakeholder environments.",
+          "Learn to build and leverage professional relationships that advance your career objectives.",
         topics: [
-          "Building consensus and managing diverse perspectives",
-          "Facilitating effective meetings and decision-making",
-          "Delegating responsibilities and empowering team members",
-          "Navigating organizational cultures and systems",
+          "Network mapping and relationship development",
+          "Industry-specific networking strategies",
+          "Mentorship circle development",
+          "Building mutually beneficial professional relationships",
         ],
       },
       {
-        title: "Impact Measurement",
+        title: "Professional Challenges",
         description:
-          "Develop frameworks to measure, evaluate, and communicate the impact of community service projects.",
+          "Develop strategies to navigate complex workplace challenges with guidance from experienced mentors.",
         topics: [
-          "Defining success metrics and indicators",
-          "Data collection and analysis methods",
-          "Storytelling and impact reporting",
-          "Sustainability planning for long-term impact",
+          "Workplace conflict resolution techniques",
+          "Navigating organizational politics effectively",
+          "Work-life integration strategies",
+          "Career transition and advancement planning",
         ],
       },
     ],
     testimonials: [
       {
         quote:
-          "The Community Engagement Initiative allowed me to apply my professional skills in a completely different context. Working with our community partner was incredibly rewarding, and I developed leadership skills that I've brought back to my workplace.",
-        name: "Alex Chen",
-        title: "Project Manager, Construction Industry",
+          "The Mentorship Program connected me with an executive who fundamentally changed my career trajectory. My mentor provided insights that helped me navigate complex organizational challenges and identify growth opportunities I hadn't considered. The structured approach ensured our relationship remained focused and productive.",
+        name: "Thomas Wilson",
+        title: "Director of Operations, National Bank Financial",
       },
       {
         quote:
-          "This program gave me hands-on experience with project management and team leadership that I couldn't have gotten elsewhere. The skills I developed have been invaluable in my career, and the community impact we created was truly meaningful.",
-        name: "Samantha Patel",
-        title: "Marketing Specialist, Retail Sector",
+          "As someone transitioning to a leadership role, the guidance I received through LOTA's Mentorship Program was invaluable. My mentor shared practical strategies that helped me develop my management style and build confidence in my decision-making. The program's framework ensured I received personalized support while developing practical leadership skills.",
+        name: "Aisha Rahman",
+        title: "Team Lead, Healthcare Innovation Lab",
       },
     ],
     sustainability: {
       description:
-        "Sustainability is at the core of our Community Engagement Initiative, both in how we operate the program and in the lasting impact we aim to create through community projects.",
+        "Our Mentorship Program integrates sustainability principles throughout its design and implementation, creating lasting positive impact for participants while minimizing environmental footprint.",
       initiatives: [
         {
-          title: "Sustainable Project Design",
+          title: "Digital Mentorship Platform",
           description:
-            "All community projects are designed with sustainability principles, ensuring solutions that create lasting positive impact with minimal environmental footprint.",
+            "Our custom digital platform facilitates virtual mentoring sessions, reducing travel-related emissions by approximately 60% while maintaining high-quality mentorship experiences through video conferencing and collaborative tools.",
         },
         {
-          title: "Green Transportation",
+          title: "Sustainable Leadership Development",
           description:
-            "We encourage carpooling, public transit, and cycling to project sites, reducing the program's carbon emissions by approximately 40% compared to individual transportation.",
+            "We integrate environmental and social responsibility principles into our mentorship curriculum, empowering the next generation of leaders to implement sustainable practices in their organizations.",
         },
         {
-          title: "Skills-Based Volunteering",
+          title: "Mentorship Impact Measurement",
           description:
-            "Our approach matches participants' professional skills with community needs, maximizing impact while providing meaningful development opportunities.",
+            "Our comprehensive impact assessment framework tracks not only professional development outcomes but also how mentees implement sustainable practices in their organizations, creating a multiplier effect.",
         },
       ],
     },

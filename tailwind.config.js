@@ -90,6 +90,11 @@ module.exports = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        shine: {
+          "0%": { left: "-100%", opacity: 0 },
+          "50%": { opacity: 1 },
+          "100%": { left: "100%", opacity: 0 },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -99,6 +104,7 @@ module.exports = {
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
         float: "float 6s ease-in-out infinite",
         marquee: "marquee 25s linear infinite",
+        shine: "shine 1.5s ease-in-out",
       },
     },
   },

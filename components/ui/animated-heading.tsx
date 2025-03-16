@@ -64,7 +64,7 @@ export function AnimatedHeading({
   const variantClasses = {
     default: "text-foreground",
     outlined: "text-transparent bg-clip-text border-foreground",
-    gradient: "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600",
+    gradient: "text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-700",
     minimal: "text-foreground font-light",
     accent: "text-primary",
   };
@@ -81,7 +81,7 @@ export function AnimatedHeading({
         className={cn(
           "font-bold tracking-tight", 
           sizeClasses[size],
-          gradient && "text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600",
+          gradient && "text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-700",
           variant !== "gradient" && variantClasses[variant]
         )}
       >

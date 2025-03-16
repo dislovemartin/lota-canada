@@ -41,15 +41,15 @@ export function TestimonialCard({
   const variantStyles = {
     default: "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-md",
     minimal: "bg-transparent",
-    gradient: "bg-gradient-to-br from-blue-600 to-blue-800 text-white",
-    bordered: "bg-white dark:bg-gray-900 border-2 border-blue-700 dark:border-blue-500",
-    glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white",
+    gradient: "bg-gradient-to-br from-black to-gray-800 text-white",
+    bordered: "bg-white dark:bg-gray-900 border-2 border-gray-700 dark:border-gray-500 shadow-md",
+    glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-xl",
   }
 
   const sizeStyles = {
     sm: "p-4 text-sm",
     md: "p-6 text-base",
-    lg: "p-8 text-lg",
+    lg: "p-8 text-lg leading-relaxed",
   }
 
   const quoteStyles = {
@@ -95,7 +95,14 @@ export function TestimonialCard({
       {variant === "gradient" && (
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-white/10 blur-xl" />
+          <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-gray-400/10 blur-xl" />
           <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay" />
+          {featured && (
+            <>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-400 to-black" />
+              <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-gray-400 to-black" />
+            </>
+          )}
         </div>
       )}
       
@@ -103,6 +110,10 @@ export function TestimonialCard({
       {variant === "glass" && (
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-black/5 to-gray-500/5" />
+          {featured && (
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gray-400/50 to-black/50" />
+          )}
         </div>
       )}
       
@@ -111,13 +122,20 @@ export function TestimonialCard({
         <motion.div
           className={cn(
             "mb-4",
-            variant === "gradient" || variant === "glass" ? "text-white/80" : "text-blue-700"
+            variant === "gradient" || variant === "glass" ? "text-white/80" : "text-black"
           )}
           initial={animated ? { opacity: 0, scale: 0.8 } : { opacity: 1, scale: 1 }}
           animate={animated && isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.4, delay: delay + 0.2 }}
         >
-          <Quote size={32} />
+          {featured ? (
+            <div className="relative">
+              <div className="absolute -top-1 -left-1 w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800/30" />
+              <Quote size={40} className="relative z-10" />
+            </div>
+          ) : (
+            <Quote size={32} />
+          )}
         </motion.div>
         
         {/* Quote text */}
@@ -148,7 +166,7 @@ export function TestimonialCard({
                   i < rating 
                     ? variant === "gradient" || variant === "glass" 
                       ? "text-white" 
-                      : "text-blue-500" 
+                      : "text-black" 
                     : variant === "gradient" || variant === "glass" 
                       ? "text-white/30" 
                       : "text-gray-300"
@@ -177,7 +195,16 @@ export function TestimonialCard({
               animate={animated && isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.4, delay: delay + 0.3 }}
             >
-              <div className="relative h-12 w-12 rounded-full overflow-hidden">
+              <div className={cn(
+                "relative overflow-hidden",
+                featured ? "h-16 w-16 rounded-full" : "h-12 w-12 rounded-full"
+              )}>
+                {variant === "gradient" && (
+                  <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                )}
+                {variant === "bordered" && (
+                  <div className="absolute inset-0 rounded-full border-2 border-black/50" />
+                )}
                 <Image
                   src={avatarSrc}
                   alt={author}

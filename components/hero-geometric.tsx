@@ -93,7 +93,7 @@ export function HeroGeometric({
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/[0.1] via-transparent to-purple-900/[0.1] blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/[0.1] via-transparent to-gray-900/[0.1] blur-3xl" />
 
       <div className="absolute inset-0 overflow-hidden">
         <TorontoSkylineShape
@@ -152,7 +152,7 @@ export function HeroGeometric({
               <br />
               <span
                 className={cn(
-                  "bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-white/90 to-purple-300 font-normal",
+                  "bg-clip-text text-transparent bg-gradient-to-r from-gray-300 via-white/90 to-black font-normal",
                 )}
               >
                 Leaders of Tomorrow

@@ -27,6 +27,73 @@ declare module 'framer-motion' {
     }
   ): boolean;
 
+  // Motion value hooks
+  export function useMotionValue<T = number>(initial: T): {
+    get: () => T;
+    set: (v: T) => void;
+    subscribe: (subscriber: (v: T) => void) => () => void;
+    onChange: (callback: (v: T) => void) => () => void;
+  };
+
+  // useTransform with callback function (for hero-modern.tsx)
+  export function useTransform<T = number>(
+    transform: () => T
+  ): {
+    get: () => T;
+    onChange: (callback: (v: T) => void) => () => void;
+  };
+
+  // useTransform with input range and output range
+  export function useTransform<T>(
+    value: { get: () => number },
+    inputRange: number[],
+    outputRange: T[],
+    options?: { clamp?: boolean }
+  ): {
+    get: () => T;
+    onChange: (callback: (v: T) => void) => () => void;
+  };
+
+  export function useSpring(
+    value: { get: () => number },
+    springConfig?: { damping?: number; stiffness?: number; mass?: number }
+  ): {
+    get: () => number;
+    set: (v: number) => void;
+    onChange: (callback: (v: number) => void) => () => void;
+  };
+
+  // Animation controls
+  export function useAnimation(): {
+    start: (definition: any, options?: any) => Promise<any>;
+    stop: () => void;
+    [key: string]: any;
+  };
+
+  // Scroll hooks
+  export function useScroll(options?: {
+    container?: React.RefObject<HTMLElement>;
+    target?: React.RefObject<HTMLElement>;
+    offset?: string[] | [string, string];
+  }): {
+    scrollX: {
+      get: () => number;
+      onChange: (callback: (v: number) => void) => () => void;
+    };
+    scrollY: {
+      get: () => number;
+      onChange: (callback: (v: number) => void) => () => void;
+    };
+    scrollXProgress: {
+      get: () => number;
+      onChange: (callback: (v: number) => void) => () => void;
+    };
+    scrollYProgress: {
+      get: () => number;
+      onChange: (callback: (v: number) => void) => () => void;
+    };
+  };
+
   // Other exports as needed
   export type Variant = {
     [key: string]: string | number | boolean | Variant;

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Noise Texture</title>
+</head>
+<body>
+  <canvas id="noiseCanvas" width="200" height="200" style="display:none;"></canvas>
+  <a id="downloadLink" download="noise.png" href="#">Download Noise Texture</a>
+
+  <script>
+    // Create noise texture
+    function createNoiseTexture() {
+      const canvas = document.getElementById('noiseCanvas');
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(canvas.width, canvas.height);
+      const data = imageData.data;
+      
+      // Generate noise
+      for (let i = 0; i < data.length; i += 4) {
+        // Random noise with low opacity for subtle effect
+        const value = Math.floor(Math.random() * 255);
+        data[i] = data[i + 1] = data[i + 2] = value;
+        data[i + 3] = Math.random() < 0.05 ? 255 : 0; // Only make 5% of pixels visible
+      }
+      
+      ctx.putImageData(imageData, 0, 0);
+      
+      // Set download link
+      const downloadLink = document.getElementById('downloadLink');
+      downloadLink.href = canvas.toDataURL('image/png');
+      
+      console.log('Noise texture created. Click the link to download.');
+    }
+    
+    // Create the texture when page loads
+    window.onload = createNoiseTexture;
+  </script>
+</body>
+</html>

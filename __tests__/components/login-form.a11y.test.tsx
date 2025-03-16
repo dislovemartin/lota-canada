@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe, toHaveNoViolations } from 'jest-axe'
 
-expect.extend(toHaveNoViolations)
+// Fix TypeScript error by properly typing the extension
+expect.extend(toHaveNoViolations as any)
 
 describe('LoginForm Accessibility', () => {
     test('should not have any accessibility violations', async () => {
@@ -92,10 +93,11 @@ describe('LoginForm Accessibility', () => {
 
     test('color contrast meets WCAG standards', async () => {
         const { container } = render(<LoginForm />)
+        // Use type assertion to fix the TypeScript error with the rules object
         const results = await axe(container, {
             rules: {
                 'color-contrast': { enabled: true }
-            }
+            } as any
         })
         expect(results).toHaveNoViolations()
     })

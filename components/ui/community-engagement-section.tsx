@@ -173,7 +173,7 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
                     activeTab === tab.id
-                      ? "bg-blue-600 text-white shadow-md"
+                      ? "bg-black text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                   )}
                 >
@@ -203,19 +203,19 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
                 <h4 className="font-semibold mb-4 text-gray-900 dark:text-white">Impact Statistics</h4>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">12+</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">12+</div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Community Partners</div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1,200+</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">1,200+</div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Volunteer Hours</div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">8</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">8</div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Active Projects</div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">95%</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">95%</div>
                     <div className="text-sm text-gray-600 dark:text-gray-300">Participant Satisfaction</div>
                   </div>
                 </div>

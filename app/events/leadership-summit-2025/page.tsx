@@ -285,9 +285,9 @@ export default function LeadershipSummit2025Page() {
                     <div className="mt-16">
                         <AnimatedStats
                             stats={[
-                                { value: 500, label: "Attendees", suffix: "+" },
-                                { value: 20, label: "Speakers", suffix: "" },
-                                { value: 15, label: "Workshops", suffix: "" },
+                                { value: 650, label: "Attendees", suffix: "+" },
+                                { value: 28, label: "Speakers", suffix: "" },
+                                { value: 22, label: "Workshops", suffix: "" },
                                 { value: 3, label: "Days", suffix: "" },
                             ]}
                             variant="minimal"

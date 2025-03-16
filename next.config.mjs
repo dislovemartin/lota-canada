@@ -40,11 +40,11 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 86400, // 24 hours
+    minimumCacheTTL: 604800, // 7 days for better caching
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    unoptimized: process.env.NODE_ENV === 'development' ? true : false, // Disable optimization in development
+    unoptimized: false, // Enable optimization in all environments for better image quality
   },
   experimental: {
     optimizeCss: true,
@@ -77,7 +77,7 @@ const nextConfig = {
             options: {
               mozjpeg: {
                 progressive: true,
-                quality: 80,
+                quality: 85,
               },
               optipng: {
                 enabled: true,
@@ -88,7 +88,7 @@ const nextConfig = {
                 speed: 4,
               },
               webp: {
-                quality: 80,
+                quality: 90,
               },
               avif: {
                 quality: 80,
