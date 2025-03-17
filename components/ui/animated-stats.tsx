@@ -37,25 +37,23 @@ export function AnimatedStats({
 
   useEffect(() => {
     if (!isInView || !animated) return;
-
-    const timers = stats.map((stat, index) => {
-      // Reset count
-      setCounts(prev => {
-        const newCounts = [...prev];
-        newCounts[index] = 0;
-        return newCounts;
-      });
-
-      // Animate count
-      const stepDuration = duration * 1000 / stat.value;
+    
+    // Reset all counts initially
+    setCounts(stats.map(() => 0));
+    
+    const timers: NodeJS.Timeout[] = [];
+    
+    // Create animation intervals
+    stats.forEach((stat, index) => {
+      const stepDuration = Math.max(10, duration * 1000 / (stat.value || 1));
       let currentCount = 0;
-
-      return setInterval(() => {
+      
+      const timer = setInterval(() => {
         if (currentCount >= stat.value) {
-          clearInterval(timers[index]);
+          clearInterval(timer);
           return;
         }
-
+        
         currentCount += 1;
         setCounts(prev => {
           const newCounts = [...prev];
@@ -63,12 +61,21 @@ export function AnimatedStats({
           return newCounts;
         });
       }, stepDuration);
+      
+      timers.push(timer);
     });
-
+    
+    // Cleanup function
     return () => {
       timers.forEach(timer => clearInterval(timer));
     };
-  }, [isInView, stats, animated, duration]);
+  }, [isInView, animated, duration, stats.length]);
+  
+  // Store stat values in a ref to avoid dependency issues
+  const statsRef = useRef(stats);
+  useEffect(() => {
+    statsRef.current = stats;
+  }, [stats]);
 
   const variantStyles = {
     default: "bg-white dark:bg-gray-900 shadow-md",

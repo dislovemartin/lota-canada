@@ -18,6 +18,10 @@ export interface AnimatedHeadingProps {
   staggerDelay?: number;
   animated?: boolean;
   variant?: "default" | "outlined" | "gradient" | "minimal" | "accent";
+  decorativeBorder?: boolean;
+  accentLine?: boolean;
+  highlightWords?: string[];
+  style?: React.CSSProperties;
 }
 
 export function AnimatedHeading({
@@ -34,6 +38,10 @@ export function AnimatedHeading({
   staggerDelay = 0.05,
   animated = true,
   variant = "default",
+  decorativeBorder = false,
+  accentLine = false,
+  highlightWords = [],
+  style,
 }: AnimatedHeadingProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref as React.RefObject<HTMLElement>, {
@@ -76,7 +84,7 @@ export function AnimatedHeading({
   const titleChars = title.split("");
 
   return (
-    <div ref={ref} className={cn("mb-12", alignClasses[align], className)}>
+    <div ref={ref} className={cn("mb-12", alignClasses[align], className)} style={style}>
       <h2 
         className={cn(
           "font-bold tracking-tight", 
@@ -153,8 +161,21 @@ export function AnimatedHeading({
             animate={animated && isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
           >
-            {title}
+            {highlightWords.length > 0 ? (
+              title.split(' ').map((word, i) => (
+                <span key={i} className={cn(
+                  "mr-[0.25em]",
+                  highlightWords.includes(word) && "text-primary font-bold"
+                )}>
+                  {word}
+                </span>
+              ))
+            ) : title}
           </motion.span>
+        )}
+        
+        {decorativeBorder && (
+          <div className="absolute -inset-4 border border-gray-200 dark:border-gray-800 opacity-50 rounded-lg pointer-events-none"></div>
         )}
 
         {underline && (
@@ -179,6 +200,13 @@ export function AnimatedHeading({
               marginRight: align === "center" ? "auto" : 0,
             }}
           />
+        )}
+        
+        {accentLine && (
+          <div className="mt-4 flex items-center justify-start">
+            <div className="h-px w-12 bg-gradient-to-r from-primary to-primary/50"></div>
+            <div className="h-px w-8 ml-1 bg-gradient-to-r from-primary/50 to-transparent"></div>
+          </div>
         )}
       </h2>
 

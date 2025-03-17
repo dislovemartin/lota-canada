@@ -228,7 +228,7 @@ function TestimonialsContent() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-8"
         >
-          <Button asChild size="lg">
+          <Button size="lg">
             <a href="/contact">Submit Your Testimonial</a>
           </Button>
         </motion.div>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <!-- Background -->
+  <rect width="600" height="300" fill="#1A1A1A" rx="10" ry="10"/>
+
+  <!-- Hexagon Shape -->
+  <polygon points="300,80 360,110 360,190 300,220 240,190 240,110" fill="#1A1A1A" stroke="#D4AF37" stroke-width="4"/>
+
+  <!-- T Symbol -->
+  <path d="M270,120 L330,120 L330,140 L310,140 L310,190 L290,190 L290,140 L270,140 Z" fill="#D4AF37"/>
+
+  <!-- Decorative Lines -->
+  <line x1="240" y1="110" x2="220" y2="90" stroke="#D4AF37" stroke-width="2"/>
+  <line x1="360" y1="110" x2="380" y2="90" stroke="#D4AF37" stroke-width="2"/>
+  <line x1="240" y1="190" x2="220" y2="210" stroke="#D4AF37" stroke-width="2"/>
+  <line x1="360" y1="190" x2="380" y2="210" stroke="#D4AF37" stroke-width="2"/>
+
+  <!-- Circles -->
+  <circle cx="300" cy="80" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  <circle cx="240" cy="110" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  <circle cx="240" cy="190" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  <circle cx="300" cy="220" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  <circle cx="360" cy="190" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+  <circle cx="360" cy="110" r="6" fill="none" stroke="#D4AF37" stroke-width="2"/>
+
+  <!-- Small Circles -->
+  <circle cx="220" cy="90" r="4" fill="#D4AF37"/>
+  <circle cx="380" cy="90" r="4" fill="#D4AF37"/>
+  <circle cx="220" cy="210" r="4" fill="#D4AF37"/>
+  <circle cx="380" cy="210" r="4" fill="#D4AF37"/>
+
+  <!-- Text -->
+  <text x="300" y="260" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FFFFFF" text-anchor="middle">LEADERS OF TOMORROW</text>
+  <text x="300" y="285" font-family="Arial, sans-serif" font-size="20" fill="#D4AF37" text-anchor="middle">ASSOCIATION</text>
+</svg>

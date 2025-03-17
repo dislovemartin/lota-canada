@@ -2,8 +2,6 @@
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { AnimatedButton } from "@/components/ui/animated-button";
-import { AnimatedHeading } from "@/components/ui/animated-heading";
-import { AnimatedStats } from "@/components/ui/animated-stats";
 import { PageTransition } from "@/components/ui/page-transition";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { motion, useInView } from "framer-motion";

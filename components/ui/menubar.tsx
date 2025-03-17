@@ -5,6 +5,7 @@ import { Check, ChevronRight } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { SafeChildren } from "./safe-children";
 
 const MenubarMenu = MenubarPrimitive.Menu;
 
@@ -16,34 +17,35 @@ const MenubarSub = MenubarPrimitive.Sub;
 
 const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
 
-const Menubar = React.forwardRef<
-  React.ElementRef<typeof MenubarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "flex h-10 items-center space-x-1 rounded-md border bg-background p-1",
-      className
-    )}
-    {...props}
-  />
-));
-Menubar.displayName = MenubarPrimitive.Root.displayName;
+const Menubar = MenubarPrimitive.Root;
 
 const MenubarTrigger = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-      className
-    )}
-    {...props}
-  />
-));
+>((props, ref) => {
+  const { className, children, ...restProps } = props;
+
+  // Check if children is a valid React element
+  const isValidElement = React.isValidElement(children);
+  
+  // If it's not a valid element or it's a fragment, wrap it in SafeChildren
+  const safeChildren = isValidElement ? 
+    children : 
+    <SafeChildren>{children}</SafeChildren>;
+
+  return (
+    <MenubarPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        className
+      )}
+      {...restProps}
+    >
+      {safeChildren}
+    </MenubarPrimitive.Trigger>
+  );
+});
 MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
 
 const MenubarSubTrigger = React.forwardRef<
@@ -51,20 +53,30 @@ const MenubarSubTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> & {
     inset?: boolean;
   }
->(({ className, inset, children, ...props }, ref) => (
-  <MenubarPrimitive.SubTrigger
-    ref={ref}
-    className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-      inset && "pl-8",
-      className
-    )}
-    {...props}
-  >
-    {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
-  </MenubarPrimitive.SubTrigger>
-));
+>(({ className, inset, children, ...props }, ref) => {
+  // Check if children is a valid React element
+  const isValidElement = React.isValidElement(children);
+  
+  // If it's not a valid element or it's a fragment, wrap it in SafeChildren
+  const safeChildren = isValidElement ? 
+    children : 
+    <SafeChildren>{children}</SafeChildren>;
+    
+  return (
+    <MenubarPrimitive.SubTrigger
+      ref={ref}
+      className={cn(
+        "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        inset && "pl-8",
+        className
+      )}
+      {...props}
+    >
+      {safeChildren}
+      <ChevronRight className="ml-auto h-4 w-4" />
+    </MenubarPrimitive.SubTrigger>
+  );
+});
 MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
 
 const MenubarSubContent = React.forwardRef<
@@ -217,21 +229,21 @@ const MenubarShortcut = ({
 MenubarShortcut.displayname = "MenubarShortcut";
 
 export {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarGroup,
-  MenubarItem,
-  MenubarLabel,
-  MenubarMenu,
-  MenubarPortal,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger
+    Menubar,
+    MenubarCheckboxItem,
+    MenubarContent,
+    MenubarGroup,
+    MenubarItem,
+    MenubarLabel,
+    MenubarMenu,
+    MenubarPortal,
+    MenubarRadioGroup,
+    MenubarRadioItem,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarSub,
+    MenubarSubContent,
+    MenubarSubTrigger,
+    MenubarTrigger
 };
 

@@ -1,11 +1,13 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { imageFallbacks } from "@/lib/image-fallbacks"
 import { motion } from "framer-motion"
 import { ArrowRight, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState } from "react"
+import { ProfessionalImage } from "./professional-image"
 
 export interface ModernCardProps {
   title: string
@@ -148,7 +150,7 @@ export function ModernCard({
         </Link>
 
         <div className={cn("relative overflow-hidden", aspectRatioClasses[aspectRatio], imageClassName)}>
-          <Image
+          <ProfessionalImage
             src={imageSrc || "/placeholder.svg"}
             alt={imageAlt}
             fill
@@ -159,6 +161,10 @@ export function ModernCard({
               variant === "glass" && "opacity-80"
             )}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            gradientOverlay={variant === "gradient"}
+            noiseTexture={true}
+            decorativeBorder={variant === "bordered"}
+            variant={variant === "bordered" ? "bordered" : "default"}
           />
 
           {/* Image overlay gradient */}

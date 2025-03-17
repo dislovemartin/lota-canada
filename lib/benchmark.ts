@@ -1,8 +1,33 @@
 /**
+ * Type declaration for non-standard performance.memory property in Chrome
+ */
+declare global {
+    interface Performance {
+        memory?: {
+            usedJSHeapSize: number;
+            jsHeapSizeLimit: number;
+            totalJSHeapSize: number;
+        };
+    }
+
+    // WebGL context type declarations
+    interface WebGLRenderingContext {
+        getExtension(name: string): any;
+        getParameter(pname: number): any;
+    }
+
+    interface WebGLDebugRendererInfo {
+        UNMASKED_VENDOR_WEBGL: number;
+        UNMASKED_RENDERER_WEBGL: number;
+    }
+}
+
+/**
  * Comprehensive Benchmarking Utility for Inference Optimization
  */
 
 import * as tf from '@tensorflow/tfjs';
+import { createRequire } from 'module';
 import { ImageClassificationInput, OptimizedImageClassifier } from './image-classification';
 import { InferenceConfig } from './inference';
 import { OptimizedTextClassifier, TextClassificationInput } from './text-classification';
@@ -83,18 +108,22 @@ function getMemoryUsage(): number {
  * @returns GPU memory usage in MB or undefined if not available
  */
 async function getGPUMemoryUsage(): Promise<number | undefined> {
-    if (tf.getBackend() === 'webgl' || tf.getBackend() === 'cuda') {
-        try {
-            // For WebGL backend
-            if (tf.getBackend() === 'webgl') {
+    try {
+        if (tf.getBackend() === 'webgl' || tf.getBackend() === 'webgpu') {
+            // For WebGL/WebGPU backend (browser)
+            if (typeof (tf.backend() as any).getMemoryInfo === 'function') {
                 const webglMemoryInfo = (tf.backend() as any).getMemoryInfo?.();
                 if (webglMemoryInfo) {
                     return webglMemoryInfo.numBytesInGPU / (1024 * 1024);
                 }
             }
+        }
 
-            // For CUDA backend (Node.js)
-            if (tf.getBackend() === 'cuda' && typeof window === 'undefined') {
+        // For CUDA backend (Node.js)
+        if (tf.getBackend() === 'cuda' && typeof window === 'undefined') {
+            // Use dynamic import for Node.js modules
+            if (typeof window === 'undefined') {
+                const require = createRequire(import.meta.url);
                 const { exec } = require('child_process');
                 return new Promise((resolve) => {
                     exec('nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits', (error: any, stdout: string) => {
@@ -107,19 +136,18 @@ async function getGPUMemoryUsage(): Promise<number | undefined> {
                     });
                 });
             }
-        } catch (error) {
-            console.warn('Failed to get GPU memory usage:', error);
         }
+    } catch (error) {
+        console.warn('Failed to get GPU memory usage:', error);
     }
 
     return undefined;
 }
 
 /**
- * Get device information
- * @returns Device information
+ * Get device information for benchmarking
  */
-async function getDeviceInfo(): Promise<BenchmarkSummary['deviceInfo']> {
+export async function getDeviceInfo(): Promise<BenchmarkSummary['deviceInfo']> {
     const info: BenchmarkSummary['deviceInfo'] = {
         platform: typeof window !== 'undefined' ? 'browser' : 'node'
     };
@@ -131,7 +159,7 @@ async function getDeviceInfo(): Promise<BenchmarkSummary['deviceInfo']> {
         // Try to get GPU info from WebGL
         try {
             const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
             if (gl) {
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                 if (debugInfo) {
@@ -143,17 +171,20 @@ async function getDeviceInfo(): Promise<BenchmarkSummary['deviceInfo']> {
         }
     } else {
         // Node.js environment
-        const os = require('os');
-        info.cpuCores = os.cpus().length;
-        info.memoryMB = os.totalmem() / (1024 * 1024);
+        if (typeof window === 'undefined') {
+            const require = createRequire(import.meta.url);
+            const os = require('os');
+            info.cpuCores = os.cpus().length;
+            info.memoryMB = os.totalmem() / (1024 * 1024);
 
-        // Try to get GPU info from nvidia-smi
-        try {
-            const { execSync } = require('child_process');
-            const gpuInfo = execSync('nvidia-smi -L', { encoding: 'utf8' });
-            info.gpuInfo = gpuInfo.split('\n')[0].replace('GPU 0: ', '').trim();
-        } catch (e) {
-            // No NVIDIA GPU or nvidia-smi not available
+            // Try to get GPU info from nvidia-smi
+            try {
+                const { execSync } = require('child_process');
+                const gpuInfo = execSync('nvidia-smi -L', { encoding: 'utf8' });
+                info.gpuInfo = gpuInfo.split('\n')[0].replace('GPU 0: ', '').trim();
+            } catch (e) {
+                // No NVIDIA GPU or nvidia-smi not available
+            }
         }
     }
 
@@ -509,7 +540,10 @@ export async function saveBenchmarkResults(summary: BenchmarkSummary, filePath: 
         throw new Error('saveBenchmarkResults is only available in Node.js environment');
     }
 
-    const fs = require('fs');
-    fs.writeFileSync(filePath, JSON.stringify(summary, null, 2), 'utf8');
-    console.log(`Benchmark results saved to ${filePath}`);
+    if (typeof window === 'undefined') {
+        const require = createRequire(import.meta.url);
+        const fs = require('fs');
+        fs.writeFileSync(filePath, JSON.stringify(summary, null, 2), 'utf8');
+        console.log(`Benchmark results saved to ${filePath}`);
+    }
 } 

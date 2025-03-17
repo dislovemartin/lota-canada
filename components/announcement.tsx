@@ -16,7 +16,7 @@ interface AnnouncementProps {
 }
 
 export default function Announcement({
-  messages,
+  messages = [],
   interval = 5000,
   className,
   showCloseButton = true,
@@ -27,6 +27,11 @@ export default function Announcement({
   const [isVisible, setIsVisible] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Filter out empty messages
+  const validMessages = messages.filter(
+    (message) => message && message.trim() !== ""
+  );
 
   // Check local storage on mount
   useEffect(() => {
@@ -39,10 +44,10 @@ export default function Announcement({
   }, [storageKey]);
 
   useEffect(() => {
-    if (!isVisible || isPaused || messages.length <= 1) return;
+    if (!isVisible || isPaused || validMessages.length <= 1) return;
 
     intervalRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % messages.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % validMessages.length);
     }, interval);
 
     return () => {
@@ -50,7 +55,7 @@ export default function Announcement({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isVisible, isPaused, messages.length, interval]);
+  }, [isVisible, isPaused, validMessages.length, interval]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -60,13 +65,15 @@ export default function Announcement({
     }
   };
 
-  if (!isVisible || messages.length === 0) return null;
+  // Don't render if there are no valid messages
+  if (!isVisible || validMessages.length === 0) return null;
 
   return (
     <div
       className={cn(
         "bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-2 relative overflow-hidden",
         "fixed top-0 left-0 right-0 z-50 h-[40px] flex items-center shadow-md",
+        "announcement-bar",
         className
       )}
       onMouseEnter={() => setIsPaused(true)}
@@ -93,9 +100,11 @@ export default function Announcement({
           >
             {/* Decorative dot */}
             <div className="hidden sm:block w-2 h-2 rounded-full bg-blue-300 mr-3"></div>
-            <span className="text-sm sm:text-base font-medium tracking-wide"
-                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
-              {messages[currentIndex]}
+            <span
+              className="text-sm sm:text-base font-medium tracking-wide"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
+            >
+              {validMessages[currentIndex]}
             </span>
             {/* Decorative dot */}
             <div className="hidden sm:block w-2 h-2 rounded-full bg-blue-300 ml-3"></div>
@@ -109,20 +118,23 @@ export default function Announcement({
             onClick={handleClose}
             aria-label="Close announcement"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 handleClose();
               }
             }}
           >
             <span className="sr-only">Close</span>
-            <X className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+            <X
+              className="h-3.5 w-3.5 group-hover:scale-110 transition-transform duration-300"
+              aria-hidden="true"
+            />
           </button>
         )}
       </div>
 
       {/* Progress indicator */}
-      {messages.length > 1 && (
+      {validMessages.length > 1 && (
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-700/30 via-blue-600/30 to-blue-700/30">
           <motion.div
             className="h-full bg-gradient-to-r from-blue-400 via-blue-300 to-blue-400"
@@ -139,7 +151,7 @@ export default function Announcement({
           />
         </div>
       )}
-      
+
       {/* Decorative dots for visual interest */}
       <div className="absolute top-1 left-4 w-1.5 h-1.5 rounded-full bg-blue-400/40"></div>
       <div className="absolute top-3 left-8 w-1 h-1 rounded-full bg-blue-400/30"></div>

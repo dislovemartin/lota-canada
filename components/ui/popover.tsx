@@ -1,13 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as PopoverPrimitive from "@radix-ui/react-popover"
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import { SafeChildren } from "./safe-children";
 
-const Popover = PopoverPrimitive.Root
+const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger
+// Wrap the PopoverTrigger to ensure it only receives a single child
+const PopoverTrigger = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
+>(({ children, ...props }, ref) => {
+  // Check if children is a valid React element
+  const isValidElement = React.isValidElement(children);
+  
+  // If it's not a valid element or it's a fragment, wrap it in SafeChildren
+  const safeChildren = isValidElement ? 
+    children : 
+    <SafeChildren>{children}</SafeChildren>;
+  
+  return (
+    <PopoverPrimitive.Trigger ref={ref} {...props}>
+      {safeChildren}
+    </PopoverPrimitive.Trigger>
+  );
+});
+PopoverTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
@@ -25,7 +45,7 @@ const PopoverContent = React.forwardRef<
       {...props}
     />
   </PopoverPrimitive.Portal>
-))
-PopoverContent.displayName = PopoverPrimitive.Content.displayName
+));
+PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-export { Popover, PopoverTrigger, PopoverContent }
+export { Popover, PopoverContent, PopoverTrigger };

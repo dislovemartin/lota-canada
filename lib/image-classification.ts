@@ -3,6 +3,7 @@
  */
 
 import * as tf from '@tensorflow/tfjs';
+import { createRequire } from 'module';
 import { InferenceConfig, InferenceResult, OptimizedInferenceEngine } from './inference';
 
 // Define input and output types for image classification
@@ -120,7 +121,10 @@ export class OptimizedImageClassifier extends OptimizedInferenceEngine<ImageClas
      * @returns Processed classification results
      */
     protected async postprocess(output: tf.Tensor): Promise<ImageClassificationOutput> {
-        return tf.tidy(() => {
+        // Use tf.tidy to automatically clean up tensors
+        let result: ImageClassificationOutput;
+
+        tf.tidy(() => {
             // Get the raw logits from the model output
             const logits = output as tf.Tensor2D;
 
@@ -141,15 +145,15 @@ export class OptimizedImageClassifier extends OptimizedInferenceEngine<ImageClas
             }));
 
             // Create the final result
-            const result: ImageClassificationOutput = {
+            result = {
                 className: topClasses[0].className,
                 confidence: topClasses[0].confidence,
                 topClasses,
                 rawLogits: new Float32Array(logits.dataSync())
             };
-
-            return result;
         });
+
+        return result!;
     }
 
     /**
@@ -213,32 +217,36 @@ export class OptimizedImageClassifier extends OptimizedInferenceEngine<ImageClas
      * @returns Classification result with performance metrics
      */
     async classifyFromFile(filePath: string): Promise<InferenceResult<ImageClassificationOutput>> {
-        // This implementation is for Node.js environment
         if (typeof window !== 'undefined') {
             throw new Error('classifyFromFile is only available in Node.js environment');
         }
 
-        // Import Node.js specific modules
-        const fs = require('fs');
-        const { createCanvas, loadImage } = require('canvas');
+        try {
+            // Import Node.js specific modules
+            const require = createRequire(import.meta.url);
+            const fs = require('fs');
+            const { createCanvas, loadImage } = require('canvas');
 
-        // Load the image
-        const image = await loadImage(filePath);
+            // Load the image
+            const image = await loadImage(filePath);
 
-        // Create canvas and draw image
-        const canvas = createCanvas(image.width, image.height);
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0);
+            // Create canvas and draw image
+            const canvas = createCanvas(image.width, image.height);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0);
 
-        // Get image data
-        const imageData = ctx.getImageData(0, 0, image.width, image.height);
+            // Get image data
+            const imageData = ctx.getImageData(0, 0, image.width, image.height);
 
-        // Classify the image
-        return this.predict({
-            imageData: imageData.data,
-            width: image.width,
-            height: image.height,
-            channels: 4 // RGBA
-        });
+            // Classify the image
+            return this.predict({
+                imageData: imageData.data,
+                width: image.width,
+                height: image.height,
+                channels: 4 // RGBA
+            });
+        } catch (error) {
+            throw new Error(`Failed to classify image from file: ${error.message}`);
+        }
     }
 } 

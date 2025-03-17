@@ -46,6 +46,22 @@ export default function ProjectManagementPage() {
         }
     ];
 
+    // FAQ data
+    const faqs = [
+        {
+            question: "How does the free trial work?",
+            answer: "Our free trial gives you full access to all features for 14 days. No credit card required, and you can cancel anytime."
+        },
+        {
+            question: "Can I integrate with my existing tools?",
+            answer: "Yes, our platform integrates with popular tools like Slack, GitHub, Jira, Microsoft Teams, and many more through our API and pre-built connectors."
+        },
+        {
+            question: "Is there a limit to the number of projects?",
+            answer: "No, all plans include unlimited projects. Team size and advanced features vary by plan."
+        }
+    ];
+
     return (
         <div className="container mx-auto px-4 py-12">
             {/* Hero Section */}
@@ -91,9 +107,7 @@ export default function ProjectManagementPage() {
                         <div key={index} className="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
                             <div className="flex items-center mb-4">
                                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
-                                    {feature.iconFallback && (
-                                        <span className="text-2xl">{feature.iconFallback}</span>
-                                    )}
+                                    <span className="text-2xl">{feature.iconFallback}</span>
                                 </div>
                                 <h3 className="text-xl font-semibold">{feature.title}</h3>
                             </div>
@@ -179,20 +193,7 @@ export default function ProjectManagementPage() {
                     </p>
                 </div>
                 <div className="max-w-3xl mx-auto space-y-6">
-                    {[
-                        {
-                            question: "How does the free trial work?",
-                            answer: "Our free trial gives you full access to all features for 14 days. No credit card required, and you can cancel anytime."
-                        },
-                        {
-                            question: "Can I integrate with my existing tools?",
-                            answer: "Yes, our platform integrates with popular tools like Slack, GitHub, Jira, Microsoft Teams, and many more through our API and pre-built connectors."
-                        },
-                        {
-                            question: "Is there a limit to the number of projects?",
-                            answer: "No, all plans include unlimited projects. Team size and advanced features vary by plan."
-                        }
-                    ].map((faq, index) => (
+                    {faqs.map((faq, index) => (
                         <div key={index} className="border rounded-lg p-6 shadow-sm">
                             <h3 className="text-xl font-semibold mb-2">{faq.question}</h3>
                             <p className="text-gray-600">{faq.answer}</p>

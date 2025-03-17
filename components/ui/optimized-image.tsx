@@ -2,146 +2,121 @@
 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import type { ImageProps } from "next/dist/client/legacy/image";
 import { useEffect, useState } from "react";
 
-// Define our own ImageProps type based on the Next.js Image component props
-type ImageProps = React.ComponentProps<typeof Image>;
-
-interface OptimizedImageProps extends Omit<ImageProps, "onLoad" | "onError"> {
-  fadeDuration?: number;
-  fallbackSrc?: string;
-  aspectRatio?: "auto" | "square" | "video" | "portrait" | "landscape" | "ultra-wide" | string;
-  rounded?: "none" | "sm" | "md" | "lg" | "xl" | "full";
-  loadingSize?: "sm" | "md" | "lg";
-  previewQuality?: "low" | "medium" | "high";
+/**
+ * OptimizedImage component for performance-optimized image rendering
+ *
+ * Performance optimizations:
+ * - Sets proper width and height attributes to prevent layout shifts
+ * - Uses priority loading for above-the-fold images
+ * - Implements responsive sizes for different viewports
+ * - Sets explicit quality for better performance/quality balance
+ */
+export interface OptimizedImageProps extends Omit<ImageProps, 'onLoadingComplete'> {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  fill?: boolean;
+  className?: string;
+  priority?: boolean;
+  quality?: number;
+  sizes?: string;
+  style?: React.CSSProperties;
 }
 
-/**
- * OptimizedImage component that enhances the Next.js Image component with:
- * - Fade-in loading animation
- * - Fallback image support
- * - Aspect ratio control
- * - Border radius options
- * - Loading indicator
- * - Blur-up preview
- * 
- * @param src - Image source URL
- * @param alt - Alternative text for the image
- * @param width - Width of the image in pixels
- * @param height - Height of the image in pixels
- * @param fadeDuration - Duration of the fade-in animation in milliseconds
- * @param fallbackSrc - Source URL for fallback image if the main image fails to load
- * @param aspectRatio - Aspect ratio control for the image container
- * @param rounded - Border radius option
- * @param loadingSize - Size of the loading indicator
- * @param previewQuality - Quality of the blur-up preview
- * @param className - Additional CSS classes
- * @param priority - Whether the image should be prioritized for loading
- * @param fill - Whether the image should fill its container
- */
+// Helper function to get default dimensions for specific images
+const getDefaultDimensions = (src: string): { width: number; height: number } | null => {
+  // Map of image paths to their dimensions
+  const imageDimensions: Record<string, { width: number; height: number }> = {
+    '/images/programs/community-education.jpg': { width: 800, height: 600 },
+    '/images/hero/image-asset2.jpeg': { width: 1200, height: 800 },
+    '/images/hero/image-asset3.jpeg': { width: 1200, height: 800 },
+    '/images/hero/image-asset4.jpeg': { width: 1200, height: 800 },
+    '/images/project-management/avatar-1.jpg': { width: 200, height: 200 },
+    '/images/project-management/avatar-2.jpg': { width: 200, height: 200 },
+    '/images/project-management/avatar-3.jpg': { width: 200, height: 200 },
+  };
+
+  // Check if the src contains any of the keys in imageDimensions
+  for (const path in imageDimensions) {
+    if (src.includes(path)) {
+      return imageDimensions[path];
+    }
+  }
+
+  return null;
+};
+
 export function OptimizedImage({
   src,
   alt,
-  width = 0,
-  height = 0,
-  fadeDuration = 400,
-  fallbackSrc = "/placeholder.svg",
-  aspectRatio = "auto",
-  rounded = "md",
-  loadingSize = "md",
-  previewQuality = "low",
-  className = "",
-  priority = false,
+  width,
+  height,
   fill = false,
+  className = '',
+  priority = false,
+  quality = 85,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  style,
   ...props
 }: OptimizedImageProps) {
-  const [isLoading, setIsLoading] = useState(!priority);
-  const [error, setError] = useState(false);
-  const [blurDataURL, setBlurDataURL] = useState<string | undefined>(undefined);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-  // Set the aspect ratio CSS class
-  const getAspectRatioClass = () => {
-    switch (aspectRatio) {
-      case "square": return "aspect-[1/1]";
-      case "video": return "aspect-video";
-      case "portrait": return "aspect-[3/4]";
-      case "landscape": return "aspect-[4/3]";
-      case "ultra-wide": return "aspect-[21/9]";
-      case "auto": return "";
-      default: return aspectRatio?.includes("/") ? `aspect-[${aspectRatio}]` : "";
-    }
-  };
+  // Get default dimensions if available for this image
+  const defaultDimensions = getDefaultDimensions(src.toString());
 
-  // Set the border radius CSS class
-  const getRoundedClass = () => {
-    switch (rounded) {
-      case "none": return "rounded-none";
-      case "sm": return "rounded-sm";
-      case "md": return "rounded-md";
-      case "lg": return "rounded-lg";
-      case "xl": return "rounded-xl";
-      case "full": return "rounded-full";
-      default: return "rounded-md";
-    }
-  };
+  // Use provided dimensions or fall back to defaults if available
+  const finalWidth = width || (defaultDimensions?.width || (fill ? undefined : 1200));
+  const finalHeight = height || (defaultDimensions?.height || (fill ? undefined : 800));
 
-  // Generate a blur-up preview based on the quality setting
+  // Only log warning in development environment
   useEffect(() => {
-    if (!priority && typeof src === 'string' && !src.startsWith('data:')) {
-      const size = previewQuality === 'low' ? 10 : previewQuality === 'medium' ? 20 : 30;
-      // This would normally generate a tiny placeholder image, but for the demo we'll use fallbackSrc
-      setBlurDataURL(fallbackSrc);
+    if (process.env.NODE_ENV === 'development' && fill) {
+      if (!style || (!style.width && !style.height)) {
+        console.warn('OptimizedImage: When using fill, parent element must have position relative and defined dimensions');
+      }
     }
-  }, [src, priority, previewQuality, fallbackSrc]);
+  }, [fill, style]);
 
+  // Create a wrapper div with position relative when using fill
+  if (fill) {
+    return (
+      <div className={cn("relative", className)} style={{ width: '100%', height: '100%', ...style }}>
+        <Image
+          src={src}
+          alt={alt}
+          fill={true}
+          className={cn(isLoaded ? 'opacity-100' : 'opacity-0', 'transition-opacity duration-500')}
+          priority={priority}
+          quality={quality}
+          sizes={sizes}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
+          {...props}
+        />
+      </div>
+    );
+  }
+
+  // Regular image without fill
   return (
-    <div
-      className={cn(
-        "relative overflow-hidden bg-gray-100 dark:bg-gray-800",
-        getAspectRatioClass(),
-        getRoundedClass(),
-        className
-      )}
-    >
-      {/* Loading indicator */}
-      {isLoading && !error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 animate-pulse">
-          <div className={cn(
-            "rounded-full bg-gray-200 dark:bg-gray-700",
-            {
-              "w-8 h-8": loadingSize === "sm",
-              "w-12 h-12": loadingSize === "md",
-              "w-16 h-16": loadingSize === "lg",
-            }
-          )}></div>
-        </div>
-      )}
-
-      {/* The actual image */}
-      <Image
-        src={error ? fallbackSrc : src}
-        alt={alt}
-        width={!fill ? (width || undefined) : undefined}
-        height={!fill ? (height || undefined) : undefined}
-        fill={fill || (!width && !height)}
-        priority={priority}
-        className={cn(
-          "object-cover transition-opacity duration-300",
-          isLoading ? "opacity-0" : "opacity-100",
-          getRoundedClass()
-        )}
-        onLoad={() => {
-          setIsLoading(false);
-        }}
-        onError={() => {
-          setIsLoading(false);
-          setError(true);
-        }}
-        placeholder={blurDataURL ? "blur" : "empty"}
-        blurDataURL={blurDataURL}
-        sizes={fill ? "100vw" : undefined}
-        {...props}
-      />
-    </div>
+    <Image
+      src={src}
+      alt={alt}
+      width={finalWidth}
+      height={finalHeight}
+      className={cn(className, isLoaded ? 'opacity-100' : 'opacity-0', 'transition-opacity duration-500')}
+      priority={priority}
+      quality={quality}
+      sizes={sizes}
+      style={style}
+      onLoad={() => setIsLoaded(true)}
+      onError={() => setHasError(true)}
+      {...props}
+    />
   );
-} 
+}

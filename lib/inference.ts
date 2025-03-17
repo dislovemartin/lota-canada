@@ -3,7 +3,7 @@
  * This module integrates all optimization techniques for inference.
  */
 
-import * as tf from 'tensorflow';
+import * as tf from '@tensorflow/tfjs';
 import { batchProcess, cleanupMemory, configureMemoryManagement, setupGPUAcceleration } from './inference-optimization';
 import { loadAndQuantizeModel, PredictionCache, prewarmModel, QuantizationOptions } from './model-optimization';
 import { initializeSystemOptimizations } from './system-optimization';
@@ -41,7 +41,7 @@ export interface InferenceResult<T> {
 export class OptimizedInferenceEngine<InputType, OutputType> {
     private model: tf.GraphModel | tf.LayersModel | null = null;
     private config: InferenceConfig;
-    private predictionCache: PredictionCache<InputType, OutputType>;
+    private predictionCache: PredictionCache<InputType, InferenceResult<OutputType>>;
     private isInitialized: boolean = false;
 
     /**
@@ -58,7 +58,7 @@ export class OptimizedInferenceEngine<InputType, OutputType> {
             ...config
         };
 
-        this.predictionCache = new PredictionCache<InputType, OutputType>(this.config.cacheSize);
+        this.predictionCache = new PredictionCache<InputType, InferenceResult<OutputType>>(this.config.cacheSize);
     }
 
     /**
@@ -110,27 +110,58 @@ export class OptimizedInferenceEngine<InputType, OutputType> {
     /**
      * Preprocess input data before inference
      * @param input Input data
-     * @returns Preprocessed tensor
+     * @returns Preprocessed input as tensor(s)
      */
     protected async preprocess(input: InputType): Promise<tf.Tensor | tf.Tensor[]> {
-        // This is a placeholder - implement specific preprocessing for your model
-        // For example, image normalization, tokenization, etc.
-
-        // For demonstration purposes, we'll just create a dummy tensor
-        return tf.tensor([1, 2, 3, 4]);
+        // Default implementation - override in subclass
+        // This is a placeholder implementation that should be overridden
+        console.warn('Using default preprocess implementation. This should be overridden in a subclass.');
+        
+        // Handle different input types
+        if (Array.isArray(input)) {
+            return tf.tensor(input as number[]);
+        } else if (typeof input === 'number') {
+            return tf.scalar(input);
+        } else if (typeof input === 'object') {
+            // For object inputs, we'll just return a dummy tensor
+            // This should be properly implemented in a subclass
+            return tf.zeros([1]);
+        } else {
+            throw new Error('Unsupported input type. Please override the preprocess method.');
+        }
     }
 
     /**
-     * Postprocess model output after inference
-     * @param output Model output tensor
-     * @returns Postprocessed result
+     * Run inference on preprocessed input
+     * @param input Preprocessed input tensor(s)
+     * @returns Raw output tensor(s)
      */
-    protected async postprocess(output: tf.Tensor | tf.Tensor[]): Promise<OutputType> {
-        // This is a placeholder - implement specific postprocessing for your model
-        // For example, decoding class labels, formatting results, etc.
+    protected async runInference(input: tf.Tensor | tf.Tensor[]): Promise<tf.Tensor | tf.Tensor[] | tf.NamedTensorMap> {
+        if (!this.model) {
+            throw new Error('Model not loaded');
+        }
+        return this.model.predict(input);
+    }
 
-        // For demonstration purposes, we'll just return a dummy result
-        return {} as OutputType;
+    /**
+     * Postprocess output tensor(s) after inference
+     * @param output Raw output tensor(s)
+     * @returns Processed output
+     */
+    protected async postprocess(output: tf.Tensor | tf.Tensor[] | tf.NamedTensorMap): Promise<OutputType> {
+        // Default implementation - override in subclass
+        if (output instanceof tf.Tensor) {
+            return output.arraySync() as unknown as OutputType;
+        } else if (Array.isArray(output)) {
+            return output.map(t => t.arraySync()) as unknown as OutputType;
+        } else {
+            // Handle NamedTensorMap
+            const result: Record<string, any> = {};
+            for (const key in output) {
+                result[key] = output[key].arraySync();
+            }
+            return result as unknown as OutputType;
+        }
     }
 
     /**
@@ -150,7 +181,7 @@ export class OptimizedInferenceEngine<InputType, OutputType> {
 
         try {
             // Check cache first
-            return await this.predictionCache.getPrediction(input, async (data) => {
+            return await this.predictionCache.getPrediction(input, async (data): Promise<InferenceResult<OutputType>> => {
                 // Preprocess input
                 const preprocessStartTime = performance.now();
                 const preprocessedInput = await this.preprocess(data);
@@ -158,7 +189,7 @@ export class OptimizedInferenceEngine<InputType, OutputType> {
 
                 // Run inference
                 const inferenceStartTime = performance.now();
-                const output = await this.model!.predict(preprocessedInput);
+                const output = await this.runInference(preprocessedInput);
                 inferenceTime = performance.now() - inferenceStartTime;
 
                 // Postprocess output
@@ -175,8 +206,15 @@ export class OptimizedInferenceEngine<InputType, OutputType> {
 
                 if (Array.isArray(output)) {
                     output.forEach(tensor => tensor.dispose());
-                } else {
+                } else if (output instanceof tf.Tensor) {
                     output.dispose();
+                } else if (output && typeof output === 'object') {
+                    // Handle NamedTensorMap
+                    Object.values(output).forEach(tensor => {
+                        if (tensor instanceof tf.Tensor) {
+                            tensor.dispose();
+                        }
+                    });
                 }
 
                 const totalTime = performance.now() - startTime;

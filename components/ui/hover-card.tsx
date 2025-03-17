@@ -1,13 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
+import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import { SafeChildren } from "./safe-children";
 
-const HoverCard = HoverCardPrimitive.Root
+const HoverCard = HoverCardPrimitive.Root;
 
-const HoverCardTrigger = HoverCardPrimitive.Trigger
+// Wrap the HoverCardTrigger to ensure it only receives a single child
+const HoverCardTrigger = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger>
+>(({ children, ...props }, ref) => {
+  // Check if children is a valid React element
+  const isValidElement = React.isValidElement(children);
+  
+  // If it's not a valid element or it's a fragment, wrap it in SafeChildren
+  const safeChildren = isValidElement ? 
+    children : 
+    <SafeChildren>{children}</SafeChildren>;
+  
+  return (
+    <HoverCardPrimitive.Trigger ref={ref} {...props}>
+      {safeChildren}
+    </HoverCardPrimitive.Trigger>
+  );
+});
+HoverCardTrigger.displayName = HoverCardPrimitive.Trigger.displayName;
 
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
@@ -23,7 +43,7 @@ const HoverCardContent = React.forwardRef<
     )}
     {...props}
   />
-))
-HoverCardContent.displayName = HoverCardPrimitive.Content.displayName
+));
+HoverCardContent.displayName = HoverCardPrimitive.Content.displayName;
 
-export { HoverCard, HoverCardTrigger, HoverCardContent }
+export { HoverCard, HoverCardContent, HoverCardTrigger };

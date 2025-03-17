@@ -12,6 +12,8 @@
 @import '../styles/layout.css';
 @import '../styles/components.css';
 @import '../styles/utilities.css';
+@import '../styles/layout-enhancements.css';
+/* Import our new layout enhancements */
 
 /* Base styles */
 /* Components */
@@ -54,11 +56,12 @@
 
     /* New theme variables */
     --heading: 0 0% 95%;
-    --highlight: 0 0% 0%; /* Black (replacing Gold) */
+    --highlight: 0 0% 0%;
+    /* Black (replacing Gold) */
     --highlight-foreground: 0 0% 100%;
     --subtle-bg: 0 0% 12%;
     --divider: 0 0% 20%;
-    
+
     /* Additional accent colors - changed to black and white */
     --gold: 0 0% 0%;
     --gold-light: 0 0% 20%;
@@ -99,11 +102,12 @@
 
     /* New theme variables for light mode */
     --heading: 0 0% 7%;
-    --highlight: 0 0% 0%; /* Black (replacing Gold) */
+    --highlight: 0 0% 0%;
+    /* Black (replacing Gold) */
     --highlight-foreground: 0 0% 100%;
     --subtle-bg: 0 0% 92%;
     --divider: 0 0% 80%;
-    
+
     /* Additional accent colors - changed to black and white */
     --gold: 0 0% 0%;
     --gold-light: 0 0% 20%;
@@ -129,134 +133,134 @@ body {
   transition-duration: 300ms;
 }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-serif, serif);
-    letter-spacing: -0.025em;
-    color: hsl(var(--heading));
-    transition-property: color;
-    transition-duration: 300ms;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif, serif);
+  letter-spacing: -0.025em;
+  color: hsl(var(--heading));
+  transition-property: color;
+  transition-duration: 300ms;
+}
 
+h1 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
   h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+
+h2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  h2 {
     font-size: 1.875rem;
     line-height: 2.25rem;
-    font-weight: 400;
   }
-  
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    h1 {
-      font-size: 3rem;
-      line-height: 1;
-    }
-  }
+}
 
+@media (min-width: 1024px) {
   h2 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+h3 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  h3 {
     font-size: 1.5rem;
     line-height: 2rem;
-    font-weight: 400;
   }
-  
-  @media (min-width: 768px) {
-    h2 {
-      font-size: 1.875rem;
-      line-height: 2.25rem;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    h2 {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
-    }
-  }
+}
 
-  h3 {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-weight: 400;
-  }
-  
-  @media (min-width: 768px) {
-    h3 {
-      font-size: 1.5rem;
-      line-height: 2rem;
-    }
-  }
-
-  p {
-    line-height: 1.625;
-    color: hsl(var(--muted-foreground));
-    transition-property: color;
-    transition-duration: 300ms;
-  }
+p {
+  line-height: 1.625;
+  color: hsl(var(--muted-foreground));
+  transition-property: color;
+  transition-duration: 300ms;
+}
 
 /* Component styles */
+.container-wide {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
   .container-wide {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 80rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
-  
-  @media (min-width: 768px) {
-    .container-wide {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
+}
 
-  .home-hero {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    height: 100vh !important;
-  }
+.home-hero {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  height: 100vh !important;
+}
 
-  /* Page transition animations */
-  .page-transition-enter {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+/* Page transition animations */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
 
-  .page-transition-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 400ms, transform 400ms;
-  }
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms, transform 400ms;
+}
 
-  .page-transition-exit {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-  .page-transition-exit-active {
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 300ms, transform 300ms;
-  }
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 300ms, transform 300ms;
+}
 
-  /* Additional utility classes */
-  .highlight {
-    color: hsl(var(--highlight));
-  }
+/* Additional utility classes */
+.highlight {
+  color: hsl(var(--highlight));
+}
 
-  .subtle-bg {
-    background-color: hsl(var(--subtle-bg));
-  }
+.subtle-bg {
+  background-color: hsl(var(--subtle-bg));
+}
 
-  .divider {
-    background-color: hsl(var(--divider));
-  }
+.divider {
+  background-color: hsl(var(--divider));
+}

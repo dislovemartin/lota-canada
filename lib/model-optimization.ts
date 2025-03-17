@@ -3,7 +3,7 @@
  * This file contains utilities for optimizing ML models for inference.
  */
 
-import * as tf from 'tensorflow';
+import * as tf from '@tensorflow/tfjs';
 
 /**
  * Model formats supported for conversion
@@ -140,10 +140,17 @@ export async function prewarmModel(
     // Run inference on sample input to compile the model
     const warmupResult = await model.predict(sampleInput);
 
-    // Dispose the result to free memory
+    // Clean up tensors
     if (Array.isArray(warmupResult)) {
         warmupResult.forEach(tensor => tensor.dispose());
-    } else {
+    } else if (warmupResult instanceof tf.Tensor) {
         warmupResult.dispose();
+    } else if (warmupResult && typeof warmupResult === 'object') {
+        // Handle NamedTensorMap
+        Object.values(warmupResult).forEach(tensor => {
+            if (tensor instanceof tf.Tensor) {
+                tensor.dispose();
+            }
+        });
     }
 } 

@@ -1,3 +1,59 @@
+# LOTA Website Images
+
+This directory contains images used throughout the LOTA website.
+
+## Image Organization
+
+- `/brand/` - Logo and brand assets
+- `/hero/` - Hero and header images
+- `/hero/new/` - New high-quality images from Unsplash
+- `/leadership/` - Leadership-related images
+- `/networking/` - Networking-related images
+- `/mentorship/` - Mentorship-related images
+- `/project-management/` - Project management and avatar images
+
+## Image Sources
+
+All images are either:
+
+1. Owned by LOTA
+2. Licensed from stock photo services
+3. Free-to-use images from Unsplash and other free sources
+
+## Using Images
+
+When using images in the codebase:
+
+1. Use the appropriate image for the context
+2. Avoid duplicate images across different sections
+3. Use the `ProfessionalImage` or `OptimizedImage` components when possible
+4. Provide meaningful alt text for accessibility
+5. Consider using the image fallbacks from `lib/image-fallbacks.ts`
+
+## Adding New Images
+
+To add new images:
+
+1. Place them in the appropriate directory
+2. Use descriptive filenames
+3. Optimize images for web (compress, resize)
+4. Update the image fallbacks in `lib/image-fallbacks.ts` if needed
+5. Document the source and license if from external sources
+
+## Downloading New Images
+
+You can use the `scripts/download-images.sh` script to download new high-quality images from Unsplash and other free sources.
+
+```bash
+# Make the script executable
+chmod +x scripts/download-images.sh
+
+# Run the script
+./scripts/download-images.sh
+```
+
+The script will download images to the `/public/images/hero/new/` directory. You can then update the image paths in the code to use these new images.
+
 # Image Attribution
 
 This document provides attribution for all images used on the LOTA Canada website.
@@ -48,4 +104,4 @@ This document provides attribution for all images used on the LOTA Canada websit
 
 All images from Unsplash are used under the [Unsplash License](https://unsplash.com/license), which grants a non-exclusive, worldwide copyright license to download, copy, modify, distribute, perform, and use photos from Unsplash for free, including for commercial purposes, without permission from or attributing the photographer or Unsplash. However, we've provided attribution as a courtesy to the photographers.
 
-All icons from Lucide are used under the [ISC License](https://github.com/lucide-icons/lucide/blob/main/LICENSE), which allows free use, modification, and distribution with proper attribution. 
+All icons from Lucide are used under the [ISC License](https://github.com/lucide-icons/lucide/blob/main/LICENSE), which allows free use, modification, and distribution with proper attribution.

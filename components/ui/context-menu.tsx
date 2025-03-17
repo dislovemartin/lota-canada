@@ -5,10 +5,30 @@ import { Check, ChevronRight } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { SafeChildren } from "./safe-children";
 
 const ContextMenu = ContextMenuPrimitive.Root;
 
-const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
+// Wrap the ContextMenuTrigger to ensure it only receives a single child
+const ContextMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>
+>(({ children, ...props }, ref) => {
+  // Check if children is a valid React element
+  const isValidElement = React.isValidElement(children);
+  
+  // If it's not a valid element or it's a fragment, wrap it in SafeChildren
+  const safeChildren = isValidElement ? 
+    children : 
+    <SafeChildren>{children}</SafeChildren>;
+  
+  return (
+    <ContextMenuPrimitive.Trigger ref={ref} {...props}>
+      {safeChildren}
+    </ContextMenuPrimitive.Trigger>
+  );
+});
+ContextMenuTrigger.displayName = ContextMenuPrimitive.Trigger.displayName;
 
 const ContextMenuGroup = ContextMenuPrimitive.Group;
 

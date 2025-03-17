@@ -3,6 +3,7 @@
  * This utility helps track and analyze inference performance metrics.
  */
 
+import { createRequire } from 'module';
 import * as tf from '@tensorflow/tfjs';
 
 /**
@@ -140,33 +141,34 @@ export class PerformanceMonitor {
      * @returns GPU memory usage in MB or undefined if not available
      */
     private async getGPUMemoryUsage(): Promise<number | undefined> {
-        if (tf.getBackend() === 'webgl' || tf.getBackend() === 'cuda') {
-            try {
-                // For WebGL backend
-                if (tf.getBackend() === 'webgl') {
+        try {
+            if (tf.getBackend() === 'webgl' || tf.getBackend() === 'webgpu') {
+                // For WebGL/WebGPU backend (browser)
+                if (typeof (tf.backend() as any).getMemoryInfo === 'function') {
                     const webglMemoryInfo = (tf.backend() as any).getMemoryInfo?.();
                     if (webglMemoryInfo) {
                         return webglMemoryInfo.numBytesInGPU / (1024 * 1024);
                     }
                 }
-
-                // For CUDA backend (Node.js)
-                if (tf.getBackend() === 'cuda' && typeof window === 'undefined') {
-                    const { exec } = require('child_process');
-                    return new Promise((resolve) => {
-                        exec('nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits', (error: any, stdout: string) => {
-                            if (error) {
-                                resolve(undefined);
-                            } else {
-                                const memoryUsed = parseInt(stdout.trim(), 10);
-                                resolve(isNaN(memoryUsed) ? undefined : memoryUsed);
-                            }
-                        });
-                    });
-                }
-            } catch (error) {
-                console.warn('Failed to get GPU memory usage:', error);
             }
+
+            // For CUDA backend (Node.js)
+            if (tf.getBackend() === 'cuda' && typeof window === 'undefined') {
+                const require = createRequire(import.meta.url);
+                const { exec } = require('child_process');
+                return new Promise((resolve) => {
+                    exec('nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits', (error: any, stdout: string) => {
+                        if (error) {
+                            resolve(undefined);
+                        } else {
+                            const memoryUsed = parseInt(stdout.trim(), 10);
+                            resolve(isNaN(memoryUsed) ? undefined : memoryUsed);
+                        }
+                    });
+                });
+            }
+        } catch (error) {
+            console.warn('Failed to get GPU memory usage:', error);
         }
 
         return undefined;
@@ -401,6 +403,7 @@ export class PerformanceMonitor {
             throw new Error('saveToFile is only available in Node.js environment');
         }
 
+        const require = createRequire(import.meta.url);
         const fs = require('fs');
         const data = {
             metrics: this.metrics,

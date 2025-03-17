@@ -60,6 +60,7 @@ const navigation: NavigationItem[] = [
       { name: "Career Development", href: "/knowledge/career", description: "Resources for advancing your career" },
     ],
   },
+  { name: "LOTA AI", href: "/lota-llm" },
   { name: "Testimonials", href: "/testimonials" },
   { name: "Contact", href: "/contact" },
 ];
@@ -179,10 +180,10 @@ export default function Header() {
               <div className="absolute -inset-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(45deg, transparent, rgba(0,0,0,0.05), transparent)' }}></div>
               <div className="relative p-1">
                 <Image 
-                  src="/images/brand/image.png" 
+                  src="/images/brand/lota-logo-full.svg" 
                   alt={siteConfig.name} 
                   width={240} 
-                  height={40} 
+                  height={60} 
                   className="transition-all duration-300 hover:scale-105"
                 />
                 {/* Subtle underline accent that appears on hover */}
@@ -203,9 +204,12 @@ export default function Header() {
                     "hover:bg-gray-100 hover:text-black dark:hover:bg-gray-800/60 dark:hover:text-white",
                     "active:bg-gray-200 active:text-black dark:active:bg-black/30 dark:active:text-white",
                     "focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1",
+                    "text-sm font-medium transition-colors hover:text-primary",
+                    "text-foreground/70 hover:text-foreground/90",
                     pathname === item.href
-                      ? "text-black dark:text-white font-semibold"
-                      : "text-gray-700 dark:text-gray-200"
+                      ? "text-foreground font-semibold"
+                      : "text-foreground/70",
+                    "nav-link"
                   )}
                   onClick={() => item.submenu && toggleSubmenu(item.name)}
                   aria-expanded={item.submenu ? activeSubmenu === item.name : undefined}

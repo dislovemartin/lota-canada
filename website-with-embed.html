@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website with LOTA-LLM Embed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #4a6cf7;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #4a6cf7;
+        }
+
+        .feature {
+            display: flex;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .feature-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Your Company Name</h1>
+        <p>Your tagline or slogan here</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Welcome to Our Website</h2>
+            <p>This is a demonstration of how to embed the LOTA-LLM chat widget into your website. The chat widget
+                appears as a button in the bottom-right corner of the page.</p>
+        </section>
+
+        <section>
+            <h2>Our Features</h2>
+
+            <div class="feature">
+                <div class="feature-content">
+                    <h3>Feature 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit
+                        arcu sed erat molestie vehicula.</p>
+                </div>
+                <div class="feature-image">
+                    <div
+                        style="width: 200px; height: 200px; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                        Image Placeholder</div>
+                </div>
+            </div>
+
+            <div class="feature">
+                <div class="feature-image">
+                    <div
+                        style="width: 200px; height: 200px; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center;">
+                        Image Placeholder</div>
+                </div>
+                <div class="feature-content">
+                    <h3>Feature 2</h3>
+                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        Vestibulum tortor quam, feugiat vitae.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About Us</h2>
+            <p>We are a company dedicated to providing excellent service and innovative solutions. Our team of experts
+                is committed to helping you achieve your goals.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+    </footer>
+
+    <!-- LOTA-LLM Chat Widget Embed -->
+    <!-- 
+    Note: To complete the setup:
+    1. Access LOTA-LLM at http://localhost:3001
+    2. Create an account (since multi-user mode is enabled)
+    3. Create a workspace
+    4. Upload documents to the workspace
+    5. Go to Settings > Embedding in the workspace
+    6. Enable embedding and copy the embed ID
+    7. Replace 'your-embed-id-here' below with your actual embed ID
+    
+    Note: Make sure your OpenAI API key is set in the LOTA-LLM .env file
+    -->
+    <script
+        data-embed-id="your-embed-id-here" 
+        data-base-api-url="http://localhost:3001/api/embed"
+        data-button-color="#4a6cf7"
+        data-greeting="Hello! How can I help you today?"
+        data-assistant-name="Your Company Assistant"
+        data-position="bottom-right"
+        src="http://localhost:3001/embed/lota-llm-chat-widget.min.js"
+    ></script>
+</body>
+
+</html>

@@ -4,6 +4,7 @@
 
 import * as tf from '@tensorflow/tfjs';
 import { InferenceConfig, InferenceResult, OptimizedInferenceEngine } from './inference';
+import { createRequire } from 'module';
 
 // Define input and output types for text classification
 export interface TextClassificationInput {
@@ -108,7 +109,10 @@ export class OptimizedTextClassifier extends OptimizedInferenceEngine<TextClassi
      * @returns Processed classification results
      */
     protected async postprocess(output: tf.Tensor): Promise<TextClassificationOutput> {
-        return tf.tidy(() => {
+        // Use a variable to store the result outside of tf.tidy
+        let result: TextClassificationOutput;
+        
+        tf.tidy(() => {
             // Get the raw logits from the model output
             const logits = output as tf.Tensor2D;
 
@@ -129,15 +133,15 @@ export class OptimizedTextClassifier extends OptimizedInferenceEngine<TextClassi
             }));
 
             // Create the final result
-            const result: TextClassificationOutput = {
+            result = {
                 className: topClasses[0].className,
                 confidence: topClasses[0].confidence,
                 topClasses,
                 rawLogits: new Float32Array(logits.dataSync())
             };
-
-            return result;
         });
+
+        return result!;
     }
 
     /**
@@ -174,11 +178,11 @@ export class OptimizedTextClassifier extends OptimizedInferenceEngine<TextClassi
      * @returns Map of tokens to IDs
      */
     static async loadVocabularyFromFile(filePath: string): Promise<Map<string, number>> {
-        // This implementation is for Node.js environment
         if (typeof window !== 'undefined') {
             throw new Error('loadVocabularyFromFile is only available in Node.js environment');
         }
 
+        const require = createRequire(import.meta.url);
         const fs = require('fs');
         const readline = require('readline');
 
@@ -214,6 +218,7 @@ export class OptimizedTextClassifier extends OptimizedInferenceEngine<TextClassi
             return new Map(Object.entries(json));
         } else {
             // Node.js environment
+            const require = createRequire(import.meta.url);
             const fs = require('fs');
             const json = JSON.parse(fs.readFileSync(filePath, 'utf8'));
             return new Map(Object.entries(json));

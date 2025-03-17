@@ -266,14 +266,9 @@ export function SectionDivider({
     }
   };
 
+  // Return the divider wrapped in a container div
   return (
-    <div
-      className={cn(
-        "relative w-full overflow-hidden",
-        heightClasses[height],
-        className
-      )}
-    >
+    <div className={cn("relative w-full overflow-hidden", heightClasses[height], className)}>
       {/* Add decorative LOTA emblem to the divider for non-wave variants */}
       {variant !== "wave" && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">

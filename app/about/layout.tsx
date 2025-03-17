@@ -12,5 +12,5 @@ interface AboutLayoutProps {
 }
 
 export default function AboutLayout({ children }: AboutLayoutProps) {
-  return <>{children}</>;
+  return <div>{children}</div>;
 }

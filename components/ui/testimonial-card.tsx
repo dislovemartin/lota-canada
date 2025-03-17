@@ -1,10 +1,12 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { imageFallbacks } from "@/lib/image-fallbacks"
 import { motion, useInView } from "framer-motion"
 import { Quote } from "lucide-react"
 import Image from "next/image"
 import { useRef } from "react"
+import { ProfessionalImage } from "./professional-image"
 
 interface TestimonialCardProps {
   quote: string
@@ -205,11 +207,15 @@ export function TestimonialCard({
                 {variant === "bordered" && (
                   <div className="absolute inset-0 rounded-full border-2 border-black/50" />
                 )}
-                <Image
-                  src={avatarSrc}
+                <ProfessionalImage
+                  src={avatarSrc || imageFallbacks.avatar}
                   alt={author}
                   fill
                   className="object-cover"
+                  gradientOverlay={variant === "gradient"}
+                  noiseTexture={true}
+                  decorativeBorder={variant === "bordered"}
+                  variant="default"
                 />
               </div>
             </motion.div>

@@ -12,7 +12,11 @@
     "mentee",
     "mentee's",
     "Mentees",
-    "Sinek"
+    "Sinek",
+    "networkidle",
+    "labelledby",
+    "Labelledby",
+    "arialabelledby"
   ],
   "ignorePaths": [
     "node_modules/**",

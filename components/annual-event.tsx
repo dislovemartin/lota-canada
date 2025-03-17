@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import Image from "next/image"
 import { Calendar, Clock } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 export function AnnualEvent() {
@@ -19,7 +19,7 @@ export function AnnualEvent() {
 
   return (
     <section className="py-20 relative">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 relative">
         <Image src="/placeholder.svg?height=800&width=1600" alt="Tech Conference" fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-background to-background/50"></div>
       </div>

@@ -31,7 +31,13 @@
         "ms-vscode.vscode-typescript-tslint-plugin",
         "csstools.postcss",
         "ms-playwright.playwright",
-        "cypress-io.cypress"
+        "cypress-io.cypress",
+        "mcp.mcp-vscode-extension",
+        "ms-vscode.live-server",
+        "ritwickdey.liveserver",
+        "auchenberg.vscode-browser-preview",
+        "hediet.vscode-drawio",
+        "humao.rest-client"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -52,12 +58,15 @@
           "bash": {
             "path": "/bin/bash"
           }
-        }
+        },
+        "mcp.apiKey": "${localEnv:MCP_API_KEY}",
+        "mcp.enableAutoCompletion": true,
+        "mcp.enableInlineChat": true
       }
     }
   },
-  "forwardPorts": [3000, 8080, 9000],
-  "postCreateCommand": "cd ${containerWorkspaceFolder} && npm install && npm install cypress --save-dev",
+  "forwardPorts": [3000, 8080, 9000, 5500, 5501],
+  "postCreateCommand": "cd ${containerWorkspaceFolder} && npm install --legacy-peer-deps && npm install cypress --save-dev --legacy-peer-deps && sudo mkdir -p /home/ubuntu/.mcp && sudo chown -R ubuntu:ubuntu /home/ubuntu/.mcp && sudo .devcontainer/install-mcp-tools.sh",
   "postStartCommand": "cd ${containerWorkspaceFolder} && npm run dev",
   "remoteUser": "node",
   "features": {
@@ -70,5 +79,6 @@
       "version": "latest",
       "moby": true
     }
-  }
+  },
+  "mounts": []
 }

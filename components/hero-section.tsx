@@ -6,7 +6,7 @@ export function HeroSection() {
     <div className="relative h-[90vh] flex items-center">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/image-asset.jpeg"
+          src="/images/hero/diverse-professionals.jpg"
           alt="LOTA Hero Image"
           fill
           className="object-cover"

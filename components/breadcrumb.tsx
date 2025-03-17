@@ -27,8 +27,8 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
     ];
 
     return (
-        <>
-            <nav aria-label="Breadcrumb" className={`flex items-center text-sm ${className}`}>
+        <div className={className}>
+            <nav aria-label="Breadcrumb" className="flex items-center text-sm">
                 <ol className="flex items-center space-x-1">
                     <li>
                         <Link
@@ -61,6 +61,6 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
 
             {/* Breadcrumb Structured Data */}
             <BreadcrumbStructuredData items={structuredDataItems} />
-        </>
+        </div>
     );
 } 

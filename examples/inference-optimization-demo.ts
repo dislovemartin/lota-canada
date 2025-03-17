@@ -79,52 +79,49 @@ async function demonstrateImageClassification() {
     console.log('\n=== Image Classification Demonstration ===');
 
     // Initialize the classifier with optimizations
-    const imageClassifier = new OptimizedImageClassifier({
-        modelPath: IMAGE_MODEL_PATH,
-        imageSize: 224,
-        topK: 5,
-        useGPU: true,
-        quantizationBits: 8,
-        enableCaching: true,
-        cacheSize: 100,
-        batchSize: 4
-    });
+    const imageClassifier = new OptimizedImageClassifier(
+        {
+            modelPath: IMAGE_MODEL_PATH,
+            useGPU: true,
+            quantization: {
+                quantizationBits: 8,
+                quantizeWeights: true
+            },
+            cacheSize: 100,
+            batchSize: 4
+        },
+        {
+            imageSize: 224,
+            topK: 5
+        }
+    );
 
     try {
         // Load the model
         console.log('Loading image classification model...');
-        await imageClassifier.loadModel();
+        await imageClassifier.initialize();
         console.log('Model loaded successfully');
 
         // Classify images
         console.log('Classifying sample images...');
         for (const imageUrl of sampleImages) {
-            // Start recording metrics
-            performanceMonitor.startRecording();
-
             // Classify image
-            const result = await imageClassifier.classifyImageFromUrl(imageUrl);
+            const result = await imageClassifier.classifyFromUrl(imageUrl);
 
-            // Stop recording and get metrics
-            const metrics = performanceMonitor.stopRecording();
-
-            // Log results
-            console.log(`\nImage: ${imageUrl}`);
-            console.log('Top predictions:');
-            result.predictions.forEach((pred, i) => {
-                console.log(`  ${i + 1}. ${pred.className} (${(pred.probability * 100).toFixed(2)}%)`);
+            // Record metrics
+            performanceMonitor.recordMetrics({
+                inferenceTimeMs: result.metrics.inferenceTimeMs,
+                preprocessingTimeMs: result.metrics.preprocessingTimeMs,
+                postprocessingTimeMs: result.metrics.postprocessingTimeMs,
+                totalTimeMs: result.metrics.totalTimeMs,
+                batchSize: result.metrics.batchSize,
+                deviceType: result.metrics.deviceType
             });
 
-            // Log performance metrics
-            console.log('Performance metrics:');
-            console.log(`  Inference time: ${metrics.inferenceTimeMs.toFixed(2)} ms`);
-            console.log(`  Preprocessing time: ${metrics.preprocessingTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Postprocessing time: ${metrics.postprocessingTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Total time: ${metrics.totalTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Memory usage: ${metrics.memoryUsageMB.toFixed(2)} MB`);
-            if (metrics.gpuMemoryUsageMB) {
-                console.log(`  GPU memory usage: ${metrics.gpuMemoryUsageMB.toFixed(2)} MB`);
-            }
+            // Log results
+            console.log(`Classified image: ${imageUrl}`);
+            console.log(`Top class: ${result.result.className} (${(result.result.confidence * 100).toFixed(2)}%)`);
+            console.log(`Inference time: ${result.metrics.inferenceTimeMs.toFixed(2)}ms`);
         }
     } catch (error) {
         console.error('Error in image classification demonstration:', error);
@@ -139,53 +136,50 @@ async function demonstrateTextClassification() {
     console.log('\n=== Text Classification Demonstration ===');
 
     // Initialize the classifier with optimizations
-    const textClassifier = new OptimizedTextClassifier({
-        modelPath: TEXT_MODEL_PATH,
-        maxLength: 128,
-        classLabels: ['positive', 'negative', 'neutral'],
-        topK: 3,
-        useGPU: true,
-        quantizationBits: 8,
-        enableCaching: true,
-        cacheSize: 100,
-        batchSize: 8
-    });
+    const textClassifier = new OptimizedTextClassifier(
+        {
+            modelPath: TEXT_MODEL_PATH,
+            useGPU: true,
+            quantization: {
+                quantizationBits: 8,
+                quantizeWeights: true
+            },
+            cacheSize: 100,
+            batchSize: 8
+        },
+        {
+            maxLength: 128,
+            classLabels: ['positive', 'negative', 'neutral'],
+            topK: 3
+        }
+    );
 
     try {
         // Load the model
         console.log('Loading text classification model...');
-        await textClassifier.loadModel();
+        await textClassifier.initialize();
         console.log('Model loaded successfully');
 
         // Classify texts
         console.log('Classifying sample texts...');
         for (const text of sampleTexts) {
-            // Start recording metrics
-            performanceMonitor.startRecording();
-
             // Classify text
             const result = await textClassifier.classifyText(text);
 
-            // Stop recording and get metrics
-            const metrics = performanceMonitor.stopRecording();
-
-            // Log results
-            console.log(`\nText: "${text}"`);
-            console.log('Predictions:');
-            result.predictions.forEach((pred, i) => {
-                console.log(`  ${i + 1}. ${pred.className} (${(pred.probability * 100).toFixed(2)}%)`);
+            // Record metrics
+            performanceMonitor.recordMetrics({
+                inferenceTimeMs: result.metrics.inferenceTimeMs,
+                preprocessingTimeMs: result.metrics.preprocessingTimeMs,
+                postprocessingTimeMs: result.metrics.postprocessingTimeMs,
+                totalTimeMs: result.metrics.totalTimeMs,
+                batchSize: result.metrics.batchSize,
+                deviceType: result.metrics.deviceType
             });
 
-            // Log performance metrics
-            console.log('Performance metrics:');
-            console.log(`  Inference time: ${metrics.inferenceTimeMs.toFixed(2)} ms`);
-            console.log(`  Preprocessing time: ${metrics.preprocessingTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Postprocessing time: ${metrics.postprocessingTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Total time: ${metrics.totalTimeMs?.toFixed(2) || 'N/A'} ms`);
-            console.log(`  Memory usage: ${metrics.memoryUsageMB.toFixed(2)} MB`);
-            if (metrics.gpuMemoryUsageMB) {
-                console.log(`  GPU memory usage: ${metrics.gpuMemoryUsageMB.toFixed(2)} MB`);
-            }
+            // Log results
+            console.log(`Classified text: "${text.substring(0, 50)}..."`);
+            console.log(`Top class: ${result.result.className} (${(result.result.confidence * 100).toFixed(2)}%)`);
+            console.log(`Inference time: ${result.metrics.inferenceTimeMs.toFixed(2)}ms`);
         }
     } catch (error) {
         console.error('Error in text classification demonstration:', error);
@@ -220,6 +214,11 @@ async function runBenchmarks() {
         quantizationBits: 8,
         cacheEnabled: true,
         cacheSize: 100
+    }, {
+        imageData: new Uint8Array(224 * 224 * 3).fill(128), // Dummy image data (gray)
+        width: 224,
+        height: 224,
+        channels: 3
     });
 
     console.log('Image classification benchmark results:');
@@ -236,6 +235,9 @@ async function runBenchmarks() {
         quantizationBits: 8,
         cacheEnabled: true,
         cacheSize: 100
+    }, {
+        text: sampleTexts[0],
+        maxLength: 128
     });
 
     console.log('Text classification benchmark results:');
@@ -275,7 +277,7 @@ function analyzePerformanceData() {
     if (alerts.length > 0) {
         console.log('\nPerformance alerts:');
         alerts.forEach((alert, i) => {
-            console.log(`Alert ${i + 1}: ${alert.message} (${new Date(alert.timestamp).toLocaleString()})`);
+            console.log(`Alert ${i + 1}: ${alert.type} threshold exceeded - expected: ${alert.threshold}, actual: ${alert.actualValue} (${new Date(alert.timestamp).toLocaleString()})`);
         });
     } else {
         console.log('\nNo performance alerts detected');

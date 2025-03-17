@@ -1,8 +1,8 @@
 "use client";
 
 import MonaiWorkflowClient, {
-  Workflow,
-  WorkflowTask,
+    Workflow,
+    WorkflowTask,
 } from "@/lib/monai-workflow-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -515,7 +515,7 @@ export default function CreateWorkflowPage() {
                 </h4>
 
                 {currentTask.type === "argo" && (
-                  <>
+                  <div>
                     <div className="mb-2">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2"
@@ -530,7 +530,6 @@ export default function CreateWorkflowPage() {
                         name="args.namespace"
                         value={currentTask.args.namespace || ""}
                         onChange={handleTaskChange}
-                        required
                       />
                     </div>
 
@@ -589,11 +588,11 @@ export default function CreateWorkflowPage() {
                         <option value="false">False</option>
                       </select>
                     </div>
-                  </>
+                  </div>
                 )}
 
                 {currentTask.type === "docker" && (
-                  <>
+                  <div>
                     <div className="mb-2">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2"
@@ -608,7 +607,6 @@ export default function CreateWorkflowPage() {
                         name="args.image"
                         value={currentTask.args.image || ""}
                         onChange={handleTaskChange}
-                        required
                       />
                     </div>
 
@@ -628,11 +626,11 @@ export default function CreateWorkflowPage() {
                         onChange={handleTaskChange}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
 
                 {currentTask.type === "email" && (
-                  <>
+                  <div>
                     <div className="mb-2">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2"
@@ -686,7 +684,7 @@ export default function CreateWorkflowPage() {
                         required
                       />
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 

@@ -18,6 +18,7 @@ export interface AnimatedButtonProps {
   disabled?: boolean
   fullWidth?: boolean
   ariaLabel?: string
+  style?: React.CSSProperties
 }
 
 export function AnimatedButton({
@@ -31,6 +32,7 @@ export function AnimatedButton({
   disabled = false,
   fullWidth = false,
   ariaLabel,
+  style,
 }: AnimatedButtonProps) {
   const [isHovered, setIsHovered] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -132,6 +134,7 @@ export function AnimatedButton({
     onMouseMove: handleMouseMove,
     "aria-disabled": disabled,
     "aria-label": ariaLabel || (typeof children === 'string' ? children : undefined),
+    style,
   }
 
   if (href && !disabled) {

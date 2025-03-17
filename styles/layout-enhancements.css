@@ -1,0 +1,197 @@
+/* Layout Enhancements - Improving visual structure without altering application components */
+
+/* 1. Whitespace and Spacing Improvements */
+/* Increase padding between sections for better content separation */
+.section {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+  }
+}
+
+/* Improved spacing for header and footer */
+header {
+  margin-bottom: var(--space-xl);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+}
+
+footer {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-2xl);
+}
+
+/* Add breathing room to main content */
+main {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-3xl);
+}
+
+/* Enhanced container styling */
+.container, .container-wide {
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .container, .container-wide {
+    padding-left: var(--space-xl);
+    padding-right: var(--space-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container, .container-wide {
+    padding-left: var(--space-2xl);
+    padding-right: var(--space-2xl);
+  }
+}
+
+/* 2. Typography and Contrast Improvements */
+/* Enhance text contrast for better readability */
+footer h3 {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: var(--space-md);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+footer p, footer a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+footer a:hover {
+  color: rgba(255, 255, 255, 1);
+  text-decoration: none;
+}
+
+/* 3. Footer Structuring Improvements */
+/* Better column separation and alignment */
+footer .grid {
+  gap: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  footer .grid {
+    gap: var(--space-2xl);
+  }
+}
+
+/* Visual separators for footer sections */
+footer .footer-column {
+  position: relative;
+}
+
+footer .footer-column:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: calc(-1 * var(--space-xl) / 2);
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+  display: none;
+}
+
+@media (min-width: 768px) {
+  footer .footer-column:not(:last-child)::after {
+    display: block;
+  }
+}
+
+/* 4. Interactive Feedback Improvements */
+/* Enhanced hover effects for better user feedback */
+footer a {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+footer a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: width 0.3s ease;
+}
+
+footer a:hover::after {
+  width: 100%;
+}
+
+/* 5. Accessibility Enhancements */
+/* Improved focus states for keyboard navigation */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #4a6cf7;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* 6. Branding and Identity Enhancements */
+/* Make logo more prominent */
+.brand-logo {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.1);
+}
+
+/* 7. Additional Visual Enhancements */
+/* Subtle background patterns and accents */
+.subtle-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0;
+  opacity: 0.3;
+}
+
+/* Improved card and container styling */
+.enhanced-container {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enhanced-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved announcement bar */
+.announcement-bar {
+  padding: var(--space-sm) 0;
+  font-weight: 500;
+}
+
+/* Improved header navigation */
+.nav-link {
+  position: relative;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+  left: 0;
+} 
