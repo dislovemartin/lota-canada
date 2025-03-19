@@ -1,0 +1,301 @@
+---
+description: This rule defines the naming conventions for variables, functions, classes, files, and other code elements.
+globs: 
+alwaysApply: false
+---
+
+# Naming Conventions
+
+This rule defines the naming conventions for variables, functions, classes, files, and other code elements.
+
+## General Rules
+
+1. Use meaningful and descriptive names
+2. Avoid abbreviations unless widely known
+3. Be consistent with the chosen style
+4. Use PascalCase for types/interfaces/classes
+5. Use camelCase for variables/functions/methods
+6. Use UPPER_SNAKE_CASE for constants
+
+## Variables
+
+### Variable Naming
+
+```typescript
+// ✅ Good
+const firstName = 'John';
+const isActive = true;
+const maxRetries = 3;
+const CACHE_DURATION = 5 * 60 * 1000;
+const DEFAULT_CONFIG = {
+  timeout: 5000,
+  retries: 3
+};
+
+// ❌ Bad
+const fn = 'John';
+const a = true;
+const max = 3;
+const cacheDur = 5000;
+```
+
+### Boolean Variables
+
+- Prefix with question words (is, has, should, can)
+- Use positive names (isValid vs isNotValid)
+
+```typescript
+// ✅ Good
+const isEnabled = true;
+const hasPermission = false;
+const shouldRefresh = true;
+const canEdit = false;
+
+// ❌ Bad
+const enabled = true;
+const permission = false;
+const refresh = true;
+```
+
+## Functions
+
+### Function Names
+
+- Use verb + noun format
+- Be descriptive about what the function does
+- Keep names concise but clear
+
+```typescript
+// ✅ Good
+function calculateTotal(items: Item[]): number;
+function validateUserInput(input: UserInput): boolean;
+function fetchUserProfile(userId: string): Promise<User>;
+function handleSubmit(event: FormEvent): void;
+
+// ❌ Bad
+function calc(i: Item[]): number;
+function process(input: UserInput): boolean;
+function userStuff(id: string): Promise<User>;
+function submit(e: FormEvent): void;
+```
+
+### Event Handlers
+
+- Prefix with 'handle' or 'on'
+- Include the event type in the name
+
+```typescript
+// ✅ Good
+const handleClick = (event: MouseEvent) => {};
+const onSubmit = (event: FormEvent) => {};
+const handleUserSelect = (user: User) => {};
+
+// ❌ Bad
+const click = (event: MouseEvent) => {};
+const submitForm = (event: FormEvent) => {};
+const userSelected = (user: User) => {};
+```
+
+## Classes and Interfaces
+
+### Class Names
+
+- Use PascalCase
+- Use nouns or noun phrases
+- Be descriptive about the class's purpose
+
+```typescript
+// ✅ Good
+class UserService {
+  // Implementation
+}
+
+class PaymentProcessor {
+  // Implementation
+}
+
+class DatabaseConnection {
+  // Implementation
+}
+
+// ❌ Bad
+class Service {
+  // Implementation
+}
+
+class Processor {
+  // Implementation
+}
+
+class Db {
+  // Implementation
+}
+```
+
+### Interface Names
+
+- Use PascalCase
+- Don't prefix with 'I'
+- Be descriptive about the contract
+
+```typescript
+// ✅ Good
+interface User {
+  id: string;
+  name: string;
+}
+
+interface PaymentMethod {
+  type: string;
+  process(amount: number): Promise<void>;
+}
+
+// ❌ Bad
+interface IUser {
+  id: string;
+  name: string;
+}
+
+interface PaymentMethodInterface {
+  type: string;
+  process(amount: number): Promise<void>;
+}
+```
+
+## File Names
+
+### Component Files
+
+- Use PascalCase
+- Match the component name
+- Add the component type as a suffix when needed
+
+```
+// ✅ Good
+UserProfile.tsx
+Button.tsx
+NavigationBar.tsx
+UserContext.tsx
+useAuth.ts
+
+// ❌ Bad
+userprofile.tsx
+button.tsx
+nav-bar.tsx
+context.tsx
+```
+
+### Utility Files
+
+- Use kebab-case for utility files
+- Be descriptive about the file's purpose
+
+```
+// ✅ Good
+string-utils.ts
+date-formatter.ts
+api-client.ts
+test-helpers.ts
+
+// ❌ Bad
+utils.ts
+helpers.ts
+stuff.ts
+misc.ts
+```
+
+### Test Files
+
+- Match the name of the file being tested
+- Add .test or .spec suffix
+
+```
+// ✅ Good
+UserProfile.test.tsx
+Button.spec.tsx
+string-utils.test.ts
+
+// ❌ Bad
+test-user-profile.tsx
+buttonTest.tsx
+stringUtils.test.ts
+```
+
+## React Components
+
+### Component Names
+
+- Use PascalCase
+- Be descriptive about the component's purpose
+- Add context when needed
+
+```typescript
+// ✅ Good
+export function UserProfileCard() {
+  // Implementation
+}
+
+export function DashboardLayout() {
+  // Implementation
+}
+
+export function PaymentForm() {
+  // Implementation
+}
+
+// ❌ Bad
+export function Profile() {
+  // Implementation
+}
+
+export function Layout() {
+  // Implementation
+}
+
+export function Form() {
+  // Implementation
+}
+```
+
+### Custom Hook Names
+
+- Prefix with 'use'
+- Describe the hook's purpose
+- Use camelCase
+
+```typescript
+// ✅ Good
+function useAuth() {
+  // Implementation
+}
+
+function useLocalStorage<T>(key: string) {
+  // Implementation
+}
+
+function useDebounce<T>(value: T, delay: number) {
+  // Implementation
+}
+
+// ❌ Bad
+function auth() {
+  // Implementation
+}
+
+function UseLocalStorage<T>(key: string) {
+  // Implementation
+}
+
+function debounceHook<T>(value: T, delay: number) {
+  // Implementation
+}
+```
+
+## Enforcement
+
+Naming conventions are enforced through:
+1. ESLint rules
+2. TypeScript configuration
+3. Code review checklist
+4. Automated linting in CI/CD
+5. Team code reviews 

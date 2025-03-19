@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { useState } from "react"
-import { AnimatedButton } from "./animated-button"
-import { AnimatedHeading } from "./animated-heading"
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
+import { AnimatedButton } from "./animated-button";
+import { AnimatedHeading } from "./animated-heading";
 
 // Custom icon components to replace lucide-react icons
 const BookIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -82,47 +82,58 @@ const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 interface CommunityEngagementSectionProps {
-  className?: string
+  className?: string;
 }
 
-export function CommunityEngagementSection({ className }: CommunityEngagementSectionProps) {
-  const [activeTab, setActiveTab] = useState("education")
+export function CommunityEngagementSection({
+  className,
+}: CommunityEngagementSectionProps) {
+  const [activeTab, setActiveTab] = useState("education");
 
   const tabs = [
     {
       id: "education",
       label: "Education",
       icon: <BookIcon className="w-5 h-5" />,
-      content: "Our education initiatives focus on providing resources, mentorship, and learning opportunities to underserved communities. We partner with schools and educational institutions to develop programs that foster leadership skills and professional growth.",
-      image: "/images/programs/community-education.jpg"
+      content:
+        "Our education initiatives focus on providing resources, mentorship, and learning opportunities to underserved communities. We partner with schools and educational institutions to develop programs that foster leadership skills and professional growth.",
+      image: "/images/programs/community.svg",
     },
     {
       id: "environment",
       label: "Environment",
       icon: <GlobeIcon className="w-5 h-5" />,
-      content: "LOTA's environmental programs engage members in sustainability projects, conservation efforts, and awareness campaigns. We believe that responsible leadership includes environmental stewardship and sustainable practices.",
-      image: "/images/programs/community-environment.jpg"
+      content:
+        "LOTA's environmental programs engage members in sustainability projects, conservation efforts, and awareness campaigns. We believe that responsible leadership includes environmental stewardship and sustainable practices.",
+      image: "/images/programs/community-environment.jpg",
     },
     {
       id: "health",
       label: "Health & Wellness",
       icon: <HeartIcon className="w-5 h-5" />,
-      content: "Our health and wellness initiatives support community health programs, mental health awareness, and wellness education. We organize events and campaigns that promote holistic well-being and healthy lifestyles.",
-      image: "/images/programs/community-health.jpg"
+      content:
+        "Our health and wellness initiatives support community health programs, mental health awareness, and wellness education. We organize events and campaigns that promote holistic well-being and healthy lifestyles.",
+      image: "/images/programs/community-health.jpg",
     },
     {
       id: "innovation",
       label: "Innovation",
       icon: <LightbulbIcon className="w-5 h-5" />,
-      content: "LOTA's innovation programs encourage creative problem-solving and entrepreneurial thinking. We provide resources and support for members to develop innovative solutions to community challenges.",
-      image: "/images/programs/community-innovation.jpg"
-    }
-  ]
+      content:
+        "LOTA's innovation programs encourage creative problem-solving and entrepreneurial thinking. We provide resources and support for members to develop innovative solutions to community challenges.",
+      image: "/images/programs/community-innovation.jpg",
+    },
+  ];
 
-  const activeTabData = tabs.find(tab => tab.id === activeTab) || tabs[0]
+  const activeTabData = tabs.find((tab) => tab.id === activeTab) || tabs[0];
 
   return (
-    <section className={cn("py-24 relative bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950", className)}>
+    <section
+      className={cn(
+        "py-24 relative bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950",
+        className
+      )}
+    >
       <div className="container-wide">
         <AnimatedHeading
           title="Community Engagement"
@@ -136,7 +147,7 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image Column */}
-          <motion.div 
+          <motion.div
             className="relative rounded-xl overflow-hidden aspect-[4/3] shadow-xl"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -155,9 +166,7 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
                   {activeTabData.icon}
                   <span>{activeTabData.label}</span>
                 </div>
-                <div className="text-2xl font-bold">
-                  Community Impact
-                </div>
+                <div className="text-2xl font-bold">Community Impact</div>
               </div>
             </div>
           </motion.div>
@@ -198,30 +207,48 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
               <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg">
                 {activeTabData.content}
               </p>
-              
+
               <div className="mt-auto">
-                <h4 className="font-semibold mb-4 text-gray-900 dark:text-white">Impact Statistics</h4>
+                <h4 className="font-semibold mb-4 text-gray-900 dark:text-white">
+                  Impact Statistics
+                </h4>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-black dark:text-white">12+</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Community Partners</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">
+                      12+
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      Community Partners
+                    </div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-black dark:text-white">1,200+</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Volunteer Hours</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">
+                      1,200+
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      Volunteer Hours
+                    </div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-black dark:text-white">8</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Active Projects</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">
+                      8
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      Active Projects
+                    </div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-black dark:text-white">95%</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Participant Satisfaction</div>
+                    <div className="text-2xl font-bold text-black dark:text-white">
+                      95%
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      Participant Satisfaction
+                    </div>
                   </div>
                 </div>
-                
-                <AnimatedButton 
-                  href="/programs/community-engagement" 
+
+                <AnimatedButton
+                  href="/programs/community-engagement"
                   variant="primary"
                   size="lg"
                 >
@@ -233,5 +260,5 @@ export function CommunityEngagementSection({ className }: CommunityEngagementSec
         </div>
       </div>
     </section>
-  )
-} 
+  );
+}

@@ -51,30 +51,78 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxss1 \
     libxtst6 \
     lsb-release \
+    # Development utilities
+    htop \
+    vim \
+    git \
+    jq \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
 
-# Install global packages
-RUN npm install -g npm@latest pnpm@latest yarn@latest typescript@latest
+# Configure system limits and performance
+RUN echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf \
+    && echo "fs.inotify.max_user_instances=512" >> /etc/sysctl.conf \
+    && echo "vm.max_map_count=262144" >> /etc/sysctl.conf \
+    && echo "kernel.pid_max=65535" >> /etc/sysctl.conf \
+    && echo "vm.swappiness=10" >> /etc/sysctl.conf \
+    && echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
 
-# Configure npm to use legacy-peer-deps by default
-RUN npm config set legacy-peer-deps true
+# Set up directories and permissions before switching to node user
+RUN mkdir -p /home/node/.npm \
+    && mkdir -p /home/node/.cache/yarn \
+    && mkdir -p /home/node/.local/share/npm \
+    && mkdir -p /home/node/.config \
+    && mkdir -p /home/node/.mcp/{cache,config,logs} \
+    && mkdir -p /ms-playwright \
+    && chown -R node:node /home/node \
+    && chmod -R 755 /home/node
 
-# Install Playwright browsers
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN mkdir -p /ms-playwright
-RUN npx playwright install --with-deps chromium firefox webkit
+# Install global packages with optimized settings
+ENV NODE_ENV=development \
+    NPM_CONFIG_LOGLEVEL=error \
+    NPM_CONFIG_FUND=false \
+    NPM_CONFIG_AUDIT=false \
+    NPM_CONFIG_UPDATE_NOTIFIER=false \
+    NPM_CONFIG_PREFER_OFFLINE=true \
+    YARN_CACHE_FOLDER=/home/node/.cache/yarn \
+    NEXT_TELEMETRY_DISABLED=1
+
+# Switch to node user for package installations
+USER node
+
+RUN npm install -g npm@latest pnpm@latest yarn@latest typescript@latest \
+    && npm config set maxsockets 50 \
+    && npm config set legacy-peer-deps true \
+    && npm cache clean --force \
+    && yarn cache clean
+
+# Install Playwright browsers with minimal footprint
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+
+USER root
+RUN npx playwright install chromium --with-deps \
+    && chown -R node:node /ms-playwright
 
 # Set up Cypress dependencies
 ENV CYPRESS_INSTALL_BINARY=0
 
-# Set up the workspace directory
-WORKDIR /workspace
+# Configure environment for MCP and Node.js with optimized settings
+ENV MCP_CACHE_DIR=/home/node/.mcp/cache \
+    MCP_CONFIG_DIR=/home/node/.mcp/config \
+    MCP_LOG_DIR=/home/node/.mcp/logs \
+    MCP_SERVER_PORT=3099 \
+    NODE_OPTIONS="--max-old-space-size=1536 --max-http-header-size=8192" \
+    MALLOC_ARENA_MAX=2 \
+    NODE_NO_WARNINGS=1 \
+    NEXT_TELEMETRY_DISABLED=1
 
-# Set up permissions for node user
+# Set up the workspace directory with proper permissions
+WORKDIR /workspace
 RUN chown -R node:node /workspace
 
-# Switch to node user
+# Switch back to node user for security
 USER node

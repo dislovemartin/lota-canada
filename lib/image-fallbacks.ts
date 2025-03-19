@@ -9,9 +9,9 @@ export const imageFallbacks = {
   header: "/images/hero/image-asset2.jpeg",
 
   // Logo images
-  logo: "/images/brand/lota-logo-full.svg",
-  logoSquare: "/images/brand/lota-logo-square-transparent.svg",
-  logoHorizontal: "/images/brand/lota-logo-horizontal-transparent.svg",
+  logo: "/images/brand/LOTA logo SVG.svg",
+  logoSquare: "/images/brand/LOTA LOGO transparent background.png",
+  logoHorizontal: "/images/brand/LOTA LOGO transparent background.png",
 
   // Program-specific images
   leadership: "/images/hero/image-asset3.jpeg",

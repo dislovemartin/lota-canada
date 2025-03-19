@@ -1,0 +1,154 @@
+---
+description: This rule defines the testing standards and requirements for the project.
+globs: 
+alwaysApply: false
+---
+
+# Testing Standards and Requirements
+
+This rule defines the testing standards and requirements for the project.
+
+## Test Organization
+
+### File Structure
+- Test files should be co-located with the source files they test
+- Use `.test.ts` or `.spec.ts` suffix for test files
+- Group related tests in describe blocks
+- Use clear, descriptive test names
+
+```typescript
+// ✅ Good
+// UserService.ts
+export class UserService {
+  // Implementation
+}
+
+// UserService.test.ts
+describe('UserService', () => {
+  describe('getUser', () => {
+    it('should return user when valid ID is provided', () => {
+      // Test implementation
+    });
+    
+    it('should throw error when user not found', () => {
+      // Test implementation
+    });
+  });
+});
+
+// ❌ Bad
+// tests/user.ts
+test('user test', () => {
+  // Vague test implementation
+});
+```
+
+## Coverage Requirements
+
+1. Minimum Coverage Requirements:
+   - Statements: 80%
+   - Branches: 80%
+   - Functions: 80%
+   - Lines: 80%
+
+2. Critical Path Coverage:
+   - Authentication flows: 100%
+   - Payment processing: 100%
+   - Data mutations: 100%
+
+## Test Structure
+
+### Arrange-Act-Assert Pattern
+Every test should follow the AAA pattern:
+1. Arrange: Set up test data and conditions
+2. Act: Execute the code being tested
+3. Assert: Verify the results
+
+```typescript
+// ✅ Good
+it('should calculate total price correctly', () => {
+  // Arrange
+  const items = [
+    { price: 10 },
+    { price: 20 }
+  ];
+  const calculator = new PriceCalculator();
+  
+  // Act
+  const total = calculator.calculateTotal(items);
+  
+  // Assert
+  expect(total).toBe(30);
+});
+
+// ❌ Bad
+it('calculator works', () => {
+  const calc = new PriceCalculator();
+  expect(calc.calculateTotal([{price: 10}, {price: 20}])).toBe(30);
+});
+```
+
+## Testing Best Practices
+
+1. Mock External Dependencies
+   - Use dependency injection
+   - Mock HTTP requests
+   - Mock database calls
+   - Use test doubles appropriately (stubs, spies, mocks)
+
+2. Test Isolation
+   - Each test should be independent
+   - Clean up after each test
+   - No shared mutable state between tests
+
+3. Error Cases
+   - Test both success and error paths
+   - Verify error messages and types
+   - Test edge cases and boundary conditions
+
+```typescript
+// ✅ Good
+describe('UserService', () => {
+  let userService: UserService;
+  let mockDb: jest.Mocked<Database>;
+  
+  beforeEach(() => {
+    mockDb = createMockDatabase();
+    userService = new UserService(mockDb);
+  });
+  
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  
+  it('should handle database errors', async () => {
+    // Arrange
+    mockDb.query.mockRejectedValue(new Error('DB Error'));
+    
+    // Act & Assert
+    await expect(userService.getUser('123'))
+      .rejects
+      .toThrow('Failed to fetch user');
+  });
+});
+```
+
+## Test Performance
+
+1. Test Execution Speed
+   - Unit tests should complete quickly
+   - Group slow tests separately
+   - Use test.concurrent for parallel execution when possible
+
+2. Test Maintainability
+   - Use test helpers and factories
+   - Avoid test code duplication
+   - Keep test code as simple as possible
+
+## Enforcement
+
+This rule is enforced through:
+1. Jest configuration
+2. CI/CD pipeline checks
+3. Code review requirements
+4. Pre-merge coverage checks 

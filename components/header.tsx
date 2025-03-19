@@ -2,7 +2,12 @@
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { useScroll as _useScroll, useTransform as _useTransform, AnimatePresence, motion } from "framer-motion";
+import {
+  useScroll as _useScroll,
+  useTransform as _useTransform,
+  AnimatePresence,
+  motion,
+} from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,36 +33,84 @@ const navigation: NavigationItem[] = [
     name: "About",
     href: "/about",
     submenu: [
-      { name: "Our Mission", href: "/mission", description: "Learn about our vision and values" },
-      { name: "Board of Directors", href: "/board", description: "Meet our leadership team" },
-      { name: "Impact", href: "/impact", description: "See how we're making a difference" },
+      {
+        name: "Our Mission",
+        href: "/mission",
+        description: "Learn about our vision and values",
+      },
+      {
+        name: "Board of Directors",
+        href: "/board",
+        description: "Meet our leadership team",
+      },
+      {
+        name: "Impact",
+        href: "/impact",
+        description: "See how we're making a difference",
+      },
     ],
   },
   {
     name: "Programs",
     href: "/programs",
     submenu: [
-      { name: "Executive Mentorship", href: "/programs/executive-mentorship", description: "Strategic leadership development for executives" },
-      { name: "Leadership Workshops", href: "/programs/leadership-workshops", description: "Enhance your professional skills and competencies" },
-      { name: "Community Engagement", href: "/programs/community-engagement", description: "Connect with industry professionals and leaders" },
+      {
+        name: "Executive Mentorship",
+        href: "/programs/executive-mentorship",
+        description: "Strategic leadership development for executives",
+      },
+      {
+        name: "Leadership Workshops",
+        href: "/programs/leadership-workshops",
+        description: "Enhance your professional skills and competencies",
+      },
+      {
+        name: "Community Engagement",
+        href: "/programs/community-engagement",
+        description: "Connect with industry professionals and leaders",
+      },
     ],
   },
   {
     name: "Events",
     href: "/events",
     submenu: [
-      { name: "Upcoming Events", href: "/events", description: "See what's happening next" },
-      { name: "Leadership Summit", href: "/events/leadership-summit-2025", description: "Our annual flagship event" },
-      { name: "Past Events", href: "/events/past", description: "Browse our previous events" },
+      {
+        name: "Upcoming Events",
+        href: "/events",
+        description: "See what's happening next",
+      },
+      {
+        name: "Leadership Summit",
+        href: "/events/leadership-summit-2025",
+        description: "Our annual flagship event",
+      },
+      {
+        name: "Past Events",
+        href: "/events/past",
+        description: "Browse our previous events",
+      },
     ],
   },
   {
     name: "Knowledge",
     href: "/knowledge",
     submenu: [
-      { name: "Articles", href: "/knowledge", description: "Insights and resources for professional growth" },
-      { name: "Leadership Resources", href: "/knowledge/leadership", description: "Tools and guides for effective leadership" },
-      { name: "Career Development", href: "/knowledge/career", description: "Resources for advancing your career" },
+      {
+        name: "Articles",
+        href: "/knowledge",
+        description: "Insights and resources for professional growth",
+      },
+      {
+        name: "Leadership Resources",
+        href: "/knowledge/leadership",
+        description: "Tools and guides for effective leadership",
+      },
+      {
+        name: "Career Development",
+        href: "/knowledge/career",
+        description: "Resources for advancing your career",
+      },
     ],
   },
   { name: "LOTA AI", href: "/lota-llm" },
@@ -70,14 +123,16 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  
+
   // Create mock implementations for tests
   const useScroll = () => {
     try {
       return _useScroll();
     } catch (e) {
       // Return a mock for testing
-      return { scrollY: { get: () => 0, onChange: (callback: any) => () => {} } };
+      return {
+        scrollY: { get: () => 0, onChange: (callback: any) => () => {} },
+      };
     }
   };
 
@@ -100,13 +155,15 @@ export default function Header() {
   useEffect(() => {
     try {
       // Make sure onChange returns a function or handle the case where it doesn't
-      const unsubscribe = scrollY.onChange ? scrollY.onChange((latest) => {
-        setScrolled(latest > 10);
-      }) : null;
-      
+      const unsubscribe = scrollY.onChange
+        ? scrollY.onChange((latest) => {
+            setScrolled(latest > 10);
+          })
+        : null;
+
       return () => {
         // Only call unsubscribe if it's a function
-        if (typeof unsubscribe === 'function') {
+        if (typeof unsubscribe === "function") {
           unsubscribe();
         }
       };
@@ -115,9 +172,9 @@ export default function Header() {
       const handleScroll = () => {
         setScrolled(window.scrollY > 10);
       };
-      
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
     }
   }, [scrollY]);
 
@@ -151,7 +208,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full" role="banner">
       {/* Enhanced Backdrop Layer with business-formal aesthetic */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-white backdrop-blur-md backdrop-saturate-150 shadow-md border-b border-gray-100 dark:bg-gray-950 dark:border-gray-800"
         style={{ opacity: 1 }}
       />
@@ -160,10 +217,13 @@ export default function Header() {
       {/* Subtle noise texture for depth */}
       <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay" />
       {/* Decorative top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/10" aria-hidden="true" />
+      <div
+        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/10"
+        aria-hidden="true"
+      />
 
       {/* Main Header Content */}
-      <motion.div 
+      <motion.div
         className="container-wide relative z-10"
         style={{ height, padding }}
         variants={headerVariants}
@@ -177,23 +237,36 @@ export default function Header() {
               {/* Enhanced glow effect behind logo */}
               <div className="absolute -inset-1 bg-gradient-to-r from-gray-50/30 via-gray-50/50 to-gray-50/30 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               {/* Decorative border accent */}
-              <div className="absolute -inset-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(45deg, transparent, rgba(0,0,0,0.05), transparent)' }}></div>
+              <div
+                className="absolute -inset-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background:
+                    "linear-gradient(45deg, transparent, rgba(0,0,0,0.05), transparent)",
+                }}
+              ></div>
               <div className="relative p-1">
-                <Image 
-                  src="/images/brand/lota-logo-full.svg" 
-                  alt={siteConfig.name} 
-                  width={240} 
-                  height={60} 
-                  className="transition-all duration-300 hover:scale-105"
+                <Image
+                  src="/images/brand/lota-logo-optimized.svg"
+                  alt={siteConfig.name}
+                  width={320}
+                  height={50}
+                  priority
+                  className="transition-all duration-300 hover:scale-105 dark:invert"
                 />
                 {/* Subtle underline accent that appears on hover */}
-                <div className="absolute bottom-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-black/20 to-transparent dark:via-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" aria-hidden="true"></div>
+                <div
+                  className="absolute bottom-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-black/20 to-transparent dark:via-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
+                  aria-hidden="true"
+                ></div>
               </div>
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-2" aria-label="Main Navigation">
+          <nav
+            className="hidden lg:flex items-center space-x-2"
+            aria-label="Main Navigation"
+          >
             {navigation.map((item) => (
               <div key={item.name} className="relative group">
                 <Link
@@ -212,7 +285,9 @@ export default function Header() {
                     "nav-link"
                   )}
                   onClick={() => item.submenu && toggleSubmenu(item.name)}
-                  aria-expanded={item.submenu ? activeSubmenu === item.name : undefined}
+                  aria-expanded={
+                    item.submenu ? activeSubmenu === item.name : undefined
+                  }
                   aria-haspopup={item.submenu ? "true" : undefined}
                 >
                   {item.name}
@@ -223,7 +298,7 @@ export default function Header() {
 
                 {/* Desktop Dropdown */}
                 {item.submenu && (
-                  <div 
+                  <div
                     className="absolute left-0 mt-1 w-72 origin-top-left rounded-md bg-white dark:bg-gray-900 shadow-lg ring-1 ring-gray-100 dark:ring-gray-700 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 -translate-y-1 group-hover:translate-y-0"
                     role="menu"
                     aria-orientation="vertical"
@@ -232,8 +307,14 @@ export default function Header() {
                     {/* Enhanced accent line at top of dropdown with business-formal aesthetic */}
                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-black to-transparent dark:from-transparent dark:via-white dark:to-transparent"></div>
                     {/* Decorative corner elements */}
-                    <div className="absolute top-1 left-0 w-4 h-4 border-t border-l border-black/10 dark:border-white/10 rounded-tl" aria-hidden="true"></div>
-                    <div className="absolute top-1 right-0 w-4 h-4 border-t border-r border-black/10 dark:border-white/10 rounded-tr" aria-hidden="true"></div>
+                    <div
+                      className="absolute top-1 left-0 w-4 h-4 border-t border-l border-black/10 dark:border-white/10 rounded-tl"
+                      aria-hidden="true"
+                    ></div>
+                    <div
+                      className="absolute top-1 right-0 w-4 h-4 border-t border-r border-black/10 dark:border-white/10 rounded-tr"
+                      aria-hidden="true"
+                    ></div>
                     <div className="p-2">
                       {item.submenu.map((subitem) => (
                         <Link
@@ -280,10 +361,15 @@ export default function Header() {
               )}
             >
               {/* Animated gradient overlay */}
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" aria-hidden="true"></span>
+              <span
+                className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"
+                aria-hidden="true"
+              ></span>
               {/* Button text with decorative elements */}
               <span className="relative flex items-center">
-                <span className="mr-1.5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300">→</span>
+                <span className="mr-1.5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                  →
+                </span>
                 <span>Become a Member</span>
               </span>
             </Link>
@@ -298,7 +384,7 @@ export default function Header() {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
           >
-            <motion.div 
+            <motion.div
               initial={false}
               animate={{ rotate: isMenuOpen ? 90 : 0 }}
               transition={{ duration: 0.2 }}
@@ -337,13 +423,17 @@ export default function Header() {
             exit="closed"
           >
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-              <Link href="/" className="flex items-center gap-2" onClick={toggleMenu}>
-                <Image 
-                  src="/images/brand/image.png" 
-                  alt={siteConfig.name} 
-                  width={180} 
+              <Link
+                href="/"
+                className="flex items-center gap-2"
+                onClick={toggleMenu}
+              >
+                <Image
+                  src="/images/brand/image.png"
+                  alt={siteConfig.name}
+                  width={180}
                   height={30}
-                  className="" 
+                  className=""
                 />
               </Link>
               <button
@@ -356,7 +446,11 @@ export default function Header() {
               </button>
             </div>
 
-            <nav className="p-4" aria-label="Mobile Navigation" id="mobile-menu">
+            <nav
+              className="p-4"
+              aria-label="Mobile Navigation"
+              id="mobile-menu"
+            >
               <ul className="space-y-1">
                 {navigation.map((item) => (
                   <li key={item.name} className="py-1">
@@ -369,27 +463,34 @@ export default function Header() {
                             "hover:bg-gray-100 dark:hover:bg-gray-800",
                             "focus:outline-none focus:ring-2 focus:ring-gray-200",
                             "relative overflow-hidden group",
-                            activeSubmenu === item.name && "bg-gray-100 dark:bg-gray-800"
+                            activeSubmenu === item.name &&
+                              "bg-gray-100 dark:bg-gray-800"
                           )}
                           onClick={() => toggleSubmenu(item.name)}
                           aria-expanded={activeSubmenu === item.name}
                           aria-controls={`${item.name.toLowerCase()}-submenu`}
                         >
                           {/* Subtle hover effect */}
-                          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-gray-200/30 dark:via-white/5 to-transparent opacity-0 group-hover:opacity-100 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" aria-hidden="true"></span>
+                          <span
+                            className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-gray-200/30 dark:via-white/5 to-transparent opacity-0 group-hover:opacity-100 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"
+                            aria-hidden="true"
+                          ></span>
                           {/* Enhanced text with decorative elements */}
                           <span className="relative">
-                            <span className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-1 h-0 bg-black/20 dark:bg-white/20 group-hover:h-1/2 transition-all duration-300 rounded-full" aria-hidden="true"></span>
+                            <span
+                              className="absolute -left-2 top-1/2 transform -translate-y-1/2 w-1 h-0 bg-black/20 dark:bg-white/20 group-hover:h-1/2 transition-all duration-300 rounded-full"
+                              aria-hidden="true"
+                            ></span>
                             <span className="relative">{item.name}</span>
                           </span>
-                          <ChevronDown 
+                          <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform duration-300",
                               activeSubmenu === item.name && "rotate-180"
-                            )} 
+                            )}
                           />
                         </button>
-                        
+
                         <AnimatePresence>
                           {activeSubmenu === item.name && (
                             <motion.ul
@@ -411,7 +512,8 @@ export default function Header() {
                                       "text-gray-700 dark:text-gray-200",
                                       "hover:bg-gray-100 dark:hover:bg-gray-800",
                                       "focus:outline-none focus:ring-2 focus:ring-gray-200",
-                                      pathname === subitem.href && "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
+                                      pathname === subitem.href &&
+                                        "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
                                     )}
                                     onClick={toggleMenu}
                                     role="menuitem"
@@ -439,7 +541,8 @@ export default function Header() {
                           "text-gray-700 dark:text-white",
                           "hover:bg-gray-100 dark:hover:bg-gray-800",
                           "focus:outline-none focus:ring-2 focus:ring-gray-200",
-                          pathname === item.href && "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
+                          pathname === item.href &&
+                            "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
                         )}
                         onClick={toggleMenu}
                       >
@@ -449,7 +552,7 @@ export default function Header() {
                   </li>
                 ))}
               </ul>
-              
+
               <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
                 <Link
                   href="/contact"
@@ -462,10 +565,15 @@ export default function Header() {
                   onClick={toggleMenu}
                 >
                   {/* Animated gradient overlay */}
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" aria-hidden="true"></span>
+                  <span
+                    className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/10 to-white/0 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"
+                    aria-hidden="true"
+                  ></span>
                   {/* Decorative elements */}
                   <span className="relative inline-flex items-center">
-                    <span className="mr-1.5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300">→</span>
+                    <span className="mr-1.5 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                      →
+                    </span>
                     <span>Become a Member</span>
                   </span>
                 </Link>

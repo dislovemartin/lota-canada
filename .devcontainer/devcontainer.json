@@ -59,14 +59,36 @@
             "path": "/bin/bash"
           }
         },
+        "mcp.configPath": "/home/node/.mcp/config/mcp-config.json",
         "mcp.apiKey": "${localEnv:MCP_API_KEY}",
         "mcp.enableAutoCompletion": true,
-        "mcp.enableInlineChat": true
+        "mcp.enableInlineChat": true,
+        "mcp.server.port": 3099,
+        "mcp.server.maxMemory": 512,
+        "mcp.cache.maxSize": 256,
+        "mcp.logging.level": "info",
+        "mcp.performance.optimization": true,
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/.hg/store/**": true,
+          "**/dist/**": true,
+          "**/.next/**": true,
+          "**/.mcp/cache/**": true,
+          "**/.mcp/logs/**": true,
+          "**/coverage/**": true,
+          "**/.turbo/**": true
+        }
       }
     }
   },
-  "forwardPorts": [3000, 8080, 9000, 5500, 5501],
-  "postCreateCommand": "cd ${containerWorkspaceFolder} && npm install --legacy-peer-deps && npm install cypress --save-dev --legacy-peer-deps && sudo mkdir -p /home/ubuntu/.mcp && sudo chown -R ubuntu:ubuntu /home/ubuntu/.mcp && sudo .devcontainer/install-mcp-tools.sh",
+  "forwardPorts": [3000, 8080, 9000, 5500, 5501, 3099],
+  "initializeCommand": "mkdir -p ${localEnv:HOME}/.mcp/{config,cache,logs}",
+  "postCreateCommand": {
+    "install-tools": "sudo .devcontainer/install-mcp-tools.sh",
+    "install-deps": "cd ${containerWorkspaceFolder} && npm set cache-min 9999999 && npm config set registry https://registry.npmmirror.com && NODE_OPTIONS='--max-old-space-size=4096 --gc-global' npm install --prefer-offline --no-audit --no-fund --ignore-scripts --production=false --no-package-lock --verbose"
+  },
   "postStartCommand": "cd ${containerWorkspaceFolder} && npm run dev",
   "remoteUser": "node",
   "features": {
@@ -80,5 +102,42 @@
       "moby": true
     }
   },
-  "mounts": []
+  "mounts": ["type=volume,source=mcp-data,target=/home/node/.mcp"],
+  "runArgs": [
+    "--init",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--shm-size=8gb",
+    "--memory=8g",
+    "--memory-reservation=6g",
+    "--memory-swap=16g",
+    "--oom-score-adj=-1000",
+    "--pids-limit=8192",
+    "--cpu-shares=4096",
+    "--cpu-quota=400000",
+    "--ulimit",
+    "nofile=131072:131072"
+  ],
+  "overrideCommand": false,
+  "updateContentCommand": "cd ${containerWorkspaceFolder} && npm set cache-min 9999999 && npm config set registry https://registry.npmmirror.com && NODE_OPTIONS='--max-old-space-size=4096 --gc-global' npm install --prefer-offline --no-audit --no-fund --ignore-scripts --production=false --no-package-lock --verbose",
+  "waitFor": "postCreateCommand",
+  "hostRequirements": {
+    "memory": "12gb",
+    "storage": "32gb",
+    "cpus": 4
+  },
+  "containerEnv": {
+    "CHOKIDAR_USEPOLLING": "false",
+    "WATCHPACK_POLLING": "false",
+    "NODE_ENV": "development",
+    "NODE_OPTIONS": "--max-old-space-size=4096 --gc-global --max-http-header-size=16384",
+    "MALLOC_ARENA_MAX": "4",
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "NEXT_SHARP_PATH": "/usr/local/lib/node_modules/sharp",
+    "NPM_CONFIG_REGISTRY": "https://registry.npmmirror.com",
+    "NPM_CONFIG_CACHE_MIN": "9999999",
+    "UV_THREADPOOL_SIZE": "128",
+    "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
+    "CYPRESS_INSTALL_BINARY": "0"
+  }
 }

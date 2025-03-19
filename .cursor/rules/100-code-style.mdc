@@ -1,0 +1,128 @@
+---
+description: his rule defines the code style and formatting standards for TypeScript/JavaScript files in the project.
+globs: 
+alwaysApply: false
+---
+
+# Code Style and Formatting Standards
+
+This rule defines the code style and formatting standards for TypeScript/JavaScript files in the project.
+
+## General Formatting
+
+### Indentation and Spacing
+- Use 2 spaces for indentation
+- No trailing whitespace
+- One space after keywords (if, for, while, etc.)
+- No space between function name and parentheses
+- One space before opening curly brace
+- Line length should not exceed 100 characters
+
+```typescript
+// ✅ Good
+function calculateTotal(items: Item[]): number {
+  return items.reduce((total, item) => {
+    return total + item.price;
+  }, 0);
+}
+
+// ❌ Bad
+function  calculateTotal ( items:Item[] ):number{
+  return items.reduce((total,item)=>{
+    return total+item.price
+  },0)
+}
+```
+
+### Function and Class Organization
+- One class per file
+- Methods ordered by visibility (public, protected, private)
+- Related methods grouped together
+- Static methods before instance methods
+- Getters/setters next to the properties they access
+
+```typescript
+// ✅ Good
+export class UserService {
+  private static instance: UserService;
+  
+  public static getInstance(): UserService {
+    if (!UserService.instance) {
+      UserService.instance = new UserService();
+    }
+    return UserService.instance;
+  }
+  
+  public async getUser(id: string): Promise<User> {
+    // Implementation
+  }
+  
+  private validateUser(user: User): boolean {
+    // Implementation
+  }
+}
+
+// ❌ Bad
+export class UserService {
+  private validateUser(user: User): boolean {
+    // Implementation
+  }
+  
+  static instance: UserService;
+  
+  getUser(id: string): Promise<User> {
+    // Implementation
+  }
+  
+  static getInstance(): UserService {
+    // Implementation
+  }
+}
+```
+
+### Comments and Documentation
+- Use JSDoc for public methods and classes
+- Keep comments focused and relevant
+- Update comments when code changes
+- Remove commented-out code
+- Use TODO comments for temporary solutions
+
+```typescript
+// ✅ Good
+/**
+ * Calculates the total price of items in the cart
+ * @param items - Array of items in the cart
+ * @returns The total price
+ */
+function calculateTotal(items: Item[]): number {
+  // Implementation
+}
+
+// ❌ Bad
+// This function calculates total
+// takes items as input
+// returns a number
+function calculateTotal(items: Item[]): number {
+  // Implementation
+  
+  // Old implementation
+  // return items.map(i => i.price).reduce((a, b) => a + b);
+}
+```
+
+## Best Practices
+
+1. Use early returns to reduce nesting
+2. Keep functions small and focused
+3. Avoid magic numbers and strings
+4. Use meaningful variable names
+5. Prefer const over let
+6. Use TypeScript's type system effectively
+
+## Enforcement
+
+This rule is enforced through:
+1. ESLint configuration
+2. Prettier configuration
+3. Pre-commit hooks
+4. Code review guidelines 

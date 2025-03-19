@@ -1,0 +1,231 @@
+---
+description: This rule defines the error handling patterns and standards for the project.
+globs: 
+alwaysApply: false
+---
+
+# Error Handling Standards
+
+This rule defines the error handling patterns and standards for the project.
+
+## Error Types
+
+### Custom Error Classes
+
+1. Base Error Class
+```typescript
+// ✅ Good
+export class AppError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public statusCode: number = 500
+  ) {
+    super(message);
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Specific Error Types
+export class ValidationError extends AppError {
+  constructor(message: string) {
+    super(message, 'VALIDATION_ERROR', 400);
+  }
+}
+
+export class NotFoundError extends AppError {
+  constructor(resource: string) {
+    super(`${resource} not found`, 'NOT_FOUND', 404);
+  }
+}
+
+// ❌ Bad
+throw new Error('Something went wrong');
+```
+
+### Error Hierarchy
+
+```typescript
+AppError
+├── ValidationError
+├── NotFoundError
+├── AuthenticationError
+├── AuthorizationError
+└── ExternalServiceError
+    ├── DatabaseError
+    ├── APIError
+    └── CacheError
+```
+
+## Error Handling Patterns
+
+### Try-Catch Pattern
+
+```typescript
+// ✅ Good
+async function fetchUserData(userId: string): Promise<User> {
+  try {
+    const user = await db.users.findById(userId);
+    if (!user) {
+      throw new NotFoundError('User');
+    }
+    return user;
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      // Handle specific error type
+      logger.warn(`User not found: ${userId}`);
+      throw error;
+    }
+    
+    // Handle unexpected errors
+    logger.error('Failed to fetch user data', {
+      userId,
+      error: error instanceof Error ? error.message : String(error)
+    });
+    throw new AppError(
+      'Failed to fetch user data',
+      'DATABASE_ERROR',
+      500
+    );
+  }
+}
+
+// ❌ Bad
+async function fetchUserData(userId: string): Promise<User> {
+  const user = await db.users.findById(userId);
+  if (!user) return null;
+  return user;
+}
+```
+
+### Async Error Handling
+
+```typescript
+// ✅ Good
+const handleSubmit = async (data: FormData) => {
+  try {
+    await validateData(data);
+    await saveData(data);
+    showSuccess('Data saved successfully');
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      showError(error.message);
+      return;
+    }
+    
+    showError('An unexpected error occurred');
+    logger.error('Form submission failed', { error });
+  }
+};
+
+// ❌ Bad
+const handleSubmit = async (data: FormData) => {
+  await validateData(data);
+  await saveData(data);
+  showSuccess('Data saved successfully');
+};
+```
+
+## Error Messages
+
+### Message Format
+
+1. Be specific and descriptive
+2. Include relevant context
+3. Use consistent terminology
+4. Avoid technical details in user-facing messages
+
+```typescript
+// ✅ Good
+throw new ValidationError('Username must be between 3 and 20 characters');
+
+// ❌ Bad
+throw new Error('Invalid input');
+```
+
+### Error Context
+
+```typescript
+// ✅ Good
+logger.error('Payment processing failed', {
+  orderId: order.id,
+  amount: payment.amount,
+  currency: payment.currency,
+  errorCode: error.code,
+  errorMessage: error.message
+});
+
+// ❌ Bad
+logger.error('Payment failed: ' + error.message);
+```
+
+## Error Recovery
+
+### Graceful Degradation
+
+```typescript
+// ✅ Good
+async function fetchDashboardData(): Promise<DashboardData> {
+  const [userResponse, statsResponse] = await Promise.allSettled([
+    fetchUserData(),
+    fetchStats()
+  ]);
+  
+  return {
+    user: userResponse.status === 'fulfilled' ? userResponse.value : null,
+    stats: statsResponse.status === 'fulfilled' ? statsResponse.value : [],
+    errors: [
+      ...(userResponse.status === 'rejected' ? ['Failed to load user data'] : []),
+      ...(statsResponse.status === 'rejected' ? ['Failed to load statistics'] : [])
+    ]
+  };
+}
+
+// ❌ Bad
+async function fetchDashboardData(): Promise<DashboardData> {
+  const user = await fetchUserData();
+  const stats = await fetchStats();
+  return { user, stats };
+}
+```
+
+## Error Logging
+
+### Logging Levels
+
+1. ERROR: Application errors that need immediate attention
+2. WARN: Unexpected issues that don't break functionality
+3. INFO: Important business events
+4. DEBUG: Development information
+
+```typescript
+// ✅ Good
+try {
+  await processPayment(order);
+} catch (error) {
+  if (error instanceof ValidationError) {
+    logger.warn('Payment validation failed', { orderId: order.id, error });
+  } else {
+    logger.error('Payment processing failed', { orderId: order.id, error });
+  }
+  throw error;
+}
+
+// ❌ Bad
+try {
+  await processPayment(order);
+} catch (error) {
+  console.error(error);
+  throw error;
+}
+```
+
+## Enforcement
+
+Error handling standards are enforced through:
+1. ESLint rules
+2. TypeScript strict mode
+3. Code review checklist
+4. Error monitoring tools
+5. Automated tests 

@@ -1,0 +1,23 @@
+---
+description:  Next.js 15 Architecture
+globs: 
+alwaysApply: false
+---
+## Next.js 15 Architecture
+- **Use the App Router (app/)** for all new development.
+- **Leverage React Server Components (RSC)** for optimal performance.
+- **Minimize use client usage** – only for interactive elements like forms, animations, and UI state.
+- **Use React Suspense** for lazy loading.
+- **Optimize API calls using Server Actions** instead of client-side fetching.
+- **Use next-safe-action for server actions with validation.**
+- **Handle errors properly**:
+  - Expected errors: Return typed errors from server actions.
+  - Unexpected errors: Use error.tsx and global-error.tsx.
+- **Prefer useActionState with react-hook-form** for form management.
+
+## Performance Optimization
+- Use **lazy loading** for non-critical components (next/dynamic).
+- Optimize **Core Web Vitals (LCP, CLS, FID)**.
+- Use **optimized images (next/image)** with WebP and AVIF formats.
+- Implement **code splitting and tree shaking**.
+- Avoid unnecessary useEffect and prefer **React Server Components**. 

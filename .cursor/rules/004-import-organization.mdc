@@ -1,0 +1,223 @@
+---
+description: This rule defines the standards for organizing and ordering imports in TypeScript/JavaScript files.
+globs: 
+alwaysApply: false
+---
+
+# Import Organization Standards
+
+This rule defines the standards for organizing and ordering imports in TypeScript/JavaScript files.
+
+## Import Groups
+
+Imports should be organized into the following groups, separated by blank lines:
+
+1. Node.js built-in modules
+2. External dependencies
+3. Internal absolute imports
+4. Internal relative imports
+5. Type imports
+6. CSS/SCSS imports
+
+## Import Ordering
+
+Within each group:
+1. Sort alphabetically by package/path name
+2. Sort alphabetically by import names for named imports
+
+```typescript
+// ✅ Good
+// 1. Node.js built-in modules
+import { readFile } from 'fs/promises';
+import path from 'path';
+
+// 2. External dependencies
+import { Button } from '@mui/material';
+import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+
+// 3. Internal absolute imports
+import { AppConfig } from '@/config';
+import { useAuth } from '@/hooks/useAuth';
+import { UserService } from '@/services/UserService';
+
+// 4. Internal relative imports
+import { ProfileCard } from '../components/ProfileCard';
+import { UserAvatar } from '../components/UserAvatar';
+import { formatDate } from '../utils/date-utils';
+
+// 5. Type imports
+import type { User } from '@/types/User';
+import type { ProfileProps } from '../types';
+
+// 6. CSS/SCSS imports
+import '@/styles/global.css';
+import './Profile.scss';
+
+// ❌ Bad
+import './Profile.scss';
+import { UserService } from '@/services/UserService';
+import React from 'react';
+import type { User } from '@/types/User';
+import { Button } from '@mui/material';
+import { ProfileCard } from '../components/ProfileCard';
+import path from 'path';
+```
+
+## Import Styles
+
+### Absolute vs Relative Imports
+
+- Use absolute imports for shared/core functionality
+- Use relative imports for closely related files
+- Configure path aliases for common directories
+
+```typescript
+// ✅ Good
+// Absolute imports for shared functionality
+import { logger } from '@/utils/logger';
+import { useAuth } from '@/hooks/useAuth';
+import { AppConfig } from '@/config';
+
+// Relative imports for closely related files
+import { ProfileHeader } from './ProfileHeader';
+import { ProfileContent } from './ProfileContent';
+import { profileStyles } from './Profile.styles';
+
+// ❌ Bad
+// Don't use relative imports for shared functionality
+import { logger } from '../../../utils/logger';
+import { useAuth } from '../../../../hooks/useAuth';
+```
+
+### Named vs Default Exports
+
+- Prefer named exports for consistency
+- Use default exports for components
+- Be consistent with import style
+
+```typescript
+// ✅ Good
+// Named exports
+export { Button };
+export { useAuth };
+export { formatDate };
+
+// Default exports for components
+export default function UserProfile() {
+  // Implementation
+}
+
+// Named imports
+import { Button, TextField } from '@mui/material';
+import { useAuth, useUser } from '@/hooks';
+
+// Default import for components
+import UserProfile from './UserProfile';
+
+// ❌ Bad
+// Mixing default and named exports unnecessarily
+export default logger;
+export const formatDate = () => {};
+
+// Mixing import styles
+import mui, { Button } from '@mui/material';
+```
+
+## Path Aliases
+
+Configure path aliases in `tsconfig.json` for commonly used directories:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@utils/*": ["src/utils/*"]
+    }
+  }
+}
+```
+
+## Import Statements
+
+### Multi-line Imports
+
+- Use multi-line format when importing more than 3 items
+- Align items for readability
+- Add trailing comma for easier version control
+
+```typescript
+// ✅ Good
+import {
+  Button,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
+
+// ❌ Bad
+import { Button, TextField, Typography, useTheme } from '@mui/material';
+```
+
+### Type Imports
+
+- Use explicit type imports
+- Group type imports together
+- Use consistent import style
+
+```typescript
+// ✅ Good
+import type { User } from '@/types/User';
+import type { 
+  ProfileProps,
+  ProfileState,
+  ProfileActions,
+} from './types';
+
+// ❌ Bad
+import { type User } from '@/types/User';
+import type { ProfileProps } from './types';
+import { ProfileState } from './types';
+```
+
+## Dynamic Imports
+
+- Use dynamic imports for code splitting
+- Keep consistent formatting
+- Add error handling
+
+```typescript
+// ✅ Good
+const MyComponent = React.lazy(() => import('./MyComponent'));
+
+async function loadModule() {
+  try {
+    const module = await import('./module');
+    return module;
+  } catch (error) {
+    logger.error('Failed to load module', error);
+    throw error;
+  }
+}
+
+// ❌ Bad
+const MyComponent = React.lazy(() => import('./MyComponent').then(module => module));
+
+function loadModule() {
+  return import('./module');
+}
+```
+
+## Enforcement
+
+Import organization is enforced through:
+1. ESLint rules (eslint-plugin-import)
+2. Import sorter configuration
+3. Pre-commit hooks
+4. Automated formatting
+5. Code review checklist 

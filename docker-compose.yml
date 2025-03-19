@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspace:cached
+      - mcp-data:/home/node/.mcp
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=false
+      - WATCHPACK_POLLING=false
+      - NODE_OPTIONS=--max-old-space-size=1536 --max-http-header-size=8192
+      - MALLOC_ARENA_MAX=2
+      - NEXT_TELEMETRY_DISABLED=1
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+      - "9000:9000"
+      - "5500:5500"
+      - "5501:5501"
+      - "3099:3099"
+    working_dir: /workspace
+    user: node
+    init: true
+    security_opt:
+      - seccomp:unconfined
+    shm_size: 1gb
+    mem_limit: 2g
+    mem_reservation: 1g
+    memswap_limit: 4g
+    oom_score_adj: -500
+    pids_limit: 2048
+    cpu_shares: 1024
+    cpu_quota: 150000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+volumes:
+  mcp-data: 

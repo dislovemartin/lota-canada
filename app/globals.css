@@ -1,10 +1,7 @@
 /* Tailwind directives - processed by PostCSS */
-/* @tailwind base; */
-@import 'tailwindcss/base';
-/* @tailwind components; */
-@import 'tailwindcss/components';
-/* @tailwind utilities; */
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Import custom styles */
 @import '../styles/colors.css';
@@ -21,37 +18,44 @@
 
 @layer base {
   :root {
-    /* Dark theme as default */
-    --background: 0 0% 7%;
-    --foreground: 0 0% 95%;
+    /* Primary Colors - Professional Navy */
+    --primary: 220 70% 20%; /* #142B52 - Deep Navy */
+    --primary-foreground: 220 100% 98%; /* #FAFBFF - Off White */
+    
+    /* Secondary Colors - Gold Accent */
+    --secondary: 45 80% 50%; /* #E6B800 - Rich Gold */
+    --secondary-foreground: 220 70% 20%; /* #142B52 - Deep Navy */
+    
+    /* Background Colors */
+    --background: 0 0% 100%; /* #FFFFFF - Pure White */
+    --foreground: 220 70% 20%; /* #142B52 - Deep Navy */
+    
+    /* Muted Colors */
+    --muted: 220 20% 94%; /* #EEF0F5 - Light Gray */
+    --muted-foreground: 220 30% 40%; /* #5A6B8C - Muted Navy */
+    
+    /* Accent Colors */
+    --accent: 200 80% 40%; /* #1A8CD8 - Bright Blue */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF - Pure White */
+    
+    /* Border and Input Colors */
+    --border: 220 20% 90%; /* #E5E8EF - Border Gray */
+    --input: 220 20% 90%; /* #E5E8EF - Input Gray */
+    --ring: 45 80% 50%; /* #E6B800 - Rich Gold */
+    
+    /* Card Colors */
+    --card: 0 0% 100%; /* #FFFFFF - Pure White */
+    --card-foreground: 220 70% 20%; /* #142B52 - Deep Navy */
+    
+    /* Popover Colors */
+    --popover: 0 0% 100%; /* #FFFFFF - Pure White */
+    --popover-foreground: 220 70% 20%; /* #142B52 - Deep Navy */
+    
+    /* Destructive Colors */
+    --destructive: 0 84% 60%; /* #EE3333 - Error Red */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF - Pure White */
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 95%;
-
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 95%;
-
-    /* Black accent (replacing gold) */
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-
-    /* White accent (replacing silver) */
-    --secondary: 0 0% 100%;
-    --secondary-foreground: 0 0% 0%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 80%;
-
-    --accent: 0 0% 0%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 0% 0%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 0%;
-
+    /* Radius */
     --radius: 0.5rem;
 
     /* New theme variables */
@@ -115,6 +119,13 @@
     --silver: 0 0% 100%;
     --silver-light: 0 0% 95%;
     --silver-dark: 0 0% 85%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
@@ -263,4 +274,11 @@ p {
 
 .divider {
   background-color: hsl(var(--divider));
+}
+
+/* Dark mode colors - we can implement these later if needed */
+.dark {
+  --background: 220 70% 10%;
+  --foreground: 220 20% 94%;
+  /* ... other dark mode variables ... */
 }

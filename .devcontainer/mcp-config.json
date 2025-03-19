@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "default": {
+      "command": "mcp-server",
+      "args": ["start"],
+      "env": {
+        "MCP_API_KEY": "${env:MCP_API_KEY}",
+        "MCP_SERVER_PORT": "3099",
+        "MCP_CONFIG_DIR": "/home/node/.mcp/config",
+        "MCP_CACHE_DIR": "/home/node/.mcp/cache",
+        "MCP_LOG_DIR": "/home/node/.mcp/logs"
+      },
+      "autoStart": true,
+      "enabled": true
+    }
+  },
+  "settings": {
+    "autoLoadTools": true,
+    "maxMemory": 4096,
+    "cacheSize": 1024,
+    "logLevel": "info",
+    "performanceOptimization": true
+  }
+}

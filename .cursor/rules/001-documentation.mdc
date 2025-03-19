@@ -1,0 +1,188 @@
+---
+description: This rule defines the documentation standards for code and project documentation.
+globs: 
+alwaysApply: false
+---
+
+# Documentation Standards
+
+This rule defines the documentation standards for code and project documentation.
+
+## Code Documentation
+
+### JSDoc Standards
+
+1. Required JSDoc Elements:
+   - All public functions and classes
+   - Complex private functions
+   - Interfaces and types
+   - Props for React components
+
+```typescript
+// ✅ Good
+/**
+ * Processes a payment for an order
+ * @param {Order} order - The order to process payment for
+ * @param {PaymentMethod} paymentMethod - The payment method to use
+ * @returns {Promise<PaymentResult>} The result of the payment processing
+ * @throws {PaymentError} When payment processing fails
+ */
+async function processPayment(
+  order: Order,
+  paymentMethod: PaymentMethod
+): Promise<PaymentResult> {
+  // Implementation
+}
+
+// ❌ Bad
+// Process payment for order
+async function processPayment(order, method) {
+  // Implementation
+}
+```
+
+### React Component Documentation
+
+```typescript
+// ✅ Good
+/**
+ * Displays a user's profile information
+ * @param {Object} props - Component props
+ * @param {User} props.user - The user object containing profile data
+ * @param {boolean} props.isEditable - Whether the profile can be edited
+ * @param {(user: User) => void} props.onUpdate - Callback when profile is updated
+ */
+export function UserProfile({
+  user,
+  isEditable,
+  onUpdate
+}: UserProfileProps) {
+  // Implementation
+}
+
+// ❌ Bad
+export function UserProfile(props) {
+  // Implementation
+}
+```
+
+## Project Documentation
+
+### README Standards
+
+Every project must have a README.md containing:
+
+1. Project Overview
+   - Project name and description
+   - Key features
+   - Technology stack
+
+2. Getting Started
+   - Prerequisites
+   - Installation steps
+   - Configuration
+
+3. Development
+   - Available scripts
+   - Development workflow
+   - Testing instructions
+
+4. Deployment
+   - Deployment process
+   - Environment variables
+   - Infrastructure requirements
+
+### API Documentation
+
+1. API Endpoints
+   - HTTP method
+   - URL path
+   - Request parameters
+   - Request body schema
+   - Response schema
+   - Error responses
+
+```markdown
+### Get User Profile
+
+GET /api/users/:id
+
+Parameters:
+- id: string (required) - The user's unique identifier
+
+Response 200:
+```json
+{
+  "id": "string",
+  "name": "string",
+  "email": "string"
+}
+```
+
+Error Responses:
+- 404: User not found
+- 401: Unauthorized
+```
+
+## Code Comments
+
+### General Guidelines
+
+1. Comments should explain WHY, not WHAT
+2. Keep comments up to date with code changes
+3. Use TODO comments with tracking numbers
+4. Remove commented-out code
+5. Use inline comments sparingly
+
+```typescript
+// ✅ Good
+// Cache results for 5 minutes to reduce API calls
+const CACHE_DURATION = 5 * 60 * 1000;
+
+// ❌ Bad
+// Set variable
+const duration = 300000;
+```
+
+### Component Documentation
+
+1. Props Interface
+2. Component Description
+3. Usage Examples
+4. State Management
+5. Side Effects
+
+```typescript
+/**
+ * DataTable component for displaying paginated data with sorting and filtering
+ * 
+ * @example
+ * ```tsx
+ * <DataTable
+ *   data={users}
+ *   columns={userColumns}
+ *   sortable
+ *   filterable
+ * />
+ * ```
+ */
+export interface DataTableProps<T> {
+  /** The data to display in the table */
+  data: T[];
+  /** Column definitions for the table */
+  columns: Column<T>[];
+  /** Whether the table can be sorted */
+  sortable?: boolean;
+  /** Whether the table can be filtered */
+  filterable?: boolean;
+}
+```
+
+## Enforcement
+
+Documentation standards are enforced through:
+1. ESLint with JSDoc plugin
+2. Pre-commit hooks
+3. Code review checklist
+4. Documentation generation tools
+5. CI/CD documentation checks 
